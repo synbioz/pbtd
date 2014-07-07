@@ -1,0 +1,97 @@
+doctype 5
+html
+  head
+    meta charset="UTF-8"
+      title Apps
+      meta name="viewport" content="width=device-width, initial-scale=1.0"
+      link href="style.css" media="screen" rel="stylesheet" type="text/css"
+
+  body
+    #notifications
+
+    .primary-actions
+      a.setup.button.js-create-project href="#" New
+      a.update.button.js-update-repos href="#" Update
+    h1 My apps
+
+
+    /// Form to add a new project
+    #new-project
+      form
+        .close ×
+        label Project name :
+        input type="text"
+        label Project repository :
+        input type="text"
+        a.button.js-more-environment + Environment
+        ul.add-environment-list
+          li
+            .half
+              label Name : 
+              input type="text"
+            .half
+              label URL : 
+              input type="text"
+        hr/
+        input.button type="submit" value="Add"
+
+    /// Projects list
+    ul.app-list
+      li
+        .project-infos
+          h2 Reusta
+          .repo-settings title="options" ⚙
+          input.repo-url type="text" editable="false" value="git@git.synbioz.com:synbioz/internapp.git"
+        .environment-list
+          .environment
+            .status data-state="run"
+            a.button data-action="stop" href="#" Stop
+            a href="#": h3 Production
+            .infos
+              .last-update Branch <b>master</b> deployed 3 hours ago
+              .version.updated Updated
+          .environment
+            .status data-state="stop"
+            a.button data-action="deploy" href="#" Deploy
+            a.button data-action="update" href="#" Update
+            a href="#": h3 Staging
+            .infos
+              .last-update Branch <b>develop</b> deployed 2 days ago
+              .version.late 3 commits from current branch
+          .environment
+            .status data-state="run"
+            a.button data-action="stop" href="#" Stop
+            a.button data-action="update" href="#" Update
+            a href="#": h3 Design staging
+            .infos
+              .last-update Branch <b>feature/design</b> deployed 1 hours ago
+              .version.late 3 commits from current branch
+      li
+        .project-infos
+          h2 Innowaze
+          .repo-settings title="options" ⚙
+          input.repo-url type="text" editable="false" value="git@git.synbioz.com:synbioz/internapp.git"
+        .environment-list
+          .environment
+            .status data-state="stop"
+            a.button data-action="deploy" href="#" Deploy
+            a.button data-action="update" href="#" Update
+            a href="#": h3 Production
+            .infos
+              .last-update Branch <b>master</b> deployed 3 hours ago
+              .version.late 3 commits from current branch
+          .environment
+            .status data-state="run"
+            a.button data-action="stop" href="#" Stop
+            a href="#": h3 Staging
+            .infos
+              .last-update Branch <b>develop</b> deployed 10 months ago
+              .version.updated Updated
+
+
+
+    script src="scripts/vendor/jquery.js" type="text/javascript"
+    script src="scripts/vendor/jquery.velocity.min.js" type="text/javascript"
+    script src="scripts/vendor/velocity.ui.js" type="text/javascript"
+    script src="scripts/script.js" type="text/javascript"
+    script src="scripts/notif.js" type="text/javascript"

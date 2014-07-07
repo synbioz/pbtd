@@ -1,0 +1,23 @@
+{
+  "name": "internApp",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-sftp-deploy": "0.0.10",
+    "grunt-parallel": "~0.3.1",
+    "grunt-contrib-copy": "~0.4.1"
+  },
+  "dependencies": {
+    "grunt-slim": "~0.1.0",
+    "grunt-contrib-uglify": "~0.2.5",
+    "grunt-contrib-stylus": "~0.9.0"
+  }
+}
