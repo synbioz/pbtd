@@ -78,6 +78,9 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.2.1)
+    fabrication (2.11.3)
+    faker (1.4.1)
+      i18n (~> 0.5)
     ffi (1.9.3)
     formatador (0.2.5)
     guard (2.6.1)
@@ -265,6 +268,8 @@ DEPENDENCIES
   capistrano3-puma
   coffee-rails (~> 4.0.0)
   debugger2
+  fabrication
+  faker
   guard-rspec
   guard-spork
   hipchat

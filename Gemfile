@@ -48,6 +48,8 @@ group :test do
   gem "guard-spork"
   gem "guard-rspec"
   gem "shoulda-matchers"
+  gem 'fabrication'
+  gem 'faker'
 end
 
 gem "puma"
