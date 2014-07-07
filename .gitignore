@@ -18,3 +18,5 @@
 /tmp
 config/database.yml
 vendor/bundle
+
+.DS_Store
