@@ -1,0 +1,15 @@
+development:
+  adapter: postgresql
+  database: pbtd_development
+  host: localhost
+  username: theodelaune
+  password:
+  encoding: utf8
+
+test:
+  adapter: postgresql
+  database: pbtd_test
+  host: localhost
+  username: theodelaune
+  password:
+  encoding: utf8
