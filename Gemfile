@@ -50,6 +50,7 @@ group :test do
   gem "shoulda-matchers"
   gem 'fabrication'
   gem 'faker'
+  gem 'rspec-its'
 end
 
 gem "puma"
