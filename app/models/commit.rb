@@ -14,4 +14,7 @@
 
 class Commit < ActiveRecord::Base
   belongs_to :deployment, inverse_of: :commit
+
+  validates_presence_of :user, :sha1, :name, :deployment, :commit_date
+  validates :sha1, uniqueness: true
 end

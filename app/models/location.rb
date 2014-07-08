@@ -15,4 +15,6 @@ class Location < ActiveRecord::Base
   has_many :deployments, inverse_of: :location
 
   belongs_to :project, inverse_of: :locations
+
+  validates_presence_of :name, :branch, :application_url, :project
 end
