@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707141118) do
+ActiveRecord::Schema.define(version: 20140708101939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,17 +30,17 @@ ActiveRecord::Schema.define(version: 20140707141118) do
 
   create_table "deployments", force: true do |t|
     t.integer  "project_id"
-    t.integer  "environment_id"
+    t.integer  "location_id"
     t.string   "state"
     t.date     "finish_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "deployments", ["environment_id"], name: "index_deployments_on_environment_id", using: :btree
+  add_index "deployments", ["location_id"], name: "index_deployments_on_location_id", using: :btree
   add_index "deployments", ["project_id"], name: "index_deployments_on_project_id", using: :btree
 
-  create_table "environments", force: true do |t|
+  create_table "locations", force: true do |t|
     t.integer  "project_id"
     t.string   "name"
     t.string   "branch"
@@ -48,8 +48,6 @@ ActiveRecord::Schema.define(version: 20140707141118) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "environments", ["project_id"], name: "index_environments_on_project_id", using: :btree
 
   create_table "projects", force: true do |t|
     t.string   "name"
