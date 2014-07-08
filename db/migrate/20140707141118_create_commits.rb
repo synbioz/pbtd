@@ -1,7 +1,7 @@
 class CreateCommits < ActiveRecord::Migration
   def change
     create_table :commits do |t|
-      t.references :deployment, index: true
+      t.references :location, index: true
       t.string :name
       t.string :sha1
       t.string :user

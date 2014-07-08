@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20140708101939) do
   enable_extension "plpgsql"
 
   create_table "commits", force: true do |t|
-    t.integer  "deployment_id"
+    t.integer  "location_id"
     t.string   "name"
     t.string   "sha1"
     t.string   "user"
@@ -26,19 +26,19 @@ ActiveRecord::Schema.define(version: 20140708101939) do
     t.datetime "updated_at"
   end
 
-  add_index "commits", ["deployment_id"], name: "index_commits_on_deployment_id", using: :btree
+  add_index "commits", ["location_id"], name: "index_commits_on_location_id", using: :btree
 
   create_table "deployments", force: true do |t|
-    t.integer  "project_id"
     t.integer  "location_id"
-    t.integer   "status"
-    t.date     "finish_at"
+    t.integer  "commit_id"
+    t.integer  "status"
+    t.date     "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "deployments", ["commit_id"], name: "index_deployments_on_commit_id", using: :btree
   add_index "deployments", ["location_id"], name: "index_deployments_on_location_id", using: :btree
-  add_index "deployments", ["project_id"], name: "index_deployments_on_project_id", using: :btree
 
   create_table "locations", force: true do |t|
     t.integer  "project_id"
