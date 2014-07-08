@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20140708101939) do
   create_table "deployments", force: true do |t|
     t.integer  "project_id"
     t.integer  "location_id"
-    t.string   "state"
+    t.integer   "status"
     t.date     "finish_at"
     t.datetime "created_at"
     t.datetime "updated_at"

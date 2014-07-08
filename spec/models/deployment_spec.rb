@@ -5,7 +5,7 @@
 #  id          :integer          not null, primary key
 #  project_id  :integer
 #  location_id :integer
-#  state       :string(255)
+#  status      :integer
 #  finish_at   :date
 #  created_at  :datetime
 #  updated_at  :datetime
@@ -25,8 +25,8 @@ RSpec.describe Deployment, :type => :model do
   it { is_expected.to respond_to(:location) }
   its(:location) { is_expected.to be_kind_of Location }
 
-  it { is_expected.to respond_to(:state) }
-  its(:state) { is_expected.to be_instance_of String }
+  it { is_expected.to respond_to(:status) }
+  its(:status) { is_expected.to be_instance_of String }
 
   it { is_expected.to respond_to(:finish_at) }
   its(:finish_at) { is_expected.to be_instance_of Date }
