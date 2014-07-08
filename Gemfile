@@ -44,8 +44,6 @@ gem "slim-rails"
 gem "whenever"
 group :test do
   gem "rspec-rails"
-  gem "spork-rails"
-  gem "guard-spork"
   gem "guard-rspec"
   gem "shoulda-matchers"
   gem 'fabrication'
