@@ -32,6 +32,9 @@ RSpec.describe Location, :type => :model do
   it { is_expected.to respond_to(:application_url) }
   its(:application_url) { is_expected.to be_an_instance_of String }
 
+  it { is_expected.to have_many(:commits).class_name('Commit') }
+  it { is_expected.to have_many(:deployments).class_name('Deployment') }
+
   it { is_expected.to belong_to(:project) }
 
   context 'should have a name' do

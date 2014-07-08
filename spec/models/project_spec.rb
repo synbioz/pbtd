@@ -26,9 +26,6 @@ RSpec.describe Project, :type => :model do
   it { is_expected.to respond_to(:locations) }
   it { is_expected.to have_many(:locations).class_name('Location') }
 
-  it { is_expected.to respond_to(:deployments) }
-  it { is_expected.to have_many(:deployments).class_name('Deployment') }
-
   it 'should have an unique name by project' do
     p = Fabricate(:project)
     p.name = subject.name

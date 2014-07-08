@@ -2,14 +2,14 @@
 #
 # Table name: commits
 #
-#  id            :integer          not null, primary key
-#  deployment_id :integer
-#  name          :string(255)
-#  sha1          :string(255)
-#  user          :string(255)
-#  commit_date   :date
-#  created_at    :datetime
-#  updated_at    :datetime
+#  id          :integer          not null, primary key
+#  location_id :integer
+#  name        :string(255)
+#  sha1        :string(255)
+#  user        :string(255)
+#  commit_date :date
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 require 'rails_helper'
@@ -19,9 +19,6 @@ RSpec.describe Commit, :type => :model do
   subject { commit }
 
   # Mandatory attributes
-
-  it { is_expected.to respond_to(:deployment) }
-  its(:deployment) { is_expected.to be_kind_of Deployment }
 
   it { is_expected.to respond_to(:name) }
   its(:name) { is_expected.to be_instance_of String }
@@ -35,7 +32,8 @@ RSpec.describe Commit, :type => :model do
   it { is_expected.to respond_to(:commit_date) }
   its(:commit_date) { is_expected.to be_instance_of Date }
 
-  it { is_expected.to belong_to(:deployment) }
+  it { is_expected.to belong_to(:location) }
+  it { is_expected.to have_many(:deployments).class_name('Deployment') }
 
   it 'should have an unique sha1 by commit' do
     c = Fabricate(:commit)

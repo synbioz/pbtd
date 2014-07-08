@@ -3,10 +3,10 @@
 # Table name: deployments
 #
 #  id          :integer          not null, primary key
-#  project_id  :integer
 #  location_id :integer
+#  commit_id   :integer
 #  status      :integer
-#  finish_at   :date
+#  finished_at :date
 #  created_at  :datetime
 #  updated_at  :datetime
 #
@@ -19,20 +19,17 @@ RSpec.describe Deployment, :type => :model do
 
   # Mandatory attributes
 
-  it { is_expected.to respond_to(:project) }
-  its(:project) { is_expected.to be_kind_of Project }
-
   it { is_expected.to respond_to(:location) }
   its(:location) { is_expected.to be_kind_of Location }
 
   it { is_expected.to respond_to(:status) }
   its(:status) { is_expected.to be_instance_of String }
 
-  it { is_expected.to respond_to(:finish_at) }
-  its(:finish_at) { is_expected.to be_instance_of Date }
+  it { is_expected.to respond_to(:finished_at) }
+  its(:finished_at) { is_expected.to be_instance_of Date }
 
-  it { is_expected.to belong_to(:project) }
   it { is_expected.to belong_to(:location) }
+  it { is_expected.to belong_to(:commit) }
 
   context 'should have running status' do
     before { subject.running! }
@@ -49,23 +46,13 @@ RSpec.describe Deployment, :type => :model do
     it { expect(subject.success?).to be true }
   end
 
-  context 'should have pending status' do
-    before { subject.pending! }
-    it { expect(subject.pending?).to be true }
-  end
-
-  context 'should have project not empty' do
-    before { subject.project = nil }
-    it { expect(subject).not_to be_valid }
-  end
-
   context 'should have location not empty' do
     before { subject.location = nil }
     it { expect(subject).not_to be_valid }
   end
 
-  context 'should have finish_at not empty' do
-    before { subject.finish_at = nil }
+  context 'should have finished_at not empty' do
+    before { subject.finished_at = nil }
     it { expect(subject).not_to be_valid }
   end
 end
