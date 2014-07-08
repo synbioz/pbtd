@@ -1,4 +1,4 @@
 Fabricator(:project) do
-  name           "MyString"
-  repository_url "MyString"
+  name           { Faker::Name.name }
+  repository_url { Faker::Internet.url }
 end

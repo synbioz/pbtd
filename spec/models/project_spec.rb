@@ -19,22 +19,22 @@ RSpec.describe Project, :type => :model do
   it 'has an unique name by project' do
     p = Fabricate(:project)
     p.name = subject.name
-    expect(p).to be_false
+    expect(p).not_to be_valid
   end
 
-  it 'have name not empty' do
+  context 'have name not empty' do
     before { subject.name = '' }
-    it { expect(subject).to be_false }
+    it { expect(subject).not_to be_falsey }
   end
 
-  it 'have repository_url not empty' do
+  context 'have repository_url not empty' do
     before { subject.repository_url = '' }
-    it { expect(subject).to be_false }
+    it { expect(subject).not_to be_valid }
   end
 
   it 'has an unique repository_url' do
     p = Fabricate(:project)
     p.repository_url = subject.repository_url
-    expect(p).to be_false
+    expect(p).not_to be_valid
   end
 end
