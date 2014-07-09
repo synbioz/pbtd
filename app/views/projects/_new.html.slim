@@ -1,0 +1,18 @@
+#new-project
+  form
+    .close ×
+    label Project name :
+    input type="text"
+    label Project repository :
+    input type="text"
+    a.button.js-more-environment + Environment
+    ul.add-environment-list
+      li
+        .half
+          label Name : 
+          input type="text"
+        .half
+          label URL : 
+          input type="text"
+    hr/
+    input.button type="submit" value="Add"
