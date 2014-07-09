@@ -42,6 +42,7 @@ gem 'spring',        group: :development
 gem "pg"
 gem "slim-rails"
 gem "whenever"
+gem "rugged"
 group :test do
   gem "rspec-rails"
   gem "guard-rspec"
