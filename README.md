@@ -34,3 +34,15 @@ The `fabrication` gem provides factories.
 To play the test suite run : `bundle exec rspec`
 
 To launch the guard test engine run: `bundle exec guard`
+
+## Models
+
+The application have four models :
+* Project
+  Configure name and repository url of project
+* Location
+  Manage application environments
+* Deployment
+  Manage deployments of differents locations
+* Commit
+  History of repository commits for locations and deployments
