@@ -1,0 +1,7 @@
+# Configuration path for cloned repositories
+
+development:
+  repositories_path: <%= "#{Rails.root}/repositories" %>
+
+production:
+  repositories_path: "/var/www/pbtd/shared/repositories"
