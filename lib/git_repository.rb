@@ -4,7 +4,7 @@ module Pbtd
       attr_reader :repository_url, :username
       attr_accessor :rugged_repository
 
-      def initialize(&repo_url)
+      def initialize(repo_url=nil)
         unless repo_url.nil?
           @repository_url = repo_url
           @username = repo_url.split('@').first
@@ -16,7 +16,7 @@ module Pbtd
       end
 
       def clone(name_repository)
-        @rugged_repository = Rugged::Repository.clone_at(repository_url, in_path(name_repository), credentials: credentials, bare: true)
+        @rugged_repository = Rugged::Repository.clone_at(repository_url, in_path(name_repository), credentials: credentials)
       end
 
       def remote_branches
@@ -33,7 +33,8 @@ module Pbtd
         @repository_url = remote.url
         @username = @repository_url.split('@').first
 
-        remote.fetch(credentials: credentials)
+        # Fetch && git return total_deltas
+        remote.fetch(credentials: credentials)[:total_deltas]
       end
 
       private
