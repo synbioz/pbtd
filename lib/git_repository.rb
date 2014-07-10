@@ -37,6 +37,11 @@ module Pbtd
         remote.fetch(credentials: credentials)[:total_deltas]
       end
 
+      def get_distance(branch_name)
+        local_commit = last_commit(branch_name)
+        remote_commit = last_commit(remote_branch_from_local(branch_name))
+      end
+
       private
         def in_path(name_repository)
           SETTINGS["repositories_path"] + '/' + name_repository
@@ -44,6 +49,10 @@ module Pbtd
 
         def credentials
           Rugged::Credentials::SshKeyFromAgent.new(username: @username)
+        end
+
+        def remote_branch_from_local(branch_name)
+          remote_branches.find { |x| x.ends_with?('branch_name') }
         end
     end
 end
