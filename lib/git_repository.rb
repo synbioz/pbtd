@@ -1,11 +1,15 @@
 module Pbtd
 
+    #
+    # Pbtd::GitRepository is the class that permit to manage
+    # git repository through 'rugged' gem
+    #
     class GitRepository
       attr_reader :repository_url, :username
       attr_accessor :rugged_repository
 
       def initialize(repo_url=nil)
-        unless repo_url.nil?
+        unless repo_url.blank?
           @repository_url = repo_url
           @username = repo_url.split('@').first
         end
@@ -61,7 +65,7 @@ module Pbtd
         end
 
         def credentials
-          Rugged::Credentials::SshKeyFromAgent.new(username: 'username')
+          Rugged::Credentials::SshKeyFromAgent.new(username: username)
         end
 
         def remote_branch_from_local(branch_name)
