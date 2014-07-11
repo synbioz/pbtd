@@ -40,6 +40,16 @@ module Pbtd
       def get_distance(branch_name)
         local_commit = last_commit(branch_name)
         remote_commit = last_commit(remote_branch_from_local(branch_name))
+
+        walker = Rugged::Walker.new(rugged_repository)
+        walker.push(remote_commit)
+        walker.hide(local_commit)
+
+        walker.to_a.size
+      end
+
+      def merge(branch_name)
+
       end
 
       private
@@ -48,11 +58,11 @@ module Pbtd
         end
 
         def credentials
-          Rugged::Credentials::SshKeyFromAgent.new(username: @username)
+          Rugged::Credentials::SshKeyFromAgent.new(username: username)
         end
 
         def remote_branch_from_local(branch_name)
-          remote_branches.find { |x| x.ends_with?('branch_name') }
+          remote_branches.find { |x| x.ends_with?(branch_name) }
         end
     end
 end
