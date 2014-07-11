@@ -37,19 +37,18 @@ module Pbtd
         remote.fetch(credentials: credentials)[:total_deltas]
       end
 
-      def get_distance(branch_name)
+      def get_ahead(branch_name)
         local_commit = last_commit(branch_name)
         remote_commit = last_commit(remote_branch_from_local(branch_name))
 
-        walker = Rugged::Walker.new(rugged_repository)
-        walker.push(remote_commit)
-        walker.hide(local_commit)
-
-        walker.to_a.size
+        rugged_repository.ahead_behind(local_commit, remote_commit).first
       end
 
       def merge(branch_name)
+        local_commit = last_commit(branch_name)
+        remote_commit = last_commit(remote_branch_from_local(branch_name))
 
+        rugged_repository.merge_base(local_commit, remote_commit)
       end
 
       private
