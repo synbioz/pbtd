@@ -34,19 +34,19 @@ module Pbtd
       # @param repo_name [String] [repository folder name]
       #
       # @return [Rugged::Repository]
-      def open(repo_name)
-        @rugged_repository = Rugged::Repository.new(in_path(repo_name))
+      def open(repository_name)
+        @rugged_repository = Rugged::Repository.new(in_path(repository_name))
       end
 
       #
       # Clone a previous initialized Pbtd::GitRepository if
       # it has repository_url and username setted.
-      # @param name_repository [String] [folder name for cloned repository]
+      # @param repository_name [String] [folder name for cloned repository]
       #
       # @return [Rugged::Repository]
-      def clone(name_repository)
+      def clone(repository_name)
         begin
-          @rugged_repository = Rugged::Repository.clone_at(repository_url, in_path(name_repository), credentials: credentials)
+          @rugged_repository = Rugged::Repository.clone_at(repository_url, in_path(repository_name), credentials: credentials)
         rescue Rugged::OSError
           raise Pbtd::Error::Network, "Network is unreachable"
         rescue Rugged::NetworkError
@@ -110,11 +110,11 @@ module Pbtd
       private
         #
         # set path where repository is stored
-        # @param name_repository [String] [folder repository name]
+        # @param repository_name [String] [folder repository name]
         #
         # @return [String]
-        def in_path(name_repository)
-          SETTINGS["repositories_path"] + '/' + name_repository
+        def in_path(repository_name)
+          SETTINGS["repositories_path"] + '/' + repository_name
         end
 
         #
