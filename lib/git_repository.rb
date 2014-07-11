@@ -150,7 +150,7 @@ module Pbtd
     # Custom Errors
     #
     module Error
-      exceptions = %w[ GitRepositoryNotFound Network ]
+      exceptions = %w[ GitRepositoryNotFound Network FolderAlreadyExist FolderNotExist ]
       # Create empty empty class from exceptions array
       exceptions.each { |e| const_set(e, Class.new(StandardError)) }
     end
