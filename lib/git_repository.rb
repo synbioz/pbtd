@@ -16,7 +16,13 @@ module Pbtd
       end
 
       def clone(name_repository)
-        @rugged_repository = Rugged::Repository.clone_at(repository_url, in_path(name_repository), credentials: credentials)
+        begin
+          @rugged_repository = Rugged::Repository.clone_at(repository_url, in_path(name_repository), credentials: credentials)
+        rescue Rugged::OSError
+          raise Pbtd::Error::Network, "Network is unreachable"
+        rescue Rugged::NetworkError
+          raise Pbtd::Error::GitRepositoryNotFound, "can't found your git repository"
+        end
       end
 
       def remote_branches
@@ -33,7 +39,6 @@ module Pbtd
         @repository_url = remote.url
         @username = @repository_url.split('@').first
 
-        # Fetch && git return total_deltas
         remote.fetch(credentials: credentials)[:total_deltas]
       end
 
@@ -56,11 +61,17 @@ module Pbtd
         end
 
         def credentials
-          Rugged::Credentials::SshKeyFromAgent.new(username: username)
+          Rugged::Credentials::SshKeyFromAgent.new(username: 'username')
         end
 
         def remote_branch_from_local(branch_name)
           remote_branches.find { |x| x.ends_with?(branch_name) }
         end
+    end
+
+    module Error
+      exceptions = %w[ GitRepositoryNotFound Network ]
+
+      exceptions.each { |e| const_set(e, Class.new(StandardError)) }
     end
 end
