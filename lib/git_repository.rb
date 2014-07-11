@@ -45,10 +45,9 @@ module Pbtd
       end
 
       def merge(branch_name)
-        local_commit = last_commit(branch_name)
         remote_commit = last_commit(remote_branch_from_local(branch_name))
 
-        rugged_repository.merge_base(local_commit, remote_commit)
+        rugged_repository.references.update(rugged_repository.head, remote_commit.oid)
       end
 
       private
