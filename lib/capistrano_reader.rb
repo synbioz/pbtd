@@ -1,5 +1,3 @@
-require 'capistrano/all'
-
 module Pbtd
 
   #
