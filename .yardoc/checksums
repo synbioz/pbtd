@@ -1,0 +1,3 @@
+lib/capistrano_reader.rb 6b65e35b637a875b7bcaa39ed300895b47dcabe7
+app/helpers/application_helper.rb eef3d3adce96afe8b14c19b6135323f47543d979
+app/controllers/application_controller.rb 7afa8bd02d2c49fd8df3c6e372b8520c9f916e8e
