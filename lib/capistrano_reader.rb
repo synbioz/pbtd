@@ -1,34 +1,45 @@
+require 'capistrano/all'
+
 module Pbtd
 
-  class Reader
-    REGEX_VERSION = /capistrano\s\(([0-9.]*)\)/
-    attr_reader :repository_name, :capistrano_version
+  #
+  # module for capistrano informations management
+  #
+  module Capistrano
 
-    def initialize(repository_name)
-      @repository_name = repository_name
-    end
+    class Reader
+      # Regex to find capistrano version in Gemfile.lock
+      REGEX_VERSION = /capistrano\s\(([0-9.]*)\)/
 
-    def capistrano_version
-      content_file = File.read(gemfile_lock_path)
-      @version = REGEX_VERSION.match(content_file)[1]
-    end
 
-    def capistrano_3?
-      @version[0].to_i.eql?(3)
-    end
-
-    def capistrano_2?
-      @version[0].to_i.eql?(2)
-    end
-
-    private
-
-      def capistrano_path
-        File.join(SETTINGS['repositories_path'], repository_name, 'config', 'deploy.rb')
+      #
+      # Constructor for read capistrano repository informations
+      # @param repository_path [String] [path of capistrano project]
+      #
+      # @return [Reader]
+      def initialize(repository_path)
+        @path = repository_path
       end
 
-      def gemfile_lock_path
-        File.join(SETTINGS['repositories_path'], repository_name, 'Gemfile.lock')
+
+      #
+      # return capistrano environments name (ex: 'staging' )
+      #
+      # @return [Array]
+      def environments
+        env_path = File.join(@path, "config/deploy/*.rb")
+        Dir[env_path].map { |path| File.basename(path, ".*") }
       end
+
+
+      #
+      # return capistrano version of repository
+      # find version in Gemfile.lock of repository
+      # @return [String]
+      def version
+        content = File.read(File.join(@path, 'Gemfile.lock'))
+        content.match(REGEX_VERSION)[1]
+      end
+    end
   end
 end

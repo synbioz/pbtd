@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>
   File: README
   
@@ -61,10 +61,57 @@
 
     <iframe id="search_frame"></iframe>
 
-    <div id="content"><div id='filecontents'></div></div>
+    <div id="content"><div id='filecontents'>
+<h1 id="label-Push+Button+To+Deploy">Push Button To Deploy</h1>
+
+<h2 id="label-Repository+configuration">Repository configuration</h2>
+
+<p>The git repository uses the <code>git flow</code> scripts. This is the
+configuration found in <code>.git/config</code>:</p>
+<pre class="code ruby"><code class="ruby">
+[gitflow &quot;branch&quot;]
+  master = release
+  develop = master
+[gitflow &quot;prefix&quot;]
+  feature = feature/
+  release = release/
+  hotfix = hotfix/
+  support = support/
+  versiontag =
+</code></pre>
+<p>The develop branch is <code>master</code> and the production releases
+branch is <code>release</code>. <strong>THIS IS NOT THE DEFAULT BEHAVIOUR
+OF GIT FLOW.</strong></p>
+
+<h2 id="label-Database">Database</h2>
+
+<p>The application uses postgresql as RDMS.</p>
+
+<p>I recommends to create a specific user with limited rights on the database.
+For instance, I do not allow my users to create or remove databases. Thus,
+you should create your development and testing databases manually.</p>
+
+<h2 id="label-Test+stack">Test stack</h2>
+
+<p>The application uses RSpec as test framework. In development mode, Guard is
+used as a test triggerer.</p>
+
+<p>The <code>fabrication</code> gem provides factories.</p>
+
+<p>To play the test suite run : <code>bundle exec rspec</code></p>
+
+<p>To launch the guard test engine run: <code>bundle exec guard</code></p>
+
+<h2 id="label-Models">Models</h2>
+
+<p>The application have four models : * Project  Configure name and repository
+url of project * Location  Manage application environments * Deployment 
+Manage deployments of differents locations * Commit  History of repository
+commits for locations and deployments</p>
+</div></div>
 
     <div id="footer">
-  Generated on Fri Jul 11 15:34:03 2014 by
+  Generated on Wed Jul 16 15:27:23 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.2).
 </div>

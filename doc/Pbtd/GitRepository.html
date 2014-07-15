@@ -486,15 +486,15 @@ only SSH connection was implemented. Syntax supported like :
       <pre class="lines">
 
 
+24
 25
 26
 27
 28
-29
-30</pre>
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_repo_url'>repo_url</span><span class='op'>=</span><span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_repo_url'>repo_url</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
@@ -551,12 +551,12 @@ only SSH connection was implemented. Syntax supported like :
       <pre class="lines">
 
 
+12
 13
-14
-15</pre>
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_repository_url'>repository_url</span>
   <span class='ivar'>@repository_url</span>
@@ -605,12 +605,12 @@ only SSH connection was implemented. Syntax supported like :
       <pre class="lines">
 
 
+14
 15
-16
-17</pre>
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rugged_repository'>rugged_repository</span>
   <span class='ivar'>@rugged_repository</span>
@@ -659,12 +659,12 @@ only SSH connection was implemented. Syntax supported like :
       <pre class="lines">
 
 
+12
 13
-14
-15</pre>
+14</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 12</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_username'>username</span>
   <span class='ivar'>@username</span>
@@ -754,6 +754,7 @@ and username setted.</p>
       <pre class="lines">
 
 
+56
 57
 58
 59
@@ -762,11 +763,10 @@ and username setted.</p>
 62
 63
 64
-65
-66</pre>
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_clone'>clone</span><span class='lparen'>(</span><span class='id identifier rubyid_repository_name'>repository_name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Rugged</span><span class='op'>::</span><span class='const'>Error</span><span class='op'>::</span><span class='const'>FolderAlreadyExist</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>git repository already exist in local: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_in_path'>in_path</span><span class='lparen'>(</span><span class='id identifier rubyid_repository_name'>repository_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_repository_name'>repository_name</span><span class='rparen'>)</span>
@@ -842,12 +842,12 @@ and username setted.</p>
       <pre class="lines">
 
 
+36
 37
-38
-39</pre>
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_repository_name'>repository_name</span><span class='rparen'>)</span>
   <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_in_path'>in_path</span><span class='lparen'>(</span><span class='id identifier rubyid_repository_name'>repository_name</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -901,17 +901,17 @@ and username setted.</p>
       <pre class="lines">
 
 
+88
 89
 90
 91
 92
 93
 94
-95
-96</pre>
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fetch'>fetch</span>
   <span class='id identifier rubyid_remote'>remote</span> <span class='op'>=</span> <span class='id identifier rubyid_rugged_repository'>rugged_repository</span><span class='period'>.</span><span class='id identifier rubyid_remotes'>remotes</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>origin</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
@@ -990,15 +990,15 @@ and username setted.</p>
       <pre class="lines">
 
 
+102
 103
 104
 105
 106
-107
-108</pre>
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_ahead'>get_ahead</span><span class='lparen'>(</span><span class='id identifier rubyid_branch_name'>branch_name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_local_commit'>local_commit</span> <span class='op'>=</span> <span class='id identifier rubyid_last_commit'>last_commit</span><span class='lparen'>(</span><span class='id identifier rubyid_branch_name'>branch_name</span><span class='rparen'>)</span>
@@ -1070,12 +1070,12 @@ and username setted.</p>
       <pre class="lines">
 
 
+80
 81
-82
-83</pre>
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_last_commit'>last_commit</span><span class='lparen'>(</span><span class='id identifier rubyid_branch_name'>branch_name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_rugged_repository'>rugged_repository</span><span class='period'>.</span><span class='id identifier rubyid_branches'>branches</span><span class='lbracket'>[</span><span class='id identifier rubyid_branch_name'>branch_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_target'>target</span>
@@ -1144,14 +1144,14 @@ and username setted.</p>
       <pre class="lines">
 
 
+114
 115
 116
 117
-118
-119</pre>
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_branch_name'>branch_name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_remote_commit'>remote_commit</span> <span class='op'>=</span> <span class='id identifier rubyid_last_commit'>last_commit</span><span class='lparen'>(</span><span class='id identifier rubyid_remote_branch_from_local'>remote_branch_from_local</span><span class='lparen'>(</span><span class='id identifier rubyid_branch_name'>branch_name</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -1235,13 +1235,13 @@ and username setted.</p>
       <pre class="lines">
 
 
+45
 46
 47
-48
-49</pre>
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_repository_name'>repository_name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Rugged</span><span class='op'>::</span><span class='const'>Error</span><span class='op'>::</span><span class='const'>FolderNotExist</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>git repository not exist in local, please clone it</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_repository_name'>repository_name</span><span class='rparen'>)</span>
@@ -1296,12 +1296,12 @@ and username setted.</p>
       <pre class="lines">
 
 
+71
 72
-73
-74</pre>
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/git_repository.rb', line 71</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remote_branches'>remote_branches</span>
   <span class='id identifier rubyid_rugged_repository'>rugged_repository</span><span class='period'>.</span><span class='id identifier rubyid_branches'>branches</span><span class='period'>.</span><span class='id identifier rubyid_each_name'>each_name</span><span class='lparen'>(</span><span class='symbol'>:remote</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span>
@@ -1316,7 +1316,7 @@ and username setted.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jul 11 15:34:03 2014 by
+  Generated on Wed Jul 16 15:27:23 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.1.2).
 </div>
