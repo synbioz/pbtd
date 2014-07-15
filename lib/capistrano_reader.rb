@@ -10,7 +10,8 @@ module Pbtd
     class Reader
       # Regex to find capistrano version in Gemfile.lock
       REGEX_VERSION = /capistrano\s\(([0-9.]*)\)/
-
+      # Regex to find branch in environment file
+      REGEX_BRANCH = /:branch,\s*['"]([\w\-\_\/]*)['"]/
 
       #
       # Constructor for read capistrano repository informations
@@ -39,6 +40,17 @@ module Pbtd
       def version
         content = File.read(File.join(@path, 'Gemfile.lock'))
         content.match(REGEX_VERSION)[1]
+      end
+
+      #
+      # return git branch of capistrano environment
+      # @param environment [String] [name of capistrano environment]
+      #
+      # @return [String] [git branch name]
+      def branch(environment)
+        env_path = File.join(@path, "config/deploy/#{environment}.rb")
+        content = File.read(env_path)
+        content.match(REGEX_BRANCH)[1]
       end
     end
   end
