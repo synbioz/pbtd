@@ -8,7 +8,8 @@ module Pbtd
     class Reader
       # Regex to find capistrano version in Gemfile.lock
       REGEX_VERSION = /capistrano\s\(([0-9.]*)\)/
-
+      # Regex to find branch in environment file
+      REGEX_BRANCH = /:branch,\s*['"]([\w\-\_\/]*)['"]/
 
       #
       # Constructor for read capistrano repository informations

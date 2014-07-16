@@ -1,9 +1,15 @@
 require 'spec_helper'
 
-describe Pbtd::Capistrano::Reader do
+REPOSITORY = "git@git.synbioz.com:synbioz/pbtd.git"
+REPOSITORY_NAME = 'pbtd'
 
+describe Pbtd::Capistrano::Reader do
+  before(:all) do
+    repo = Pbtd::GitRepository.new(REPOSITORY)
+    repo.clone(REPOSITORY_NAME)
+  end
   let(:klass) { Pbtd::Capistrano::Reader }
-  subject { klass.new('article-ehstore') }
+  subject { klass.new(REPOSITORY_NAME) }
 
   describe 'its instance methods' do
     subject { klass.instance_methods }
@@ -23,6 +29,8 @@ describe Pbtd::Capistrano::Reader do
 
   context '#branch' do
     let(:branch_name) { subject.environments.first }
+
+    before { p subject.environments }
 
     it { expect(subject.branch(branch_name)).to be_a String }
   end
