@@ -23,3 +23,6 @@ vendor/bundle
 
 # Ignore all saved repositories
 /repositories
+
+# Ignore spec repositories
+/spec/support/repositories

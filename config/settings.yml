@@ -5,3 +5,6 @@ development:
 
 production:
   repositories_path: "/var/www/pbtd/shared/repositories"
+
+test:
+  repositories_path: <%= "#{Rails.root}/spec/support/repositories" %>
