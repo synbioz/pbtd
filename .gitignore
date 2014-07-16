@@ -20,3 +20,9 @@ config/database.yml
 vendor/bundle
 
 .DS_Store
+
+# Ignore all saved repositories
+/repositories
+
+# Ignore spec repositories
+/spec/support/repositories
