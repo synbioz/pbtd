@@ -30,8 +30,6 @@ describe Pbtd::Capistrano::Reader do
   context '#branch' do
     let(:branch_name) { subject.environments.first }
 
-    before { p subject.environments }
-
     it { expect(subject.branch(branch_name)).to be_a String }
   end
 end
