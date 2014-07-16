@@ -13,11 +13,11 @@ module Pbtd
 
       #
       # Constructor for read capistrano repository informations
-      # @param repository_path [String] [path of capistrano project]
+      # @param repository_name [String] [path of capistrano project]
       #
       # @return [Reader]
-      def initialize(repository_path)
-        @path = repository_path
+      def initialize(repository_name)
+        @path = in_path(repository_name)
       end
 
 
@@ -49,6 +49,16 @@ module Pbtd
         env_path = File.join(@path, "config/deploy/#{environment}.rb")
         content = File.read(env_path)
         content.match(REGEX_BRANCH)[1]
+      end
+
+      private
+      #
+      # set path where repository is stored
+      # @param repository_name [String] [folder repository name]
+      #
+      # @return [String]
+      def in_path(repository_name)
+        File.join(SETTINGS["repositories_path"], repository_name)
       end
     end
   end
