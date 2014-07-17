@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'rugged'
 
-GIT_REPOSITORY = "git@github.com:synbioz/article-ehstore.git"
-GIT_REPOSITORY_NAME = 'article-ehstore'
+GIT_REPOSITORY = "git@git.synbioz.com:synbioz/pbtd.git"
+GIT_REPOSITORY_NAME = 'pbtd'
 
 describe Pbtd::GitRepository do
   before(:all) do
@@ -53,9 +53,7 @@ describe Pbtd::GitRepository do
   end
 
   context 'access to branch' do
-    before do
-      subject.open(GIT_REPOSITORY_NAME)
-    end
+    before { subject.open(GIT_REPOSITORY_NAME) }
 
     let(:first_branch) { subject.remote_branches.first }
 
@@ -69,6 +67,25 @@ describe Pbtd::GitRepository do
 
     it '#merge' do
       expect(subject.merge(first_branch)).to be_instance_of(Rugged::Reference)
+    end
+  end
+
+  context 'switch branch' do
+    before { subject.open(GIT_REPOSITORY_NAME) }
+
+    let(:branch) { subject.remote_branches.first }
+
+    it '#checkout' do
+      expect(subject.checkout(branch)).to be_instance_of(Rugged::Reference)
+    end
+  end
+
+  context 'branch local -> remote' do
+    before { subject.open(GIT_REPOSITORY_NAME) }
+
+    it '#remote_branch_from_local' do
+      local_branch = 'master'
+      expect(subject.remote_branch_from_local(local_branch)).to eq('origin/master')
     end
   end
 end

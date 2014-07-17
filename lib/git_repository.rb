@@ -117,6 +117,24 @@ module Pbtd
         rugged_repository.references.update(rugged_repository.head, remote_commit.oid)
       end
 
+      #
+      # Checkout branch of git repository
+      # @param branch_name [String] [branch name]
+      #
+      # @return [Rugged::Reference]
+      def checkout(branch_name)
+        rugged_repository.checkout(branch_name)
+      end
+
+      #
+      # find remote branch name from local branch name
+      # @param branch_name [String] [local branch name]
+      #
+      # @return [String]
+      def remote_branch_from_local(branch_name)
+        remote_branches.find { |x| x.ends_with?(branch_name) }
+      end
+
       private
         #
         # set path where repository is stored
@@ -124,7 +142,7 @@ module Pbtd
         #
         # @return [String]
         def in_path(repository_name)
-          SETTINGS["repositories_path"] + '/' + repository_name
+          File.join(SETTINGS["repositories_path"], repository_name)
         end
 
         #
@@ -133,15 +151,6 @@ module Pbtd
         # @return [Rugged::Credentials::SshKeyFromAgent]
         def credentials
           Rugged::Credentials::SshKeyFromAgent.new(username: username)
-        end
-
-        #
-        # find remote branch name from local branch name
-        # @param branch_name [String] [local branch name]
-        #
-        # @return [String]
-        def remote_branch_from_local(branch_name)
-          remote_branches.find { |x| x.ends_with?(branch_name) }
         end
     end
 
