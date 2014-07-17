@@ -12,5 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.velocity.min
+//= require velocity.ui
 //= require turbolinks
 //= require_tree .

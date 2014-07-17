@@ -1,0 +1,274 @@
+@import url("//fonts.googleapis.com/css?family=Lato:400,700,400italic")
+
+orange = #F18734
+red = #FF5332
+blue = #2497D8
+green = #68C023
+grey = #999
+
+font = "Lato", 'Arial', serif
+fontcolor = #333
+
+// LAYOUT
+*
+  box-sizing border-box
+
+body
+  max-width 800px
+  margin 0 auto
+  font-family font
+  color fontcolor
+  background #eee
+
+.primary-actions
+  float right
+  a.update
+    background blue
+    margin 5px
+  a.setup
+    background green
+    margin 5px
+
+h1
+  padding-left 5px
+
+h1,h2,h3,h4,h5,h6,
+p, em, span, input
+  -webkit-font-smoothing antialiased
+
+
+a
+  text-decoration none
+  &:hover
+    text-decoration underline
+
+// ELEMENTS
+.button
+  -webkit-appearance none
+  -moz-appearance none
+  -ms-appearance none
+  appearance none
+  cursor pointer
+  display inline-block
+  padding 0.4em 1em
+  border-radius 3px
+  border: 0
+  background #ddd
+  color #fff
+  text-decoration none
+  text-transform uppercase
+  transition all 0.1s
+  & a
+    color: #fff
+    text-decoration none
+  &:hover
+    box-shadow inset 0 -2px 0 rgba(0,0,0,0.2)
+    text-decoration none
+  &:active
+    box-shadow inset 0 2px 0 rgba(0,0,0,0.2), inset 0 0 0 2px rgba(0,0,0,0.1)
+
+.half
+  display inline-block
+  vertical-align top
+  width: 50%
+  padding-right: 5px
+  & + .half
+    padding-left: 5px
+
+#notifications
+  cursor: pointer
+  position: fixed
+  bottom: 0
+  left: 0
+  right: 0
+  z-index: 999
+  .notification
+    display: none
+    padding: 0.8em 1em
+    line-height: 1.4em
+    text-align: center
+    color: #fff
+    //+transition(all 0.2s)
+    &.success, &.notice
+      background: #6FC250
+    &.error, &.alert
+      background: #E53333
+    &.action
+      background: #6FC250
+
+
+// APPLICATIONS LIST
+.app-list
+  list-style none
+  margin 0
+  padding 0
+  & > li
+    position relative
+    min-height 6.625em
+    margin-bottom 1em
+    clear both
+    background #fff
+    box-shadow 0 3px 0 rgba(0,0,0,0.05)
+.project-infos
+  position relative
+  display inline-block
+  vertical-align top
+  padding 15px
+  width 30%
+  height 100%
+  background #fff
+  .repo-settings
+    cursor pointer
+    position absolute
+    top 0
+    right 0
+    width 1.2em
+    height 1.2em
+    line-height 1.2em
+    font-size: 1.6em
+    margin: 10px
+    text-align center
+    color #bbb
+    transition all 0.1s
+    &:hover
+      color blue
+  .repo-url
+    font-size 0.8em
+    margin 10px 0
+    background none
+    color grey
+  h2
+    margin 0em
+
+.environment-list
+  display inline-block
+  vertical-align top
+  width 70%
+  height 100%
+  border-left 1px solid #eee
+.environment
+  padding 15px
+  border-bottom 1px solid #eee
+  &:last-child
+    border 0
+  h3
+    margin 0
+    margin-bottom 10px
+    color fontcolor
+    font-weight normal
+  .status
+    float left
+    font-size: 0.75em
+    height 1em
+    width 1em
+    margin 0.5em 1.5em 4em 0.3em
+    border-radius 50%
+    background #ddd
+    transition all 0.2s
+    &[data-state="run"]
+      background green
+    &[data-state="stop"]
+      background red
+  .button
+    float right
+    font-size 0.75em
+    margin-left: 10px
+  &:hover
+    [data-action="deploy"]
+      background green
+    [data-action="stop"]
+      background red
+    [data-action="update"]
+      background blue
+  .version,
+  .last-update
+    font-size 0.8em
+    margin-top 0.2em
+    color grey
+    &.updated
+      color blue
+    &.late
+      font-style italic
+
+
+// FORM ELEMENTS
+input[type="text"]
+  -webkit-appearance none
+  -moz-appearance none
+  -ms-appearance none
+  appearance none
+  display block
+  width 100%
+  padding 0.3em 0.6em
+  font-size 1em
+  border 1px solid #ddd
+  background #f2f2f2
+  margin-bottom 1em
+#new-project
+  display none
+  position absolute
+  z-index 1
+  top 0
+  left 0
+  right 0
+  bottom 0
+  background rgba(255,255,255,0.8)
+  text-align center
+  hr
+    border 0
+    border-top 1px solid #ddd
+  form
+    position: relative
+    width 100%
+    max-width 500px
+    padding 50px
+    margin 30px auto
+    background #fff
+    text-align left
+    border 1px solid #ddd
+    box-shadow 0 3px 15px rgba(0,0,0,0.2)
+    .close
+      cursor pointer
+      position absolute
+      top 0
+      right 0
+      width 2em
+      height 2em
+      line-height 2em
+      text-align center
+      background #eee
+      color #bbb
+      transition all 0.1s
+      &:hover
+        background #ccc
+        color #fff
+    label
+      color grey
+      display block
+      margin-bottom 0.4em
+    input[type="submit"]
+      background green
+      font-size 1em
+  .js-more-environment
+    background grey
+    float right
+    font-size 0.8em
+.add-environment-list
+  clear both
+  margin 0
+  padding 0
+  list-style none
+  li:first-child
+    display none
+
+
+@media screen and (max-width: 600px)
+  body
+    padding 10px
+  h1
+    margin-top 0
+  .project-infos,
+  .environment-list
+    width 100%
+  .project-infos
+    border-bottom 1px dashed #ddd

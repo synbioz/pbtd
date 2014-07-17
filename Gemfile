@@ -41,6 +41,7 @@ gem 'spring',        group: :development
 
 gem "pg"
 gem "slim-rails"
+gem 'stylus'
 gem "whenever"
 gem "rugged"
 group :test do
