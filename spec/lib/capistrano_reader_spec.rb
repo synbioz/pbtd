@@ -1,12 +1,13 @@
 require 'spec_helper'
 
 REPOSITORY = "git@git.synbioz.com:synbioz/pbtd.git"
-REPOSITORY_NAME = 'pbtd'
+REPOSITORY_NAME = 'pbtd_capistrano'
 
 describe Pbtd::Capistrano::Reader do
   before(:all) do
     repo = Pbtd::GitRepository.new(REPOSITORY)
     repo.clone(REPOSITORY_NAME)
+    repo.checkout('origin/develop')
   end
   let(:klass) { Pbtd::Capistrano::Reader }
   subject { klass.new(REPOSITORY_NAME) }
