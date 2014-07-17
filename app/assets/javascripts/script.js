@@ -3,7 +3,7 @@ $(document).ready( function (){
   $('.app-list .environment').hide().velocity("transition.swoopIn",{stagger: 100})
 
   // Modal toggle
-  $(".js-create-project, .repo-settings").click( function(e){
+  $(".js-create-project").click( function(e){
     e.preventDefault()
     $('#new-project').velocity("transition.expandIn",{duration: 300})
   });
