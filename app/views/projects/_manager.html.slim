@@ -5,5 +5,14 @@
     = f.text_field :name
     label Project repository :
     = f.text_field :repository_url
+    a.button.js-more-environment + Environment
+    ul.add-environment-list
+      li
+        .half
+          label Name : 
+          input type="text"
+        .half
+          label URL : 
+          input type="text"
     hr/
     input.button type="submit" value="Add"
