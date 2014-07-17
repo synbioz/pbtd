@@ -38,21 +38,12 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-
 gem "pg"
 gem "slim-rails"
 gem 'stylus'
 gem "whenever"
 gem "rugged"
-group :test do
-  gem "rspec-rails"
-  gem "guard-rspec"
-  gem "shoulda-matchers"
-  gem 'fabrication'
-  gem 'faker'
-  gem 'rspec-its'
-end
-
+gem 'sidekiq'
 gem "puma"
 gem "hipchat"
 gem "airbrake"
@@ -62,6 +53,16 @@ gem "capistrano-bundler", "~> 1.1.2", require: false
 gem "capistrano-rails", "~> 1.1.1", require: false
 gem "capistrano3-puma", require: false
 gem "rack-cache", require: "rack/cache"
+
+group :test do
+  gem "rspec-rails"
+  gem "guard-rspec"
+  gem "shoulda-matchers"
+  gem 'fabrication'
+  gem 'faker'
+  gem 'rspec-its'
+end
+
 group :development do
   gem "better_errors"
   gem "binding_of_caller"
