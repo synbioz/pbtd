@@ -10,6 +10,8 @@ module Pbtd
       REGEX_VERSION = /capistrano\s\(([0-9.]*)\)/
       # Regex to find branch in environment file
       REGEX_BRANCH = /:branch,\s*['"]([\w\-\_\/]*)['"]/
+      # Regex to find url of environment
+      REGEX_URL = /server\s['"]([a-z.]*)['"]/
 
       #
       # Constructor for read capistrano repository informations
@@ -49,6 +51,18 @@ module Pbtd
         env_path = File.join(@path, "config/deploy/#{environment}.rb")
         content = File.read(env_path)
         content.match(REGEX_BRANCH)[1]
+      end
+
+
+      #
+      # return url server of capistrano environment
+      # @param environment [String] [name of capistrano environment]
+      #
+      # @return [String] [environment server url]
+      def url(environment)
+        env_path = File.join(@path, "config/deploy/#{environment}.rb")
+        content = File.read(env_path)
+        content.match(REGEX_URL)[1]
       end
 
       private

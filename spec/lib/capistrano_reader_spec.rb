@@ -33,4 +33,10 @@ describe Pbtd::Capistrano::Reader do
 
     it { expect(subject.branch(branch_name)).to be_a String }
   end
+
+  context '#url' do
+    let(:branch_name) { subject.environments.first }
+
+    it { expect(subject.branch(branch_name)).to be_a String }
+  end
 end
