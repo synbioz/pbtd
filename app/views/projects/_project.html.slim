@@ -1,28 +1,30 @@
-.project-infos
-  h2 Reusta
-  .repo-settings title="options" ⚙
-  input.repo-url type="text" editable="false" value="git@git.synbioz.com:synbioz/internapp.git"
-.environment-list
-  .environment
-    .status data-state="run"
-    a.button data-action="stop" href="#" Stop
-    a href="#": h3 Production
-    .infos
-      .last-update Branch <b>master</b> deployed 3 hours ago
-      .version.updated Updated
-  .environment
-    .status data-state="stop"
-    a.button data-action="deploy" href="#" Deploy
-    a.button data-action="update" href="#" Update
-    a href="#": h3 Staging
-    .infos
-      .last-update Branch <b>develop</b> deployed 2 days ago
-      .version.late 3 commits from current branch
-  .environment
-    .status data-state="run"
-    a.button data-action="stop" href="#" Stop
-    a.button data-action="update" href="#" Update
-    a href="#": h3 Design staging
-    .infos
-      .last-update Branch <b>feature/design</b> deployed 1 hours ago
-      .version.late 3 commits from current branch
+li
+  .project-infos
+    h2= project.name
+    .repo-settings title="options" data-link="#{edit_project_path(project)}" ⚙
+    input.repo-url type="text" editable="false" value="#{project.repository_url}"
+  - if project.locations.any?
+    .environment-list
+      .environment
+        .status data-state="run"
+        a.button data-action="stop" href="#" Stop
+        a href="#": h3 Production
+        .infos
+          .last-update Branch <b>master</b> deployed 3 hours ago
+          .version.updated Updated
+      .environment
+        .status data-state="stop"
+        a.button data-action="deploy" href="#" Deploy
+        a.button data-action="update" href="#" Update
+        a href="#": h3 Staging
+        .infos
+          .last-update Branch <b>develop</b> deployed 2 days ago
+          .version.late 3 commits from current branch
+      .environment
+        .status data-state="run"
+        a.button data-action="stop" href="#" Stop
+        a.button data-action="update" href="#" Update
+        a href="#": h3 Design staging
+        .infos
+          .last-update Branch <b>feature/design</b> deployed 1 hours ago
+          .version.late 3 commits from current branch

@@ -3,15 +3,12 @@ $(document).ready( function (){
   $('.app-list .environment').hide().velocity("transition.swoopIn",{stagger: 100})
 
   // Modal toggle
-  $(".js-create-project, .repo-settings").click( function(){
+  $(".js-create-project, .repo-settings").click( function(e){
+    e.preventDefault()
     $('#new-project').velocity("transition.expandIn",{duration: 300})
   });
   $('#new-project .close').click( function(){
     $('#new-project').velocity("transition.expandOut",{duration: 300})
-  });
-  $("#new-project form").submit( function(){
-    $('#new-project').velocity("transition.expandOut",{duration: 300});
-    notif('success', 'You add x project')
   });
 
   // Modal : add an environment
