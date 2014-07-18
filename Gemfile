@@ -71,6 +71,7 @@ group :development do
   gem "pry-rails"
   gem "debugger2"
   gem "ruby-prof"
+  gem 'sinatra', require: false
 end
 
 group :doc do
