@@ -44,21 +44,6 @@ RSpec.describe Worker, :type => :model do
       before { subject.class_name = '' }
       it { expect(subject).not_to be_valid }
     end
-
-    context 'error_class_name' do
-      before { subject.error_class_name = '' }
-      it { expect(subject).not_to be_valid }
-    end
-
-    context 'error_message' do
-      before { subject.error_message = '' }
-      it { expect(subject).not_to be_valid }
-    end
-
-    context 'status' do
-      before { subject.status = '' }
-      it { expect(subject).not_to be_valid }
-    end
   end
 
   describe 'should have correct status' do

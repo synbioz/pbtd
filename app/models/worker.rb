@@ -14,11 +14,16 @@
 
 class Worker < ActiveRecord::Base
 
+  before_create :init_status
+
   enum status: [ :pending, :running, :success, :failure ]
 
   validates :job_id, presence: true
   validates :class_name, presence: true
-  validates :status, presence: true
-  validates :error_class_name, presence: true
-  validates :error_message, presence: true
+
+  private
+
+    def init_status
+      self.status = :pending
+    end
 end
