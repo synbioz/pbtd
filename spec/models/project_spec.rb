@@ -7,6 +7,7 @@
 #  repository_url :string(255)
 #  created_at     :datetime
 #  updated_at     :datetime
+#  worker_id      :integer
 #
 
 require 'rails_helper'
@@ -25,6 +26,8 @@ RSpec.describe Project, :type => :model do
 
   it { is_expected.to respond_to(:locations) }
   it { is_expected.to have_many(:locations).class_name('Location') }
+
+  it { is_expected.to belong_to(:worker) }
 
   it 'should have an unique name by project' do
     p = Fabricate(:project)
