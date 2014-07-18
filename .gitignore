@@ -26,3 +26,6 @@ vendor/bundle
 
 # Ignore spec repositories
 /spec/support/repositories
+
+# Ignore sidekiq database
+dump.rb
