@@ -28,4 +28,4 @@ vendor/bundle
 /spec/support/repositories
 
 # Ignore sidekiq database
-dump.rb
+dump.rdb
