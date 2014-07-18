@@ -1,0 +1,36 @@
+loader-color = #ccc
+
+.loader
+  margin: 100px auto
+  width: 36px
+  height: 36px
+  position: relative
+  -webkit-transform: translateY(-50%)
+  -ms-transform: translateY(-50%)
+  transform: translateY(-50%)
+  &:before, &:after
+    content: ''
+    position: absolute
+    height: 100%
+    width: 100%
+    border: 2px solid loader-color
+    -webkit-border-radius: 40px
+    -webkit-animation: pulse 1s ease-out
+    -webkit-animation-iteration-count: infinite
+    animation: pulse 1s ease-out
+    animation-iteration-count: infinite
+    opacity: 0
+  &:before
+    animation-delay: .3s
+    -webkit-animation-delay: .3s
+
+
+@-webkit-keyframes pulse
+  0%
+    -webkit-transform: scale(0.1,.1)
+    opacity: 0
+  50%
+    opacity: 1
+  100%
+    -webkit-transform: scale(1.2,1.2)
+    opacity: 0
