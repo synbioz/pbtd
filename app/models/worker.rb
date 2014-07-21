@@ -23,6 +23,10 @@ class Worker < ActiveRecord::Base
 
   private
 
+
+    #
+    # init status attribute before Worker object creation
+    #
     def init_status
       self.status = :pending
     end

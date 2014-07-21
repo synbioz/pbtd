@@ -23,6 +23,10 @@ class Project < ActiveRecord::Base
 
   accepts_nested_attributes_for :locations
 
+  #
+  # use to preload environments for git repository of project
+  #
+  # @return [Array] [array of Location objects]
   def preload_environments
     locations = []
     reader = Pbtd::Capistrano::Reader.new(self.name)
@@ -37,6 +41,9 @@ class Project < ActiveRecord::Base
 
   private
 
+    #
+    # clone repository of project asynchronous
+    #
     def cloning_repository
       GitCloneWorker.perform_async(self.id)
     end
