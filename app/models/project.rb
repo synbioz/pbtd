@@ -14,6 +14,8 @@ class Project < ActiveRecord::Base
   has_many :locations, inverse_of: :project
   belongs_to :worker
 
+  GIT_REGEX = /\w*@[a-z]*\.[a-z]*.[a-z]*\:\w*\/[a-z\-_]*\.git/
+
   validates :name, presence: true, uniqueness: true
-  validates :repository_url, presence: true, uniqueness: true
+  validates :repository_url, presence: true, uniqueness: true, format: { with: GIT_REGEX }
 end
