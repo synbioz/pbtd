@@ -14,20 +14,9 @@
 
 class Worker < ActiveRecord::Base
 
-  before_create :init_status
-
   enum status: [ :pending, :running, :success, :failure ]
 
   validates :job_id, presence: true
   validates :class_name, presence: true
 
-  private
-
-
-    #
-    # init status attribute before Worker object creation
-    #
-    def init_status
-      self.status = :pending
-    end
 end

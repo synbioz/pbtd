@@ -27,5 +27,9 @@ module Pbtd
       g.test_framework      :rspec, fixture: true
       g.fixture_replacement :fabrication
     end
+
+    # autoload libs
+    config.autoload_paths << Rails.root.join('lib', 'capistrano_reader')
+    config.autoload_paths << Rails.root.join('lib', 'git_repository')
   end
 end

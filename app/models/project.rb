@@ -14,7 +14,7 @@ class Project < ActiveRecord::Base
   has_many :locations, inverse_of: :project, class_name: "Location"
   belongs_to :worker
 
-  GIT_REGEX = /\w*@[a-z]*\.[a-z]*.[a-z]*\:\w*\/[a-z\-_]*\.git/
+  GIT_REGEX = /\w*@[a-z0-9]*\.[a-z0-9]*.[a-z0-9]*\:\w*\/[0-9a-z\-_]*\.git/
 
   validates :name, presence: true, uniqueness: true
   validates :repository_url, presence: true, uniqueness: true, format: { with: GIT_REGEX }
@@ -28,15 +28,12 @@ class Project < ActiveRecord::Base
   #
   # @return [Array] [array of Location objects]
   def preload_environments
-    locations = []
     reader = Pbtd::Capistrano::Reader.new(self.name)
     reader.environments.each do |env|
       branch = reader.branch(env)
       url = reader.url(env)
-      locations << Location.new(name: env, branch: branch, application_url: url)
+      self.locations.build(name: env, branch: branch, application_url: url)
     end
-
-    locations
   end
 
   private

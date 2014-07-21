@@ -1,33 +1,21 @@
 #edit-project
-  - @project = project unless @project
+  - @project ||= project
   = form_for @project, remote: true do |f|
-    - locations = @project.locations if !locations && @project.locations.any?
     .close ×
     label Project name :
     = f.text_field :name
     label Project repository :
     = f.text_field :repository_url
-    / a.button.js-more-environment + Environment
     ul.add-environment-list
-      - if locations && locations.any?
-        = f.fields_for :locations, locations do |locations_fields|
-          li
-            .half
-              label Name :
-              = locations_fields.text_field :name
-            .half
-              label URL :
-              = locations_fields.hidden_field :id
-              = locations_fields.text_field :application_url
-              = locations_fields.hidden_field :branch
-        / = f.fields_for :locations, @project.locations.build do |locations_fields|
-        /   li
-        /     .half
-        /       label Name :
-        /       = locations_fields.text_field :name
-        /     .half
-        /       label URL :
-        /       = locations_fields.text_field :application_url
-        /       = locations_fields.hidden_field :branch
+      = f.fields_for :locations, @project.locations do |locations_fields|
+        li
+          .half
+            label Name :
+            = locations_fields.text_field :name
+          .half
+            label URL :
+            = locations_fields.hidden_field :id
+            = locations_fields.text_field :application_url
+            = locations_fields.hidden_field :branch
     hr/
     input.button type="submit" value="Add"

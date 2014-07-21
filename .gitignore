@@ -29,3 +29,7 @@ vendor/bundle
 
 # Ignore sidekiq database
 dump.rdb
+
+# Ignore Yard
+.yardoc
+doc/

@@ -34,7 +34,7 @@ class ProjectsController < ApplicationController
     project = Project.find(params[:id])
     if !project.worker.nil? && project.worker.success?
       locations = project.preload_environments
-      render partial: 'edit', locals: {project: project, locations: locations}
+      render partial: 'edit', locals: { project: project }
     else
       render nothing: true
     end

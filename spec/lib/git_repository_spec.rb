@@ -15,7 +15,6 @@ describe Pbtd::GitRepository do
   describe 'its instance methods' do
     subject { klass.instance_methods }
 
-    it { expect(subject).to include(:exist?) }
     it { expect(subject).to include(:open) }
     it { expect(subject).to include(:clone) }
     it { expect(subject).to include(:remote_branches) }
@@ -30,7 +29,7 @@ describe Pbtd::GitRepository do
 
     it '#clone' do
       subject.clone(GIT_REPOSITORY_NAME)
-      expect(subject.exist?(GIT_REPOSITORY_NAME)).to be true
+      expect(klass.exist?(GIT_REPOSITORY_NAME)).to be true
     end
   end
 

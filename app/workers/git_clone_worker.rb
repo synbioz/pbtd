@@ -7,7 +7,6 @@ class GitCloneWorker
     project = Project.find(project_id)
     project.worker = Worker.create(job_id: self.jid, class_name: self.class.name)
     project.worker.running!
-    project.save
 
     begin
       clone(project)

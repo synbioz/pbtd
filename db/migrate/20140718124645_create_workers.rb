@@ -3,7 +3,7 @@ class CreateWorkers < ActiveRecord::Migration
     create_table :workers do |t|
       t.string :job_id
       t.string :class_name
-      t.integer :status
+      t.integer :status, default: 0
       t.string :error_class_name
       t.string :error_message
 
