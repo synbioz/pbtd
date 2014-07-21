@@ -17,5 +17,5 @@ class Commit < ActiveRecord::Base
   has_many :deployments, inverse_of: :commit
 
   validates_presence_of :user, :sha1, :name, :commit_date
-  validates :sha1, uniqueness: true
+  validates :sha1, presence: true, uniqueness: true
 end
