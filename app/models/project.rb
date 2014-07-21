@@ -21,6 +21,18 @@ class Project < ActiveRecord::Base
 
   after_create :cloning_repository
 
+  def preload_environments
+    locations = []
+    reader = Pbtd::Capistrano::Reader.new(self.name)
+    reader.environments.each do |env|
+      branch = reader.branch(env)
+      url = reader.url(env)
+      locations << Location.new(name: env, branch: branch, application_url: url)
+    end
+
+    locations
+  end
+
   private
 
     def cloning_repository

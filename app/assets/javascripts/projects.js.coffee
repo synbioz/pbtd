@@ -9,7 +9,22 @@ $(document).ready ->
       notif('error', error) for error in data
     else
       $("ul.app-list").append(data)
-      $('#new-project').velocity("transition.expandOut",{duration: 300});
+      $("form.new_project").find("input[type=submit]").hide()
+      $("form.new_project").find("hr").after("<div class='loader'></div>")
+      project_id = $(data).find(".repo-settings").data("id")
+      url = window.location.href + "projects/" + project_id + "/check_environments_preloaded"
+      send_ajax_request = () ->
+        $.ajax({
+          url: url,
+          method: 'get'
+        }).success (data, status, xhr) ->
+          if data.length <= 1
+            timeout = setTimeout(send_ajax_request, 1000)
+          else
+            clearTimeout(timeout)
+            $(".loader").replaceWith(data)
+      send_ajax_request()
+      #$('#new-project').velocity("transition.expandOut",{duration: 300});
       notif('success', 'You add ' + $("#project_name").val() + ' project')
 
   # open modal manager project
@@ -28,7 +43,7 @@ $(document).ready ->
 
   # Modal : add an environment
   $(document).on "click", ".js-more-environment", ->
-    newEnv = $('#manager-project .add-environment-list li:first-child').clone()
-    $(newEnv).appendTo('#manager-project .add-environment-list').show()
+    newEnv = $('.add-environment-list li:first-child').clone()
+    $(newEnv).appendTo('.add-environment-list').show()
 
 

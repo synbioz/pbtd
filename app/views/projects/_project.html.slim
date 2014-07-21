@@ -1,7 +1,7 @@
 li
   .project-infos
     h2= project.name
-    .repo-settings title="options" data-action="#{edit_project_path(project)}" ⚙
+    .repo-settings title="options" data-action="#{edit_project_path(project)}" data-id="#{project.id}" ⚙
     input.repo-url type="text" editable="false" value="#{project.repository_url}"
   - if project.locations.any?
     .environment-list

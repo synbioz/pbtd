@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   root 'projects#index'
 
-  resources :projects
+  resources :projects do
+    member do
+      get :check_environments_preloaded
+    end
+  end
 
   require 'sidekiq/web'
 

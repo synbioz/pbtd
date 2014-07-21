@@ -21,6 +21,16 @@ class ProjectsController < ApplicationController
     render partial: 'manager'
   end
 
+  def check_environments_preloaded
+    project = Project.find(params[:id])
+    if !project.worker.nil? && project.worker.success?
+      locations = project.preload_environments
+      render partial: 'environments', locals: {project: project, locations: locations}
+    else
+      render nothing: true
+    end
+  end
+
   private
 
     def project_params
