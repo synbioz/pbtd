@@ -35,6 +35,9 @@ $(document).ready ->
   $(document).on "ajax:success", "#edit-project form", (e, data, status, xhr) ->
     $("#edit-project").velocity("transition.expandOut",{duration: 300});
     $("#edit-project").remove()
+    id = $(data).data('id')
+    $("li[data-id='"+id+"']").replaceWith(data)
+    $('.app-list .environment').hide().velocity("transition.swoopIn",{stagger: 100})
 
   # open modal edit project
   $(document).on "click", ".repo-settings", ->
