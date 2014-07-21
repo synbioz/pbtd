@@ -22,28 +22,33 @@ $(document).ready ->
             timeout = setTimeout(send_ajax_request, 1000)
           else
             clearTimeout(timeout)
-            $(".loader").replaceWith(data)
+            $("form.new_project").replaceWith(data);
+            $("form.edit_project").parent().attr('id', 'edit-project')
       send_ajax_request()
-      #$('#new-project').velocity("transition.expandOut",{duration: 300});
       notif('success', 'You add ' + $("#project_name").val() + ' project')
 
-  # open modal manager project
+  # close modal edit project
+  $(document).on "ajax:success", "#edit-project form", (e, data, status, xhr) ->
+    $('#edit-project').velocity("transition.expandOut",{duration: 300});
+
+  # open modal edit project
   $(document).on "click", ".repo-settings", ->
-    $('#manager-project').remove()
+    $('#edit-project').remove()
     $.ajax({
       url: $(this).data("action"),
       method: 'get'
     }).success (data, status, xhr) ->
       $("ul.app-list").before(data)
-      $('#manager-project').velocity("transition.expandIn",{duration: 300})
+      $('#edit-project').velocity("transition.expandIn",{duration: 300})
 
   # close modal manager project
-  $(document).on "click", "#manager-project .close", ->
-    $('#manager-project').velocity("transition.expandOut",{duration: 300})
+  $(document).on "click", "#edit-project .close", ->
+    $('#edit-project').velocity("transition.expandOut",{duration: 300})
 
   # Modal : add an environment
   $(document).on "click", ".js-more-environment", ->
     newEnv = $('.add-environment-list li:first-child').clone()
+    console.log(newEnv)
     $(newEnv).appendTo('.add-environment-list').show()
 
 

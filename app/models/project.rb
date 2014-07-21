@@ -11,7 +11,7 @@
 #
 
 class Project < ActiveRecord::Base
-  has_many :locations, inverse_of: :project
+  has_many :locations, inverse_of: :project, class_name: "Location"
   belongs_to :worker
 
   GIT_REGEX = /\w*@[a-z]*\.[a-z]*.[a-z]*\:\w*\/[a-z\-_]*\.git/
@@ -20,6 +20,8 @@ class Project < ActiveRecord::Base
   validates :repository_url, presence: true, uniqueness: true, format: { with: GIT_REGEX }
 
   after_create :cloning_repository
+
+  accepts_nested_attributes_for :locations
 
   def preload_environments
     locations = []

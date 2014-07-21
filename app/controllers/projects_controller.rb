@@ -18,14 +18,25 @@ class ProjectsController < ApplicationController
   def edit
     @project = Project.find(params[:id])
 
-    render partial: 'manager'
+    render partial: 'edit'
+  end
+
+  def update
+    project = Project.find(params[:id])
+    if project.update_attributes(project_params)
+      puts project.inspect
+      render nothing: true
+    else
+      puts project.inspect
+      render json: project.errors.full_messages
+    end
   end
 
   def check_environments_preloaded
     project = Project.find(params[:id])
     if !project.worker.nil? && project.worker.success?
       locations = project.preload_environments
-      render partial: 'environments', locals: {project: project, locations: locations}
+      render partial: 'edit', locals: {project: project, locations: locations}
     else
       render nothing: true
     end
@@ -34,6 +45,6 @@ class ProjectsController < ApplicationController
   private
 
     def project_params
-      params.require(:project).permit(:name, :repository_url)
+      params.require(:project).permit(:name, :repository_url, locations_attributes: [:name, :branch, :application_url])
     end
 end

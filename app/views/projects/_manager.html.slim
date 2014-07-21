@@ -1,8 +1,0 @@
-#manager-project
-  = form_for @project, remote: true do |f|
-    .close ×
-    label Project name :
-    = f.text_field :name
-    label Project repository :
-    = f.text_field :repository_url
-    = render partial: "environments"
