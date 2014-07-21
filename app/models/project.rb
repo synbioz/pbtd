@@ -18,4 +18,12 @@ class Project < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true
   validates :repository_url, presence: true, uniqueness: true, format: { with: GIT_REGEX }
+
+  after_create :cloning_repository
+
+  private
+
+    def cloning_repository
+      GitCloneWorker.perform_async(self.id)
+    end
 end
