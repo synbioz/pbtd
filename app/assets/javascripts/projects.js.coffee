@@ -12,7 +12,7 @@ $(document).ready ->
       $("form.new_project").find("input[type=submit]").hide()
       $("form.new_project").find("hr").after("<div class='loader'></div>")
       project_id = $(data).find(".repo-settings").data("id")
-      url = window.location.href + "projects/" + project_id + "/check_environments_preloaded"
+      url = window.location.origin + "/projects/" + project_id + "/check_environments_preloaded"
       send_ajax_request = () ->
         $.ajax({
           url: url,

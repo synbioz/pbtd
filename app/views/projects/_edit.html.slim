@@ -17,6 +17,7 @@
               = locations_fields.text_field :name
             .half
               label URL :
+              = locations_fields.hidden_field :id
               = locations_fields.text_field :application_url
               = locations_fields.hidden_field :branch
         / = f.fields_for :locations, @project.locations.build do |locations_fields|

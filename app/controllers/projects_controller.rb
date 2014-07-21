@@ -26,7 +26,6 @@ class ProjectsController < ApplicationController
     if project.update_attributes(project_params)
       render project
     else
-      puts project.inspect
       render json: project.errors.full_messages
     end
   end
@@ -44,6 +43,6 @@ class ProjectsController < ApplicationController
   private
 
     def project_params
-      params.require(:project).permit(:name, :repository_url, locations_attributes: [:name, :branch, :application_url])
+      params.require(:project).permit(:name, :repository_url, locations_attributes: [:id, :name, :branch, :application_url])
     end
 end
