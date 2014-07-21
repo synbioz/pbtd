@@ -22,14 +22,19 @@ $(document).ready ->
             timeout = setTimeout(send_ajax_request, 1000)
           else
             clearTimeout(timeout)
-            $("form.new_project").replaceWith(data);
-            $("form.edit_project").parent().attr('id', 'edit-project')
+            $(".loader").remove();
+            $("form.new_project").find("input[type=submit]").show()
+            $("#new-project").after(data);
+            $("#new-project").hide()
+            $('.new_project input[type="text"]').val('');
+            $("#edit-project").show()
       send_ajax_request()
       notif('success', 'You add ' + $("#project_name").val() + ' project')
 
   # close modal edit project
   $(document).on "ajax:success", "#edit-project form", (e, data, status, xhr) ->
-    $('#edit-project').velocity("transition.expandOut",{duration: 300});
+    $("#edit-project").velocity("transition.expandOut",{duration: 300});
+    $("#edit-project").remove()
 
   # open modal edit project
   $(document).on "click", ".repo-settings", ->
@@ -48,7 +53,6 @@ $(document).ready ->
   # Modal : add an environment
   $(document).on "click", ".js-more-environment", ->
     newEnv = $('.add-environment-list li:first-child').clone()
-    console.log(newEnv)
     $(newEnv).appendTo('.add-environment-list').show()
 
 

@@ -24,8 +24,7 @@ class ProjectsController < ApplicationController
   def update
     project = Project.find(params[:id])
     if project.update_attributes(project_params)
-      puts project.inspect
-      render nothing: true
+      render project
     else
       puts project.inspect
       render json: project.errors.full_messages
