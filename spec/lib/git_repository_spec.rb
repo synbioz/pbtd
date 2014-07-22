@@ -1,11 +1,12 @@
 require 'spec_helper'
+require 'rails_helper'
 require 'rugged'
 
 GIT_REPOSITORY = "git@git.synbioz.com:synbioz/pbtd.git"
 GIT_REPOSITORY_NAME = 'pbtd'
 
 describe Pbtd::GitRepository do
-  before(:all) do
+  after(:all) do
     FileUtils.rm_rf(SETTINGS["repositories_path"])
   end
 
@@ -15,7 +16,6 @@ describe Pbtd::GitRepository do
   describe 'its instance methods' do
     subject { klass.instance_methods }
 
-    it { expect(subject).to include(:exist?) }
     it { expect(subject).to include(:open) }
     it { expect(subject).to include(:clone) }
     it { expect(subject).to include(:remote_branches) }
@@ -30,7 +30,7 @@ describe Pbtd::GitRepository do
 
     it '#clone' do
       subject.clone(GIT_REPOSITORY_NAME)
-      expect(subject.exist?(GIT_REPOSITORY_NAME)).to be true
+      expect(klass.exist?(GIT_REPOSITORY_NAME)).to be true
     end
   end
 

@@ -1,15 +1,21 @@
 require 'spec_helper'
+require 'rails_helper'
 
 REPOSITORY = "git@git.synbioz.com:synbioz/pbtd.git"
 REPOSITORY_NAME = 'pbtd_capistrano'
 
-describe Pbtd::Capistrano::Reader do
+describe Pbtd::CapistranoReader do
   before(:all) do
     repo = Pbtd::GitRepository.new(REPOSITORY)
     repo.clone(REPOSITORY_NAME)
     repo.checkout('origin/develop')
   end
-  let(:klass) { Pbtd::Capistrano::Reader }
+
+  after(:all) do
+    FileUtils.rm_rf(SETTINGS["repositories_path"])
+  end
+
+  let(:klass) { Pbtd::CapistranoReader }
   subject { klass.new(REPOSITORY_NAME) }
 
   describe 'its instance methods' do

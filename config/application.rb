@@ -27,5 +27,7 @@ module Pbtd
       g.test_framework      :rspec, fixture: true
       g.fixture_replacement :fabrication
     end
+
+    config.autoload_paths << Rails.root.join('lib')
   end
 end

@@ -7,9 +7,11 @@
 #  repository_url :string(255)
 #  created_at     :datetime
 #  updated_at     :datetime
+#  worker_id      :integer
 #
 
 Fabricator(:project) do
   name           { Faker::Name.name }
-  repository_url { Faker::Internet.url }
+  repository_url { "git@git."+Faker::Name.last_name.downcase+".com:/pbtd.git" }
+  repository_url { sequence(:repository_url) { |i|  "git@git.synbioz#{i}.com:/pbtd.git"} }
 end

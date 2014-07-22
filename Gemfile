@@ -38,12 +38,23 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-
 gem "pg"
 gem "slim-rails"
 gem 'stylus'
 gem "whenever"
 gem "rugged"
+gem 'sidekiq'
+gem "puma"
+gem "hipchat"
+gem "airbrake"
+gem "capistrano", "~> 3.2.0", require: false
+gem "capistrano-rbenv", "~> 2.0", require: false
+gem "capistrano-bundler", "~> 1.1.2", require: false
+gem "capistrano-rails", "~> 1.1.1", require: false
+gem "capistrano3-puma", require: false
+gem "capistrano-sidekiq", require: false
+gem "rack-cache", require: "rack/cache"
+
 group :test do
   gem "rspec-rails"
   gem "guard-rspec"
@@ -53,15 +64,6 @@ group :test do
   gem 'rspec-its'
 end
 
-gem "puma"
-gem "hipchat"
-gem "airbrake"
-gem "capistrano", "~> 3.2.0", require: false
-gem "capistrano-rbenv", "~> 2.0", require: false
-gem "capistrano-bundler", "~> 1.1.2", require: false
-gem "capistrano-rails", "~> 1.1.1", require: false
-gem "capistrano3-puma", require: false
-gem "rack-cache", require: "rack/cache"
 group :development do
   gem "better_errors"
   gem "binding_of_caller"
@@ -69,6 +71,7 @@ group :development do
   gem "pry-rails"
   gem "debugger2"
   gem "ruby-prof"
+  gem 'sinatra', require: false
 end
 
 group :doc do
