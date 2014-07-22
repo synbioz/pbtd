@@ -54,7 +54,7 @@ module Pbtd
       #
       # @return [Rugged::Repository]
       def clone(repository_name)
-        raise Pbtd::Error::FolderAlreadyExist, "git repository already exist in local: #{in_path(repository_name)}" if GitRepository.exist?(repository_name)
+        raise Pbtd::Error::FolderAlreadyExist, "git repository already exist in local: #{GitRepository.in_path(repository_name)}" if GitRepository.exist?(repository_name)
         begin
           @rugged_repository = Rugged::Repository.clone_at(repository_url, GitRepository.in_path(repository_name), credentials: credentials)
         rescue Rugged::OSError
@@ -64,7 +64,7 @@ module Pbtd
         end
 
         # FIX ME FOR PBTD PROJECT CLONING
-        #self.checkout('origin/develop')
+        self.checkout('origin/develop')
       end
 
       #

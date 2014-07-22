@@ -1,11 +1,12 @@
 require 'spec_helper'
+require 'rails_helper'
 require 'rugged'
 
 GIT_REPOSITORY = "git@git.synbioz.com:synbioz/pbtd.git"
 GIT_REPOSITORY_NAME = 'pbtd'
 
 describe Pbtd::GitRepository do
-  before(:all) do
+  after(:all) do
     FileUtils.rm_rf(SETTINGS["repositories_path"])
   end
 

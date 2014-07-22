@@ -14,8 +14,9 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-require 'git_repository'
-require 'capistrano_reader'
+#
+require 'pbtd/capistrano_reader'
+require 'pbtd/git_repository'
 require 'active_support/all'
 RSpec.configure do |config|
 # The settings below are suggested to provide a good initial experience

@@ -28,7 +28,7 @@ class Project < ActiveRecord::Base
   #
   # @return [Array] [array of Location objects]
   def preload_environments
-    reader = Pbtd::Capistrano::Reader.new(self.name)
+    reader = Pbtd::CapistranoReader.new(self.name)
     reader.environments.each do |env|
       branch = reader.branch(env)
       url = reader.url(env)
