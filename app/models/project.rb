@@ -19,7 +19,7 @@ class Project < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :repository_url, presence: true, uniqueness: true, format: { with: GIT_REGEX }
 
-  after_create :cloning_repository
+  after_save :cloning_repository, :load_locations
 
   accepts_nested_attributes_for :locations
 
@@ -36,12 +36,27 @@ class Project < ActiveRecord::Base
     end
   end
 
+  #
+  # load error from worker association model
+  #
+  # @return [void]
+  def load_errors
+    self.errors.add(:git_repository, self.worker.error_message)
+  end
+
   private
 
     #
     # clone repository of project asynchronous
     #
     def cloning_repository
-      GitCloneWorker.perform_async(self.id)
+      GitCloneWorker.perform_async(self.id) if self.worker.nil? || self.worker.failure?
+    end
+
+    def load_locations
+      if self.worker.present? && self.worker.success? && self.locations.empty?
+        self.preload_environments
+        self.save
+      end
     end
 end

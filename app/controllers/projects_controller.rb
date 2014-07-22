@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+  respond_to :json
 
   def index
     @project = Project.new
@@ -32,9 +33,13 @@ class ProjectsController < ApplicationController
 
   def check_environments_preloaded
     project = Project.find(params[:id])
-    if !project.worker.nil? && project.worker.success?
+    if project.worker.present? && project.worker.success?
       locations = project.preload_environments
       render partial: 'edit', locals: { project: project }
+    elsif project.worker.present? && project.worker.failure?
+      project.load_errors
+      project.errors.full_messages
+      render json: project.errors.full_messages
     else
       render nothing: true
     end

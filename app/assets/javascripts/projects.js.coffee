@@ -3,6 +3,30 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready ->
+  timeout = null
+  # Function to preload locations
+  send_ajax_request_preload_locations = (url_preload) ->
+    $.ajax
+      url: url_preload,
+      method: 'get',
+      success: (data, status, xhr) ->
+        if data instanceof Array
+          notif('error', error) for error in data
+          clearTimeout(timeout)
+          $("#new-project").velocity("transition.expandOut",{duration: 300})
+        else if data.length <= 1
+          return
+        else
+          clearTimeout(timeout)
+          $(".loader").remove()
+          $("form.new_project").find("input[type=submit]").show()
+          $("#new-project").after(data);
+          $("#new-project").hide()
+          $('.new_project input[type="text"]').val('')
+          $("#edit-project").show()
+      error: (xhr, data, error) ->
+
+
   # ajax add project
   $('#new-project form').on "ajax:success", (e, data, status, xhr) ->
     if data instanceof Array
@@ -13,27 +37,14 @@ $(document).ready ->
       $("form.new_project").find("hr").after("<div class='loader'></div>")
       project_id = $(data).find(".repo-settings").data("id")
       url = window.location.origin + "/projects/" + project_id + "/check_environments_preloaded"
-      send_ajax_request = () ->
-        $.ajax({
-          url: url,
-          method: 'get'
-        }).success (data, status, xhr) ->
-          if data.length <= 1
-            timeout = setTimeout(send_ajax_request, 1000)
-          else
-            clearTimeout(timeout)
-            $(".loader").remove();
-            $("form.new_project").find("input[type=submit]").show()
-            $("#new-project").after(data);
-            $("#new-project").hide()
-            $('.new_project input[type="text"]').val('');
-            $("#edit-project").show()
-      send_ajax_request()
+      timeout = setInterval ->
+        send_ajax_request_preload_locations(url)
+      , 1000
       notif('success', 'You add ' + $("#project_name").val() + ' project')
 
   # close modal edit project
   $(document).on "ajax:success", "#edit-project form", (e, data, status, xhr) ->
-    $("#edit-project").velocity("transition.expandOut",{duration: 300});
+    $("#edit-project").velocity("transition.expandOut",{duration: 300})
     $("#edit-project").remove()
     id = $(data).data('id')
     $("li[data-id='"+id+"']").replaceWith(data)
