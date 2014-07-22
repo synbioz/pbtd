@@ -1,0 +1,23 @@
+locations_1:
+  project: project_1
+  name: 'staging'
+  branch: 'develop'
+  application_url: 'pbtd.dev.synbioz.com'
+
+locations_2:
+  project: project_1
+  name: 'production'
+  branch: 'master'
+  application_url: 'pbtd.synbioz.com'
+
+locations_3:
+  project: project_2
+  name: 'staging'
+  branch: 'develop'
+  application_url: 'reusta.com'
+
+locations_4:
+  project: project_2
+  name: 'production'
+  branch: 'master'
+  application_url: 'reusta.dev.synbioz.com'

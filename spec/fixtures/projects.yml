@@ -1,0 +1,9 @@
+project_1:
+  name: 'Pbtd'
+  repository_url: 'git@git.synbioz.com:synbioz/pbtd.git'
+  worker: worker_1
+
+project_2:
+  name: 'Reusta'
+  repository_url: 'git@git.synbioz.com:synbioz/reusta.git'
+  worker: worker_2

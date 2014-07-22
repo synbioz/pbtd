@@ -1,0 +1,13 @@
+worker_1:
+  job_id: "sidekiqjobidforworker_1"
+  class_name: "GitRepositoryWorker"
+  status: 2
+  error_class_name: nil
+  error_message: nil
+
+worker_2:
+  job_id: "sidekiqjobid"
+  class_name: "GitRepositoryWorkerforworker_2"
+  status: 2
+  error_class_name: nil
+  error_message: nil
