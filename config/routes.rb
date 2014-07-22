@@ -7,9 +7,10 @@ Rails.application.routes.draw do
     end
   end
 
-  require 'sidekiq/web'
-
-  mount Sidekiq::Web, at: '/sidekiq'
+  if Rails.env.development?
+    require 'sidekiq/web'
+    mount Sidekiq::Web, at: '/sidekiq'
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
