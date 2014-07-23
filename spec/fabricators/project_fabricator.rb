@@ -12,6 +12,14 @@
 
 Fabricator(:project) do
   name           { Faker::Name.name }
-  repository_url { "git@git."+Faker::Name.last_name.downcase+".com:/pbtd.git" }
   repository_url { sequence(:repository_url) { |i|  "git@git.synbioz#{i}.com:/pbtd.git"} }
+end
+
+Fabricator(:valid_project, from: :project) do
+  name           { "academy" }
+  repository_url { "git@git.synbioz.com:synbioz/academy.git" }
+end
+
+Fabricator(:invalid_project, from: :valid_project) do
+  repository_url { "git.synbioz.com" }
 end

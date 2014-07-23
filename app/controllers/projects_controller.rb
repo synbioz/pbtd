@@ -8,7 +8,6 @@ class ProjectsController < ApplicationController
 
   def create
     project = Project.new(project_params)
-
     if project.save
       render project
     else
@@ -38,7 +37,6 @@ class ProjectsController < ApplicationController
       render partial: 'edit', locals: { project: project }
     elsif project.worker.present? && project.worker.failure?
       project.load_errors
-      project.errors.full_messages
       render json: project.errors.full_messages
     else
       render nothing: true
