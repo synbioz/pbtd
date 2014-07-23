@@ -46,7 +46,7 @@ RSpec.describe Project, :type => :model do
   end
 
   context 'should have valid git repository url' do
-    before { subject.repository_url = 'git@git.synbioz.com:synbioz/pbtd.git' }
+    before { subject.repository_url = 'git@git.synbioz.com:synbioz/pbtd_test.git' }
     it { expect(subject).to be_valid }
   end
 
