@@ -32,8 +32,9 @@ class ProjectsController < ApplicationController
 
   def check_environments_preloaded
     project = Project.find(params[:id])
+    project.worker.inspect
     if project.worker.present? && project.worker.success?
-      locations = project.preload_environments
+      project.preload_environments
       render partial: 'edit', locals: { project: project }
     elsif project.worker.present? && project.worker.failure?
       project.load_errors
