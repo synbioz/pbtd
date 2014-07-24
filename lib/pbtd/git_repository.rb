@@ -103,7 +103,7 @@ module Pbtd
       #
       # @return [Integer] [number of commits]
       def get_behind(branch_name, commit_sha)
-        local_commit = last_commit(branch_name)
+        local_commit = last_commit(remote_branch_from_local(branch_name))
         remote_commit = rugged_repository.lookup(commit_sha)
 
         rugged_repository.ahead_behind(remote_commit, local_commit).first
