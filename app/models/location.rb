@@ -24,12 +24,12 @@ class Location < ActiveRecord::Base
     project_path = File.join(SETTINGS["repositories_path"], self.project.name)
 
     `cd #{project_path} && bundle install`
-    release_sha = `cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
+    release_commit_sha = `cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
 
     repo = Pbtd::GitRepository.new
     repo.open(self.project.name)
-    p repo.rugged_repository.branches.each_name.to_a
+    repo.fetch
     repo.checkout(self.branch)
-
+    repo.get_behind(self.branch, release_commit_sha)
   end
 end

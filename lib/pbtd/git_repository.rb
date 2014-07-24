@@ -98,15 +98,15 @@ module Pbtd
       end
 
       #
-      # get number of commits between local branch and remote branch
+      # get number of commits between local branch and commit sha
       # @param branch_name [String] [local branch name]
       #
       # @return [Integer] [number of commits]
-      def get_ahead(branch_name)
+      def get_behind(branch_name, commit_sha)
         local_commit = last_commit(branch_name)
-        remote_commit = last_commit(remote_branch_from_local(branch_name))
+        remote_commit = rugged_repository.lookup(commit_sha)
 
-        rugged_repository.ahead_behind(local_commit, remote_commit).first
+        rugged_repository.ahead_behind(remote_commit, local_commit).last
       end
 
       #
