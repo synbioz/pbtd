@@ -126,6 +126,10 @@ module Pbtd
       #
       # @return [Rugged::Reference]
       def checkout(branch_name)
+        local_branches = rugged_repository.branches.each_name.to_a
+        if !local_branches.include?(branch_name) && self.remote_branch_from_local(branch_name)
+          rugged_repository.branches.create(branch_name, "HEAD")
+        end
         rugged_repository.checkout(branch_name)
       end
 
