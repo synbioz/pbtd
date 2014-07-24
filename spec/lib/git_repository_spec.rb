@@ -21,7 +21,7 @@ describe Pbtd::GitRepository do
     it { expect(subject).to include(:remote_branches) }
     it { expect(subject).to include(:last_commit) }
     it { expect(subject).to include(:fetch) }
-    it { expect(subject).to include(:get_ahead) }
+    it { expect(subject).to include(:get_behind) }
     it { expect(subject).to include(:merge) }
   end
 
@@ -61,8 +61,8 @@ describe Pbtd::GitRepository do
       expect(subject.last_commit(first_branch)).to be_instance_of(Rugged::Commit)
     end
 
-    it '#get_ahead' do
-      expect(subject.get_ahead(first_branch)).to be_a Integer
+    it '#get_behind' do
+      expect(subject.get_behind(first_branch, '1941737')).to be_a Integer
     end
 
     it '#merge' do
