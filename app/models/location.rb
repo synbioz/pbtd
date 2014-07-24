@@ -19,6 +19,10 @@ class Location < ActiveRecord::Base
 
   validates_presence_of :name, :branch, :application_url, :project
 
+  #
+  # Return distance between branch and deployed commit
+  #
+  # @return [Integer]
   def get_distance_from_release
     cap_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano')
     project_path = File.join(SETTINGS["repositories_path"], self.project.name)

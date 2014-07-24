@@ -106,7 +106,7 @@ module Pbtd
         local_commit = last_commit(branch_name)
         remote_commit = rugged_repository.lookup(commit_sha)
 
-        rugged_repository.ahead_behind(remote_commit, local_commit).last
+        rugged_repository.ahead_behind(remote_commit, local_commit).first
       end
 
       #
