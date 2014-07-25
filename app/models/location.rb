@@ -9,6 +9,7 @@
 #  application_url :string(255)
 #  created_at      :datetime
 #  updated_at      :datetime
+#  distance        :integer
 #
 
 class Location < ActiveRecord::Base
@@ -17,7 +18,7 @@ class Location < ActiveRecord::Base
 
   belongs_to :project, inverse_of: :locations
 
-  validates_presence_of :name, :branch, :application_url, :project
+  validates_presence_of :name, :branch, :application_url, :project, :distance
 
   #
   # Return distance between branch and deployed commit

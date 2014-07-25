@@ -49,10 +49,16 @@ class Project < ActiveRecord::Base
     #
     # clone repository of project asynchronous
     #
+    # @return [void]
     def cloning_repository
       GitCloneWorker.perform_async(self.id) if self.worker.nil? || self.worker.failure?
     end
 
+
+    #
+    # load capistrano environments from git repository
+    #
+    # @return [void]
     def load_locations
       if self.worker.present? && self.worker.success? && self.locations.empty?
         self.preload_environments

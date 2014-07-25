@@ -9,6 +9,7 @@
 #  application_url :string(255)
 #  created_at      :datetime
 #  updated_at      :datetime
+#  distance        :integer
 #
 
 require 'rails_helper'
@@ -32,6 +33,9 @@ RSpec.describe Location, :type => :model do
   it { is_expected.to respond_to(:application_url) }
   its(:application_url) { is_expected.to be_an_instance_of String }
 
+  it { is_expected.to respond_to(:distance) }
+  its(:distance) { is_expected.to be_an Integer }
+
   it { is_expected.to have_many(:commits).class_name('Commit') }
   it { is_expected.to have_many(:deployments).class_name('Deployment') }
 
@@ -54,6 +58,11 @@ RSpec.describe Location, :type => :model do
 
   context 'should have a project' do
     before { subject.project = nil }
+    it { expect(subject).not_to be_valid }
+  end
+
+  context 'should have a distance' do
+    before { subject.distance = nil }
     it { expect(subject).not_to be_valid }
   end
 end

@@ -1,23 +1,41 @@
+# == Schema Information
+#
+# Table name: locations
+#
+#  id              :integer          not null, primary key
+#  project_id      :integer
+#  name            :string(255)
+#  branch          :string(255)
+#  application_url :string(255)
+#  created_at      :datetime
+#  updated_at      :datetime
+#  distance        :integer
+#
+
 locations_1:
   project: project_1
   name: 'staging'
   branch: 'develop'
   application_url: 'pbtd.dev.synbioz.com'
+  distance: 2
 
 locations_2:
   project: project_1
   name: 'production'
   branch: 'master'
   application_url: 'pbtd.synbioz.com'
+  distance: 3
 
 locations_3:
   project: project_2
   name: 'staging'
   branch: 'develop'
   application_url: 'reusta.com'
+  distance: 2
 
 locations_4:
   project: project_2
   name: 'production'
   branch: 'master'
   application_url: 'reusta.dev.synbioz.com'
+  distance: 12
