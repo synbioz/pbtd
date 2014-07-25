@@ -20,7 +20,7 @@ class Location < ActiveRecord::Base
 
   validates_presence_of :name, :branch, :application_url, :project
 
-  after_save :update_distance
+  after_create :update_distance
   #
   # Return distance between branch and deployed commit
   #
@@ -51,6 +51,8 @@ class Location < ActiveRecord::Base
   #
   # @return [String] [Sidekiq job_id]
   def update_distance
+    p "bernard"
+    30.times { p "michel" }
     DistanceWorker.perform_async(self.id)
   end
 end
