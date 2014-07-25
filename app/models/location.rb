@@ -51,8 +51,6 @@ class Location < ActiveRecord::Base
   #
   # @return [String] [Sidekiq job_id]
   def update_distance
-    p "bernard"
-    30.times { p "michel" }
     DistanceWorker.perform_async(self.id)
   end
 end
