@@ -54,6 +54,10 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def self.update_all_locations
+    Project.all.map { &:update_locations_distance }
+  end
+
   private
 
     #

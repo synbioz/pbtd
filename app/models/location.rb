@@ -25,8 +25,6 @@ class Location < ActiveRecord::Base
   #
   # @return [Integer]
   def get_distance_from_release
-
-
     repo = Pbtd::GitRepository.new
     repo.open(self.project.name)
     repo.fetch
@@ -34,6 +32,10 @@ class Location < ActiveRecord::Base
     repo.get_behind(self.branch, release_commit_sha)
   end
 
+  #
+  # get current commit sha on remote server
+  #
+  # @return [String] [git commit sha]
   def get_current_release_commit
     cap_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano')
     project_path = File.join(SETTINGS["repositories_path"], self.project.name)
@@ -42,6 +44,11 @@ class Location < ActiveRecord::Base
     `cd #{project_path} && cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
   end
 
+
+  #
+  # fetch distance from remote server for location
+  #
+  # @return [String] [Sidekiq job_id]
   def update_distance
     DistanceWorker.perform_async(self.id)
   end

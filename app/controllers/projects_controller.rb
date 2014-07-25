@@ -30,6 +30,19 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def update_all_projects
+    Project.update_all_locations
+
+    redirect_to :index
+  end
+
+  def update_project_location
+    project = Project.find(params[:id])
+    location = project.locations.find(params[:location_id])
+    location.update_distance
+    redirect_to :index
+  end
+
   def check_environments_preloaded
     project = Project.find(params[:id])
     project.worker.inspect
