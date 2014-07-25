@@ -41,4 +41,8 @@ class Location < ActiveRecord::Base
     `cd #{project_path} && bundle install`
     `cd #{project_path} && cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
   end
+
+  def update_distance
+    DistanceWorker.perform_async(self.id)
+  end
 end

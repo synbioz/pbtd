@@ -44,6 +44,18 @@ class Project < ActiveRecord::Base
     self.errors.add(:git_repository, self.worker.error_message)
   end
 
+  #
+  # update distance from deploy for locations
+  #
+  # @return [void]
+  def update_locations_distance
+    self.locations.each do |location|
+      location.update_distance
+    end
+  end
+
+  def
+
   private
 
     #
@@ -63,6 +75,7 @@ class Project < ActiveRecord::Base
       if self.worker.present? && self.worker.success? && self.locations.empty?
         self.preload_environments
         self.save
+        self.distance_update
       end
     end
 end
