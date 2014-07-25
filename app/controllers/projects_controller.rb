@@ -33,19 +33,18 @@ class ProjectsController < ApplicationController
   def update_all_projects
     Project.update_all_locations
 
-    redirect_to projects_path
+    redirect_to root_path
   end
 
   def update_project_location
     project = Project.find(params[:id])
     location = project.locations.find(params[:location_id])
     location.update_distance
-    redirect_to projects_path
+    redirect_to root_path
   end
 
   def check_environments_preloaded
     project = Project.find(params[:id])
-    project.worker.inspect
     if project.worker.present? && project.worker.success?
       project.preload_environments
       render partial: 'edit', locals: { project: project }

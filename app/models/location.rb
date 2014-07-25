@@ -20,6 +20,7 @@ class Location < ActiveRecord::Base
 
   validates_presence_of :name, :branch, :application_url, :project
 
+  after_save :update_distance
   #
   # Return distance between branch and deployed commit
   #

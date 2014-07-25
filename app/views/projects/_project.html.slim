@@ -13,7 +13,7 @@ li data-id="#{project.id}"
           a href="#": h3= location.name
           .infos
             .last-update Branch <b>#{location.branch}</b>
-            - if location.distance > 0
+            - if !location.distance.nil? && location.distance > 0
               .version.late #{location.distance} commits from current branch
             - else
               .version.updated Updated
