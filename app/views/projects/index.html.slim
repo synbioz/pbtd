@@ -1,6 +1,6 @@
 .primary-actions
   a.setup.button.js-create-project href="#" New
-  a.update.button.js-update-repos href="#" Update
+  = link_to 'Update', update_all_projects_projects_path, class: 'update button js-update-repos'
 h1 My apps
 = render partial: 'new'
 ul.app-list
