@@ -12,8 +12,11 @@ li data-id="#{project.id}"
           a.button data-action="update" href="#" Update
           a href="#": h3= location.name
           .infos
-           .last-update Branch <b>#{location.branch}</b> never deployed
-           .version.updated Updated
+            .last-update Branch <b>#{location.branch}</b>
+            - if location.distance > 0
+              .version.late #{location.distance} commits from current branch
+            - else
+              .version.updated Updated
         / .environment
         /   .status data-state="run"
         /   a.button data-action="stop" href="#" Stop

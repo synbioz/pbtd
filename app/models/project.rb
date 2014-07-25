@@ -54,8 +54,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def
-
   private
 
     #
