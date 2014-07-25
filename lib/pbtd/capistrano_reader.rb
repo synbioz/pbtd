@@ -10,7 +10,7 @@ module Pbtd
     # Regex to find branch in environment file
     REGEX_BRANCH = /:branch,\s*['"]([\w\-\_\/]*)['"]/
     # Regex to find url of environment
-    REGEX_URL = /server\s['"]([a-z.]*)['"]/
+    REGEX_URL = /server\s['"]([a-z.\-]*)['"]/
 
     #
     # Constructor for read capistrano repository informations

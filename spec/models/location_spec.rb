@@ -60,9 +60,4 @@ RSpec.describe Location, :type => :model do
     before { subject.project = nil }
     it { expect(subject).not_to be_valid }
   end
-
-  context 'should have a distance' do
-    before { subject.distance = nil }
-    it { expect(subject).not_to be_valid }
-  end
 end

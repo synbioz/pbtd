@@ -18,7 +18,7 @@ class Location < ActiveRecord::Base
 
   belongs_to :project, inverse_of: :locations
 
-  validates_presence_of :name, :branch, :application_url, :project, :distance
+  validates_presence_of :name, :branch, :application_url, :project
 
   #
   # Return distance between branch and deployed commit
@@ -39,6 +39,6 @@ class Location < ActiveRecord::Base
     project_path = File.join(SETTINGS["repositories_path"], self.project.name)
 
     `cd #{project_path} && bundle install`
-    release_commit_sha = `cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
+    `cd #{project_path} && cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
   end
 end
