@@ -26,6 +26,8 @@ RSpec.describe Location, :type => :model do
   it { is_expected.to respond_to(:project_id) }
   its(:project) { is_expected.to be_kind_of Project }
 
+  it { is_expected.to respond_to(:worker) }
+  its(:worker) { is_expected.to be_kind_of Worker }
 
   it { is_expected.to respond_to(:branch) }
   its(:branch) { is_expected.to be_an_instance_of String }
@@ -40,6 +42,7 @@ RSpec.describe Location, :type => :model do
   it { is_expected.to have_many(:deployments).class_name('Deployment') }
 
   it { is_expected.to belong_to(:project) }
+  it { is_expected.to belong_to(:worker) }
 
   context 'should have a name' do
     before { subject.name = '' }

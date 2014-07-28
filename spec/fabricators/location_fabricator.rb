@@ -18,4 +18,5 @@ Fabricator(:location) do
   branch          { Faker::Name.name }
   application_url { Faker::Internet.url }
   distance        { Faker::Number.digit }
+  worker
 end

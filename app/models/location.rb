@@ -17,6 +17,7 @@ class Location < ActiveRecord::Base
   has_many :commits, inverse_of: :location
 
   belongs_to :project, inverse_of: :locations
+  belongs_to :worker
 
   validates_presence_of :name, :branch, :application_url, :project
 
@@ -40,14 +41,16 @@ class Location < ActiveRecord::Base
 
       unless $?.success?
         logger.debug "cap #{self.name} deploy cannot be accomplished in #{project_path}"
-        return -1
+        return false
       end
 
       self.update_distance
     rescue
       logger.debug "git error => #{$!}"
-      return -1
+      return false
     end
+
+    true
   end
 
   #
@@ -63,7 +66,7 @@ class Location < ActiveRecord::Base
 
     sha = `cd #{project_path} && cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
     logger.debug "cap remote:fetch_revision cannot be accomplished in #{project_path}" unless $?.success?
-    return sha.nil? ? -1 : sha
+    return sha.nil? ? false : sha
   end
 
 
