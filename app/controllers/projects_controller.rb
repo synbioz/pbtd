@@ -56,6 +56,16 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def deploy_location
+    location = Location.find(params[:location_id])
+
+    unless location.nil?
+      location.deploy
+    end
+
+    redirect_to root_path
+  end
+
   private
 
     def project_params

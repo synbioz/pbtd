@@ -72,6 +72,7 @@ group :development do
   gem "debugger2"
   gem "ruby-prof"
   gem 'sinatra', require: false
+  gem "annotate"
 end
 
 group :doc do

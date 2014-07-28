@@ -21,16 +21,21 @@ class Location < ActiveRecord::Base
   validates_presence_of :name, :branch, :application_url, :project
 
   after_create :update_distance
+
   #
-  # Return distance between branch and deployed commit
+  # deploy current location to remote server
   #
-  # @return [Integer]
-  def get_distance_from_release
+  # @return [void]
+  def deploy
     repo = Pbtd::GitRepository.new
     repo.open(self.project.name)
     repo.fetch
     repo.checkout(self.branch)
-    repo.get_behind(self.branch, release_commit_sha)
+    repo.merge(self.branch)
+
+    project_path = File.join(SETTINGS["repositories_path"], self.project.name)
+
+    `cd #{project_path} && cap #{self.name} deploy`
   end
 
   #

@@ -8,7 +8,7 @@ li data-id="#{project.id}"
       - for location in project.locations do
         .environment
           .status data-state="stop"
-          a.button data-action="deploy" href="#" Deploy
+          = link_to 'Deploy', deploy_location_project_path(project, location_id: location.id), data: { action: 'deploy' }, class: 'button'
           = link_to 'Update', update_project_location_project_path(project, location_id: location.id), data: { action: 'update' }, class: 'button'
           a href="#": h3= location.name
           .infos

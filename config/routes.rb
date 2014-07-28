@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   resources :projects do
     member do
-      get :check_environments_preloaded, :update_project_location
+      get :check_environments_preloaded, :update_project_location, :deploy_location
     end
 
     collection do
