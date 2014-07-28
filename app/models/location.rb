@@ -36,6 +36,11 @@ class Location < ActiveRecord::Base
     project_path = File.join(SETTINGS["repositories_path"], self.project.name)
 
     `cd #{project_path} && cap #{self.name} deploy`
+
+    unless $?.success?
+      logger.debug "cap #{self.name} deploy cannot be accomplished in #{project_path}"
+      return -1
+    end
   end
 
   #
@@ -47,7 +52,11 @@ class Location < ActiveRecord::Base
     project_path = File.join(SETTINGS["repositories_path"], self.project.name)
 
     `cd #{project_path} && bundle install`
-    `cd #{project_path} && cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
+    logger.debug "bundle install cannot be accomplished in #{project_path}" unless $?.success?
+
+    sha = `cd #{project_path} && cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
+    logger.debug "cap remote:fetch_revision cannot be accomplished in #{project_path}" unless $?.success?
+    return sha.nil? ? -1 : sha
   end
 
 

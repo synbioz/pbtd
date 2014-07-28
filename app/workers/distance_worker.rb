@@ -1,7 +1,7 @@
 class DistanceWorker
   include Sidekiq::Worker
 
-  sidekiq_options :retry => false
+  sidekiq_options retry: false
 
   def perform(location_id)
     location = Location.find(location_id)
