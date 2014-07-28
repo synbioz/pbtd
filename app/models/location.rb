@@ -42,6 +42,8 @@ class Location < ActiveRecord::Base
         logger.debug "cap #{self.name} deploy cannot be accomplished in #{project_path}"
         return -1
       end
+
+      self.update_distance
     rescue
       logger.debug "git error => #{$!}"
       return -1

@@ -33,7 +33,7 @@ class ProjectsController < ApplicationController
   def update_all_projects
     Project.update_all_locations
 
-    redirect_to root_path
+    redirect_to projects_path
   end
 
   def update_project_location
