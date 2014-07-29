@@ -4,6 +4,7 @@
 
 $(document).ready ->
   timeout = null
+  source = null
   # Function to preload locations
   send_ajax_request_preload_locations = (url_preload) ->
     $.ajax
@@ -41,6 +42,19 @@ $(document).ready ->
         send_ajax_request_preload_locations(url)
       , 1000
       notif('success', 'You add ' + $("#project_name").val() + ' project')
+
+  # ajax update all projects
+  $('.js-update-repos').on "ajax:success", (e, data, status, xhr) ->
+    list_projects_id = $("ul.app-list").children("li").map ->
+      $(this).data("id")
+    .get()
+    source = new EventSource "/projects/check_updates" unless source
+
+    source.addEventListener "message", (event) ->
+      console.log(event)
+    source.addEventListener "error", (event) ->
+      this.close()
+    null
 
   # close modal edit project
   $(document).on "ajax:success", "#edit-project form", (e, data, status, xhr) ->

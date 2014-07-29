@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     end
 
     collection do
-      get :update_all_projects
+      get :update_all_projects, :check_updates
     end
   end
 
