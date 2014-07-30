@@ -48,11 +48,11 @@ $(document).ready ->
     list_projects_id = $(".environment-list").children(".environment").map ->
       $(this).data("id")
     .get()
-    $('.environment').find('.infos .version').replaceWith("<div class='loader-distance'></div>")
+    $('.environment').find('.infos .version').replaceWith("<div class='tiny-loader'></div>")
 
   # ajax update one project
   $('a.update-repo').on "ajax:success", (e, data, status, xhr) ->
-    $(this).parent().find('.infos .version').replaceWith("<div class='loader-distance'></div>")
+    $(this).parent().find('.infos .version').replaceWith("<div class='tiny-loader'></div>")
 
   # close modal edit project
   $(document).on "ajax:success", "#edit-project form", (e, data, status, xhr) ->
@@ -93,7 +93,7 @@ $(document).ready ->
     else
       distance_element = "<div class='version error'>Error in fetching commit</div>"
 
-    $('.environment[data-id='+data.location_id+']').find('.loader-distance').replaceWith(distance_element)
+    $('.environment[data-id='+data.location_id+']').find('.tiny-loader').replaceWith(distance_element)
 
 
 
