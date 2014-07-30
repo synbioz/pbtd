@@ -41,7 +41,7 @@ class ProjectsController < ApplicationController
     project = Project.find(params[:id])
     location = project.locations.find(params[:location_id])
     location.update_distance
-    redirect_to root_path
+    render nothing: true
   end
 
   def check_environments_preloaded

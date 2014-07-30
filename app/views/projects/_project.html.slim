@@ -6,10 +6,10 @@ li data-id="#{project.id}"
   - if project.locations.any?
     .environment-list
       - for location in project.locations do
-        .environment
+        .environment data-id="#{location.id}"
           .status data-state="stop"
           = link_to 'Deploy', deploy_location_project_path(project, location_id: location.id), data: { action: 'deploy' }, class: 'button'
-          = link_to 'Update', update_project_location_project_path(project, location_id: location.id), data: { action: 'update' }, class: 'button'
+          = link_to 'Update', update_project_location_project_path(project, location_id: location.id), data: { action: 'update' }, remote: true, class: 'button update-repo'
           a href="#": h3= location.name
           .infos
             .last-update Branch <b>#{location.branch}</b>

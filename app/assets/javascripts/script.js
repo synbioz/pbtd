@@ -17,11 +17,6 @@ $(document).ready( function (){
     $(newEnv).appendTo('#new-project .add-environment-list').show();
   });
 
-  // Fake the update function
-  $('.js-update-repos').click( function(){
-    notif('error','No update available');
-  });
-
   // Fake the Deploy and Stop for apps
   $('.environment [data-action]').click( function(){
     if ($(this).attr('data-action') === "stop") {

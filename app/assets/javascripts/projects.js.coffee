@@ -45,9 +45,14 @@ $(document).ready ->
 
   # ajax update all projects
   $('.js-update-repos').on "ajax:success", (e, data, status, xhr) ->
-    list_projects_id = $("ul.app-list").children("li").map ->
+    list_projects_id = $(".environment-list").children(".environment").map ->
       $(this).data("id")
     .get()
+    $('.environment').find('.infos .version').replaceWith("<div class='loader-distance'></div>")
+
+  # ajax update one project
+  $('a.update-repo').on "ajax:success", (e, data, status, xhr) ->
+    $(this).parent().find('.infos .version').replaceWith("<div class='loader-distance'></div>")
 
   # close modal edit project
   $(document).on "ajax:success", "#edit-project form", (e, data, status, xhr) ->
@@ -80,7 +85,15 @@ $(document).ready ->
   client = new Faye.Client('http://0.0.0.0:8000/faye')
 
   client.subscribe '/distance_notifications', (data) ->
-    console.log data
+    distance_element = null
+    if data.distance == 0
+      distance_element = "<div class='version updated'>Updated</div>"
+    else if data.distance > 0
+      distance_element = "<div class='version late'>"+data.distance+" commits from current branch</div>"
+    else
+      distance_element = "<div class='version error'>Error in fetching commit</div>"
+
+    $('.environment[data-id='+data.location_id+']').find('.loader-distance').replaceWith(distance_element)
 
 
 
