@@ -63,8 +63,7 @@ module Pbtd
           raise Pbtd::Error::GitRepositoryNotFound, "can't found your git repository"
         end
 
-        # FIX ME FOR PBTD PROJECT CLONING
-        self.checkout('origin/develop')
+        self.checkout(SETTINGS['default_branch'])
       end
 
       #

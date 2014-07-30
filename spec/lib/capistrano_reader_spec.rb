@@ -8,7 +8,7 @@ describe Pbtd::CapistranoReader do
   before(:all) do
     repo = Pbtd::GitRepository.new(REPOSITORY)
     repo.clone(REPOSITORY_NAME)
-    repo.checkout('origin/develop')
+    repo.checkout(SETTINGS['default_branch'])
   end
 
   after(:all) do

@@ -17,5 +17,6 @@ class Worker < ActiveRecord::Base
   enum status: [ :pending, :running, :success, :failure ]
 
   validates :job_id, presence: true
+  validates :class_name, presence: true
 
 end

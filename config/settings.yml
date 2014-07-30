@@ -3,9 +3,12 @@
 development:
   repositories_path: <%= "#{Rails.root}/repositories" %>
   faye_server: 'http://0.0.0.0:8000/faye'
+  default_branch: 'origin/develop'
 
 production:
   repositories_path: "/var/www/pbtd/shared/repositories"
+  default_branch: 'master'
 
 test:
   repositories_path: <%= "#{Rails.root}/spec/support/repositories" %>
+  default_branch: 'origin/develop'
