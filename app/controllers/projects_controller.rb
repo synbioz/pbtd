@@ -44,31 +44,6 @@ class ProjectsController < ApplicationController
     redirect_to root_path
   end
 
-  def check_updates
-    response.headers['Content-Type'] = 'text/event-stream'
-
-    begin
-      Location.uncached do
-        locations = Location.all.to_a
-        for location in locations
-          location.worker = nil
-          while not location.worker.present? && (location.worker.success? || location.worker.failure?)
-            sleep 1
-            response.stream.write "data: loading\n\n"
-            location.reload
-          end
-          if location.worker.success?
-            informations = { location_id: location.id, distance: location.distance }
-            response.stream.write "data: #{informations.to_json}\n\n"
-          end
-        end
-      end
-    rescue IOError
-    ensure
-      response.stream.close
-    end
-  end
-
   def check_environments_preloaded
     project = Project.find(params[:id])
     if project.worker.present? && project.worker.success?

@@ -313,6 +313,7 @@ DEPENDENCIES
   capistrano3-puma
   coffee-rails (~> 4.0.0)
   debugger2
+  eventmachine
   fabrication
   faker
   faye

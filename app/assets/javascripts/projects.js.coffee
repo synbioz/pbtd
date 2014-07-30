@@ -48,13 +48,6 @@ $(document).ready ->
     list_projects_id = $("ul.app-list").children("li").map ->
       $(this).data("id")
     .get()
-    source = new EventSource "/projects/check_updates" unless source
-
-    source.addEventListener "message", (event) ->
-      console.log(event)
-    source.addEventListener "error", (event) ->
-      this.close()
-    null
 
   # close modal edit project
   $(document).on "ajax:success", "#edit-project form", (e, data, status, xhr) ->
@@ -82,5 +75,12 @@ $(document).ready ->
   $(document).on "click", ".js-more-environment", ->
     newEnv = $('.add-environment-list li:first-child').clone()
     $(newEnv).appendTo('.add-environment-list').show()
+
+  # Notification
+  client = new Faye.Client('http://0.0.0.0:8000/faye')
+
+  client.subscribe '/distance_notifications', (data) ->
+    console.log data
+
 
 

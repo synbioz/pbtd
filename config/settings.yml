@@ -2,6 +2,7 @@
 
 development:
   repositories_path: <%= "#{Rails.root}/repositories" %>
+  faye_server: 'http://0.0.0.0:8000/faye'
 
 production:
   repositories_path: "/var/www/pbtd/shared/repositories"
