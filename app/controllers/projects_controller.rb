@@ -33,14 +33,14 @@ class ProjectsController < ApplicationController
 
   def update_all_projects
     Project.update_all_locations
-    render nothing: true
+    head :ok
   end
 
   def update_project_location
     project = Project.find(params[:id])
     location = project.locations.find(params[:location_id])
     location.update_distance
-    render nothing: true
+    head :ok
   end
 
   def check_environments_preloaded
@@ -52,18 +52,15 @@ class ProjectsController < ApplicationController
       project.load_errors
       render json: project.errors.full_messages
     else
-      render nothing: true
+      head :ok
     end
   end
 
   def deploy_location
     location = Location.find(params[:location_id])
+    location.deploy unless location.nil?
 
-    unless location.nil?
-      location.deploy
-    end
-
-    redirect_to root_path
+    head :ok
   end
 
   private
