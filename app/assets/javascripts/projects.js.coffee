@@ -84,6 +84,11 @@ $(document).ready ->
   # Notification
   client = new Faye.Client('http://0.0.0.0:8000/faye')
 
+  # Notification for deployment
+  client.subscribe '/deploy_notifications', (data) ->
+    console.log(data)
+
+  # Notification for distance between HEAD of branch and deployed commit
   client.subscribe '/distance_notifications', (data) ->
     distance_element = null
     if data.distance == 0

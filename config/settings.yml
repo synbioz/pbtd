@@ -7,8 +7,10 @@ development:
 
 production:
   repositories_path: "/var/www/pbtd/shared/repositories"
+  faye_server: 'http://0.0.0.0:8000/faye'
   default_branch: 'master'
 
 test:
   repositories_path: <%= "#{Rails.root}/spec/support/repositories" %>
+  faye_server: 'http://0.0.0.0:8000/faye'
   default_branch: 'origin/develop'

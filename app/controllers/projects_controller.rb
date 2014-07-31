@@ -33,7 +33,6 @@ class ProjectsController < ApplicationController
 
   def update_all_projects
     Project.update_all_locations
-
     render nothing: true
   end
 
