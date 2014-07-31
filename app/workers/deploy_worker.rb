@@ -33,11 +33,12 @@ class DeployWorker
       location.worker.failure!
       notification_message = { state: 'failure', location_id: location.id, message: e.message }
       raise e
-    ensure
     end
   end
 
   def deploy(location, project_path)
+    @logger ||= Logger.new("#{Rails.root}/log/#{location.project.name}.log")
+
     begin
       input, output = IO.pipe
       pid = spawn("cd #{project_path} && cap #{location.name} deploy", out: output)
@@ -49,6 +50,7 @@ class DeployWorker
             chunck = input.readline
             notification_message = { state: 'running', location_id: location.id, message: chunck }
             send_notification(notification_message)
+            @logger.info(chunck)
           end
         end rescue nil
 
@@ -62,6 +64,7 @@ class DeployWorker
       if remaining_chunck
         notification_message = { state: 'running', location_id: location.id, message: remaining_chunck }
         send_notification(notification_message)
+        @logger.info(remaining_chunck)
       end
 
       # Display finish
