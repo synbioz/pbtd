@@ -100,5 +100,9 @@ $(document).ready ->
 
     $('.environment[data-id='+data.location_id+']').find('.tiny-loader').replaceWith(distance_element)
 
+  # Console close
+  $('.console-toggle').click ->
+    $("#console").slideToggle(100)
+
 
 

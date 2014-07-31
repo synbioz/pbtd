@@ -19,16 +19,10 @@ $(document).ready( function (){
 
   // Fake the Deploy and Stop for apps
   $('.environment [data-action]').click( function(){
-    if ($(this).attr('data-action') === "stop") {
-      $(this)
-        .attr('data-action', 'deploy')
-        .text('deploy')
-        .prev('.status')
-        .attr('data-state', 'stop');
-    } else if ($(this).attr('data-action') === "deploy") {
+    if ($(this).attr('data-action') === "deploy") {
       $(this)
         .attr('data-action', "stop")
-        .text('stop')
+        .text('running')
         .prev('.status')
         .attr('data-state', 'run');
     }
