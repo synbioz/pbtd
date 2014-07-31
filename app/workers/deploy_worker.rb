@@ -37,7 +37,7 @@ class DeployWorker
   end
 
   def deploy(location, project_path)
-    @logger ||= Logger.new("#{Rails.root}/log/#{location.project.name}.log")
+    logger = Logger.new("#{Rails.root}/log/#{location.project.name}.log")
 
     begin
       input, output = IO.pipe
@@ -64,7 +64,7 @@ class DeployWorker
       if remaining_chunck
         notification_message = { state: 'running', location_id: location.id, message: remaining_chunck }
         send_notification(notification_message)
-        @logger.info(remaining_chunck)
+        logger.info(remaining_chunck)
       end
 
       # Display finish
