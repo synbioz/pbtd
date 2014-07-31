@@ -28,29 +28,7 @@ class Location < ActiveRecord::Base
   #
   # @return [void]
   def deploy
-    begin
-      repo = Pbtd::GitRepository.new
-      repo.open(self.project.name)
-      repo.fetch
-      repo.checkout(self.branch)
-      repo.merge(self.branch)
-
-      project_path = File.join(SETTINGS["repositories_path"], self.project.name)
-
-      `cd #{project_path} && cap #{self.name} deploy`
-
-      unless $?.success?
-        logger.debug "cap #{self.name} deploy cannot be accomplished in #{project_path}"
-        return false
-      end
-
-      self.update_distance
-    rescue
-      logger.debug "git error => #{$!}"
-      return false
-    end
-
-    true
+    DeployWorker.perform_async(self.id)
   end
 
   #
