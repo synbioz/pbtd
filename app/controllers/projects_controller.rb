@@ -3,7 +3,6 @@ class ProjectsController < ApplicationController
   respond_to :json
 
   def index
-    @project = Project.new
     @projects = Project.all
   end
 
@@ -14,6 +13,11 @@ class ProjectsController < ApplicationController
     else
       render json: project.errors.full_messages
     end
+  end
+
+  def new
+    @project = Project.new
+    render partial: 'new'
   end
 
   def edit
@@ -51,6 +55,7 @@ class ProjectsController < ApplicationController
     elsif project.worker.present? && project.worker.failure?
       project.load_errors
       render json: project.errors.full_messages
+      project.destroy
     else
       head :ok
     end

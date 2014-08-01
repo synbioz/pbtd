@@ -6,7 +6,7 @@ $(document).ready ->
   timeout = null
   source = null
   # Function to preload locations
-  send_ajax_request_preload_locations = (url_preload) ->
+  send_ajax_request_preload_locations = (url_preload, data_project) ->
     $.ajax
       url: url_preload,
       method: 'get',
@@ -14,11 +14,13 @@ $(document).ready ->
         if data instanceof Array
           notif('error', error) for error in data
           clearTimeout(timeout)
-          $("#new-project").velocity("transition.expandOut",{duration: 300})
+          $("form.new_project").find("input[type=submit]").show()
+          $("form.new_project").find(".loader").remove()
         else if data.length <= 1
           return
         else
           clearTimeout(timeout)
+          $("ul.app-list").append(data_project)
           $(".loader").remove()
           $("form.new_project").find("input[type=submit]").show()
           $("#new-project").after(data);
@@ -29,17 +31,16 @@ $(document).ready ->
 
 
   # ajax add project
-  $('#new-project form').on "ajax:success", (e, data, status, xhr) ->
+  $(document).on "ajax:success", '#new-project form', (e, data, status, xhr) ->
     if data instanceof Array
       notif('error', error) for error in data
     else
-      $("ul.app-list").append(data)
       $("form.new_project").find("input[type=submit]").hide()
       $("form.new_project").find("hr").after("<div class='loader'></div>")
       project_id = $(data).find(".repo-settings").data("id")
       url = window.location.origin + "/projects/" + project_id + "/check_environments_preloaded"
       timeout = setInterval ->
-        send_ajax_request_preload_locations(url)
+        send_ajax_request_preload_locations(url, data)
       , 1000
 
   # ajax update all projects
@@ -65,6 +66,15 @@ $(document).ready ->
     id = $(data).data('id')
     $("li[data-id='"+id+"']").replaceWith(data)
     $('.app-list .environment').hide().velocity("transition.swoopIn",{stagger: 100})
+
+  # open modal new project
+  $(document).on "ajax:success", "a.js-create-project", (e, data, status, xhr) ->
+    $("ul.app-list").before(data)
+    $('#new-project').velocity("transition.expandIn",{duration: 300})
+
+  # close modal edit project
+  $(document).on "click", '#new-project .close', ->
+    $('#new-project').velocity("transition.expandOut",{duration: 300})
 
   # open modal edit project
   $(document).on "click", ".repo-settings", ->
