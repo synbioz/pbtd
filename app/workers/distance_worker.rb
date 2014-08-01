@@ -21,10 +21,11 @@ class DistanceWorker
       distance = repo.get_behind(location.branch, location.get_current_release_commit)
 
       location.update_attribute(:distance, distance)
-
       location.worker.success!
 
       notification_message = { state: 'success', location_id: location.id, distance: distance }
+
+      repo.close
     rescue => e
       location.worker.error_class_name = e.class.name
       location.worker.error_message = e.message

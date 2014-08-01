@@ -23,10 +23,11 @@ class DeployWorker
       deploy(location, project_path)
 
       location.worker.success!
-
       location.update_distance
 
       notification_message = { state: 'success', location_id: location.id }
+
+      repo.close
     rescue => e
       location.worker.error_class_name = e.class.name
       location.worker.error_message = e.message

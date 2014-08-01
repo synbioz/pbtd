@@ -23,5 +23,7 @@ class GitCloneWorker
   def clone(project)
     repo = Pbtd::GitRepository.new(project.repository_url)
     repo.clone(project.name)
+
+    repo.close
   end
 end

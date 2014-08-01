@@ -141,6 +141,14 @@ module Pbtd
         remote_branches.find { |x| x.ends_with?(branch_name) }
       end
 
+      #
+      # close the repository object
+      #
+      # @return [void]
+      def close
+        rugged_repository.close
+      end
+
       private
         #
         # set path where repository is stored
