@@ -36,6 +36,8 @@ class Project < ActiveRecord::Base
       url = reader.url(env)
       self.locations.build(name: env, branch: branch, application_url: url)
     end
+
+    self.update_locations_distance
   end
 
   #
@@ -81,10 +83,10 @@ class Project < ActiveRecord::Base
     #
     # @return [void]
     def load_locations
-      if self.worker.present? && self.worker.success? && self.locations.empty?
+      if (self.worker.present? && self.worker.success?) && self.locations.empty?
         self.preload_environments
         self.save
-        self.distance_update
+        self.update_locations_distance
       end
     end
 

@@ -5,6 +5,7 @@ class GitCloneWorker
 
   def perform(project_id)
     project = Project.find(project_id)
+    project.worker.destroy if project.worker
     project.worker = Worker.create(job_id: self.jid, class_name: self.class.name)
     project.worker.running!
     project.save
