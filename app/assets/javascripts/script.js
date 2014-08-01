@@ -24,7 +24,7 @@ $(document).ready( function (){
         .attr('data-action', "stop")
         .text('running')
         .prev('.status')
-        .attr('data-state', 'run');
+        .attr('data-state', 'running');
     }
   });
 });

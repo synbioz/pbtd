@@ -5,6 +5,7 @@ red = #FF5332
 blue = #2497D8
 green = #68C023
 grey = #999
+black = #000
 
 font = "Lato", 'Arial', serif
 fontcolor = #333
@@ -165,10 +166,14 @@ a
     border-radius 50%
     background #ddd
     transition all 0.2s
-    &[data-state="run"]
+    &[data-state="updated"]
       background green
-    &[data-state="stop"]
+    &[data-state="behind"]
       background red
+    &[data-state="running"]
+      background orange
+    &[data-state="error"]
+      background black
   .button
     float right
     font-size 0.75em

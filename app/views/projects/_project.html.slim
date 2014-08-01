@@ -7,7 +7,13 @@ li data-id="#{project.id}"
     .environment-list
       - for location in project.locations do
         .environment data-id="#{location.id}"
-          .status data-state="stop"
+          - if !location.distance.nil? && location.distance == 0
+            .status data-state="updated"
+          - elsif !location.distance.nil? && location.distance > 0
+            .status data-state="behind"
+          - else
+            .status data-state="error"
+
           = link_to 'Deploy', deploy_location_project_path(project, location_id: location.id), data: { action: 'deploy' }, remote: true, class: 'button deploy-location'
           = link_to 'Update', update_project_location_project_path(project, location_id: location.id), data: { action: 'update' }, remote: true, class: 'button update-repo'
           a href="#": h3= location.name
@@ -17,26 +23,3 @@ li data-id="#{project.id}"
               .version.late #{location.distance} commits from current branch
             - else
               .version.updated Updated
-        / .environment
-        /   .status data-state="run"
-        /   a.button data-action="stop" href="#" Stop
-        /   a href="#": h3 Production
-        /   .infos
-        /     .last-update Branch <b>master</b> deployed 3 hours ago
-        /     .version.updated Updated
-        / .environment
-        /   .status data-state="stop"
-        /   a.button data-action="deploy" href="#" Deploy
-        /   a.button data-action="update" href="#" Update
-        /   a href="#": h3 Staging
-        /   .infos
-        /     .last-update Branch <b>develop</b> deployed 2 days ago
-        /     .version.late 3 commits from current branch
-        / .environment
-        /   .status data-state="run"
-        /   a.button data-action="stop" href="#" Stop
-        /   a.button data-action="update" href="#" Update
-        /   a href="#": h3 Design staging
-        /   .infos
-        /     .last-update Branch <b>feature/design</b> deployed 1 hours ago
-        /     .version.late 3 commits from current branch
