@@ -13,12 +13,12 @@ class DeployWorker
 
     begin
       repo = Pbtd::GitRepository.new
-      repo.open(location.project.name)
+      repo.open(location.project.repo_name)
       repo.fetch
       repo.checkout(location.branch)
       repo.merge(location.branch)
 
-      project_path = File.join(SETTINGS["repositories_path"], location.project.name)
+      project_path = File.join(SETTINGS["repositories_path"], location.project.repo_name)
 
       deploy(location, project_path)
 
@@ -38,7 +38,7 @@ class DeployWorker
   end
 
   def deploy(location, project_path)
-    logger = Logger.new("#{Rails.root}/log/#{location.project.name}.log")
+    logger = Logger.new("#{Rails.root}/log/#{location.project.repo_name}.log")
 
     begin
       input, output = IO.pipe

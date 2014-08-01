@@ -41,7 +41,6 @@ $(document).ready ->
       timeout = setInterval ->
         send_ajax_request_preload_locations(url)
       , 1000
-      notif('success', 'You add ' + $("#project_name").val() + ' project')
 
   # ajax update all projects
   $('.js-update-repos').on "ajax:success", (e, data, status, xhr) ->

@@ -38,7 +38,7 @@ class Location < ActiveRecord::Base
   # @return [String] [git commit sha]
   def get_current_release_commit
     cap_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano')
-    project_path = File.join(SETTINGS["repositories_path"], self.project.name)
+    project_path = File.join(SETTINGS["repositories_path"], self.project.repo_name)
 
     `cd #{project_path} && bundle install`
     logger.debug "bundle install cannot be accomplished in #{project_path}" unless $?.success?

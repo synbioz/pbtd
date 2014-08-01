@@ -16,9 +16,10 @@ class Project < ActiveRecord::Base
 
   GIT_REGEX = /\w*@[a-z0-9]*\.[a-z0-9]*.[a-z0-9]*\:\w*\/[0-9a-z\-_]*\.git/
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: true, on: :update
   validates :repository_url, presence: true, uniqueness: true, format: { with: GIT_REGEX }
 
+  before_validation :name_from_repository_url
   after_save :cloning_repository, :load_locations
 
   after_destroy :rm_physic_folder
@@ -30,7 +31,7 @@ class Project < ActiveRecord::Base
   #
   # @return [Array] [array of Location objects]
   def preload_environments
-    reader = Pbtd::CapistranoReader.new(self.name)
+    reader = Pbtd::CapistranoReader.new(self.repo_name)
     reader.environments.each do |env|
       branch = reader.branch(env)
       url = reader.url(env)
@@ -67,6 +68,14 @@ class Project < ActiveRecord::Base
     Project.all.map(&:update_locations_distance)
   end
 
+  #
+  # name of project from repository_url
+  #
+  # @return [String]
+  def repo_name
+    self.repository_url.split('/').last.split('.').first if self.repository_url.present?
+  end
+
   private
 
     #
@@ -95,8 +104,16 @@ class Project < ActiveRecord::Base
     #
     # @return [void]
     def rm_physic_folder
-      project_path = File.join(SETTINGS["repositories_path"], self.name)
+      project_path = File.join(SETTINGS["repositories_path"], self.repo_name)
       FileUtils.rm_rf(project_path)
-      `rm #{Rails.root}/log/#{self.name}*`
+      `rm #{Rails.root}/log/#{self.repo_name}*`
+    end
+
+    #
+    # name of project from repository_url
+    #
+    # @return [void]
+    def name_from_repository_url
+      self.name = self.repo_name
     end
 end

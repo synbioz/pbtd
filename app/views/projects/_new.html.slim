@@ -1,9 +1,7 @@
 #new-project
   = form_for @project, remote: true do |f|
     .close ×
-    label Project name :
-    = f.text_field :name
     label Project repository :
     = f.text_field :repository_url
     hr/
-    input.button type="submit" value="Add"
+    input.button type="submit" value="Fetch"

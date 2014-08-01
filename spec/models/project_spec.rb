@@ -35,11 +35,6 @@ RSpec.describe Project, :type => :model do
     expect(p).not_to be_valid
   end
 
-  context 'should have name not empty' do
-    before { subject.name = '' }
-    it { expect(subject).not_to be_valid }
-  end
-
   context 'should not have invalid git repository url' do
     before { subject.repository_url = 'gitzeft.synbioz.com:synbioz/pbtd.fr' }
     it { expect(subject).not_to be_valid }

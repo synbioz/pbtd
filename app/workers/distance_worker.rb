@@ -14,7 +14,7 @@ class DistanceWorker
 
     begin
       repo = Pbtd::GitRepository.new
-      repo.open(location.project.name)
+      repo.open(location.project.repo_name)
       repo.fetch
       repo.checkout(location.branch)
 
