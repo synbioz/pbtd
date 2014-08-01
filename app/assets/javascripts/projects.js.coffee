@@ -96,6 +96,8 @@ $(document).ready ->
       $(content).removeClass('loader')
       $(content).addClass('terminal')
       $(content).append(data.message + "<br>")
+    else if data.state == 'success'
+      notif('success', 'The project has been successfully deployed')
 
   # Notification for distance between HEAD of branch and deployed commit
   client.subscribe '/distance_notifications', (data) ->
