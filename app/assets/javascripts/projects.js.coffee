@@ -54,6 +54,11 @@ $(document).ready ->
   $('a.update-repo').on "ajax:success", (e, data, status, xhr) ->
     $(this).parent().find('.infos .version').replaceWith("<div class='tiny-loader'></div>")
 
+  # ajax deploy location
+  $(document).on "ajax:success", "a.deploy-location", (e, data, status, xhr) ->
+    $("#console:hidden").slideToggle(100)
+    $("#console").append("<div class='content loader'></div>")
+
   # close modal edit project
   $(document).on "ajax:success", "#edit-project form", (e, data, status, xhr) ->
     $("#edit-project").velocity("transition.expandOut",{duration: 300})
@@ -86,7 +91,11 @@ $(document).ready ->
 
   # Notification for deployment
   client.subscribe '/deploy_notifications', (data) ->
-    console.log(data)
+    if data.state == 'running'
+      content = $("#console").find('.content')
+      $(content).removeClass('loader')
+      $(content).addClass('terminal')
+      $(content).append(data.message + "<br>")
 
   # Notification for distance between HEAD of branch and deployed commit
   client.subscribe '/distance_notifications', (data) ->
@@ -103,6 +112,8 @@ $(document).ready ->
   # Console close
   $('.console-toggle').click ->
     $("#console").slideToggle(100)
+    $("#console").find(".content").remove()
+
 
 
 

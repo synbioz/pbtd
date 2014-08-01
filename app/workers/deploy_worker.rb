@@ -50,7 +50,7 @@ class DeployWorker
             chunck = input.readline
             notification_message = { state: 'running', location_id: location.id, message: chunck }
             send_notification(notification_message)
-            @logger.info(chunck)
+            logger.info(chunck)
           end
         end rescue nil
 

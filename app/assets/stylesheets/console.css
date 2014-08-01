@@ -18,7 +18,7 @@ a.console-toggle {
   background: black;
   background: rgba(0, 0, 0, 0.8);
   color: white;
-  z-index: 200;
+  z-index: 1;
 }
 #console .console-toggle {
   position: absolute;
@@ -27,4 +27,10 @@ a.console-toggle {
   margin: 0;
   background: white;
   color: black;
+}
+
+#console .terminal {
+  height:300px;
+  overflow:scroll;
+  overflow-x:hidden;
 }
