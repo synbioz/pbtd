@@ -10,14 +10,15 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #  distance        :integer
+#  worker_id       :integer
 #
 
 class Location < ActiveRecord::Base
-  has_many :deployments, inverse_of: :location
-  has_many :commits, inverse_of: :location
+  has_many :deployments, dependent: :destroy
+  has_many :commits, dependent: :destroy
 
-  belongs_to :project, inverse_of: :locations
-  belongs_to :worker
+  belongs_to :project
+  belongs_to :worker, dependent: :destroy
 
   validates_presence_of :name, :branch, :application_url, :project
 

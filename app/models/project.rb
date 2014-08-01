@@ -11,8 +11,8 @@
 #
 
 class Project < ActiveRecord::Base
-  has_many :locations, inverse_of: :project, class_name: "Location"
-  belongs_to :worker
+  has_many :locations, class_name: "Location", dependent: :destroy
+  belongs_to :worker, dependent: :destroy
 
   GIT_REGEX = /\w*@[a-z0-9]*\.[a-z0-9]*.[a-z0-9]*\:\w*\/[0-9a-z\-_]*\.git/
 
@@ -20,6 +20,8 @@ class Project < ActiveRecord::Base
   validates :repository_url, presence: true, uniqueness: true, format: { with: GIT_REGEX }
 
   after_save :cloning_repository, :load_locations
+
+  after_destroy :rm_physic_folder
 
   accepts_nested_attributes_for :locations
 
@@ -84,5 +86,14 @@ class Project < ActiveRecord::Base
         self.save
         self.distance_update
       end
+    end
+
+    #
+    # remote folder where stored the git repository of project
+    #
+    # @return [void]
+    def rm_physic_folder
+      project_path = File.join(SETTINGS["repositories_path"], self.name)
+      FileUtils.rm_rf(project_path)
     end
 end

@@ -10,6 +10,7 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #  distance        :integer
+#  worker_id       :integer
 #
 
 locations_1:
