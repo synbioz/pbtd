@@ -107,7 +107,12 @@ $(document).ready ->
     else
       distance_element = "<div class='version error'>Error in fetching commit</div>"
 
-    $('.environment[data-id='+data.location_id+']').find('.tiny-loader').replaceWith(distance_element)
+    tiny_loader = $('.environment[data-id='+data.location_id+']').find('.tiny-loader')
+    if $(tiny_loader).length
+      $(tiny_loader).replaceWith(distance_element)
+    else
+      $('.environment[data-id='+data.location_id+']').find('.version').replaceWith(distance_element)
+
 
   # Console close
   $('.console-toggle').click ->
