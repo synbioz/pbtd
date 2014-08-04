@@ -140,7 +140,7 @@ $(document).ready ->
       distance_element = "<div class='version late'>"+data.distance+" commits from current branch</div>"
       state = "behind"
     else
-      distance_element = "<div class='version error'>Error in fetching commit</div>"
+      distance_element = "<div class='version error'>Cannot fetch remote server</div>"
       state = "error"
 
 

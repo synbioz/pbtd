@@ -21,5 +21,7 @@ li data-id="#{project.id}"
             .last-update Branch <b>#{location.branch}</b>
             - if !location.distance.nil? && location.distance > 0
               .version.late #{location.distance} commits from current branch
-            - else
+            - elsif !location.distance.nil? && location.distance == 0
               .version.updated Updated
+            - else
+              .version.error Cannot fetch remote server
