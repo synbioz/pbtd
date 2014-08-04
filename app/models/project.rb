@@ -35,7 +35,7 @@ class Project < ActiveRecord::Base
     reader.environments.each do |env|
       branch = reader.branch(env)
       url = reader.url(env)
-      self.locations.build(name: env, branch: branch, application_url: url)
+      self.locations.create(name: env, branch: branch, application_url: url)
     end
 
     self.update_locations_distance

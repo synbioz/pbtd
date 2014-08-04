@@ -18,6 +18,6 @@
             = locations_fields.text_field :application_url
             = locations_fields.hidden_field :branch
     hr/
-    input.button type="submit" value="Update"
-
-  = link_to "delete", project_path, method: :delete, confirm: 'Are you sure ?'
+    .actions
+      = link_to defined?(project) ? "cancel" : "delete", project_path, method: :delete, confirm: 'Are you sure ?', class: 'button red'
+      input.button.right type="submit" value="Update"

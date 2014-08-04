@@ -44,14 +44,14 @@ $(document).ready ->
       , 1000
 
   # ajax update all projects
-  $('.js-update-repos').on "ajax:success", (e, data, status, xhr) ->
+  $(document).on "ajax:success", '.js-update-repos', (e, data, status, xhr) ->
     list_projects_id = $(".environment-list").children(".environment").map ->
       $(this).data("id")
     .get()
     $('.environment').find('.infos .version').replaceWith("<div class='tiny-loader'></div>")
 
   # ajax update one project
-  $('a.update-repo').on "ajax:success", (e, data, status, xhr) ->
+  $(document).on "ajax:success", 'a.update-repo', (e, data, status, xhr) ->
     $(this).parent().find('.infos .version').replaceWith("<div class='tiny-loader'></div>")
 
   # ajax deploy location
@@ -111,13 +111,19 @@ $(document).ready ->
   # Notification for distance between HEAD of branch and deployed commit
   client.subscribe '/distance_notifications', (data) ->
     distance_element = null
+    state = null
     if data.distance == 0
       distance_element = "<div class='version updated'>Updated</div>"
+      state = "updated"
     else if data.distance > 0
       distance_element = "<div class='version late'>"+data.distance+" commits from current branch</div>"
+      state = "behind"
     else
       distance_element = "<div class='version error'>Error in fetching commit</div>"
+      state = "error"
 
+
+    $('.environment[data-id='+data.location_id+']').find('.status').attr('data-state', state)
     tiny_loader = $('.environment[data-id='+data.location_id+']').find('.tiny-loader')
     if $(tiny_loader).length
       $(tiny_loader).replaceWith(distance_element)
@@ -126,7 +132,7 @@ $(document).ready ->
 
 
   # Console close
-  $('.console-toggle').click ->
+  $(document).on "click", '.console-toggle', ->
     $("#console").slideToggle(100)
     $("#console").find(".content").remove()
 
