@@ -35,7 +35,7 @@ class Project < ActiveRecord::Base
     reader.environments.each do |env|
       branch = reader.branch(env)
       url = reader.url(env)
-      self.locations.create(name: env, branch: branch, application_url: url)
+      self.locations.create(name: env, branch: branch, application_url: url) unless self.locations.exists?(name: env)
     end
 
     self.update_locations_distance
@@ -84,19 +84,6 @@ class Project < ActiveRecord::Base
     # @return [void]
     def cloning_repository
       GitCloneWorker.perform_async(self.id) if self.worker.nil? || self.worker.failure?
-    end
-
-
-    #
-    # load capistrano environments from git repository
-    #
-    # @return [void]
-    def load_locations
-      if (self.worker.present? && self.worker.success?) && self.locations.empty?
-        self.preload_environments
-        self.save
-        self.update_locations_distance
-      end
     end
 
     #

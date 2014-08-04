@@ -6,6 +6,7 @@
     = f.text_field :name
     label Project repository :
     = text_field_tag :repository_url, @project.repository_url, readonly: true
+    = link_to 'load environments', check_environments_preloaded_project_path(@project), remote: true, class: 'button js-more-environment'
     ul.add-environment-list
       = f.fields_for :locations, @project.locations do |locations_fields|
         li

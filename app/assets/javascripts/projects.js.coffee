@@ -43,6 +43,22 @@ $(document).ready ->
         send_ajax_request_preload_locations(url, data)
       , 1000
 
+  # ajax load environments
+  $(document).on "click", 'a.button.js-more-environment', ->
+    $('ul.add-environment-list').replaceWith("<div class='loader'></div>")
+
+  $(document).on "ajax:success", 'a.button.js-more-environment', (e, data, status, xhr) ->
+    e.stopPropagation()
+    if data instanceof Array
+      notif('error', error) for error in data
+    else if data.length <= 1
+      $.ajax
+        url: (window.location.origin + $('a.js-more-environment').attr('href')),
+        method: 'get'
+    else
+      $('#edit-project').replaceWith(data)
+      $('#edit-project').show()
+
   # ajax update all projects
   $(document).on "ajax:success", '.js-update-repos', (e, data, status, xhr) ->
     list_projects_id = $(".environment-list").children(".environment").map ->
