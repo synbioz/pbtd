@@ -27,7 +27,6 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    70.times { p "WALOU" }
     project = Project.find(params[:id])
     if project.update_attributes(update_project_params)
       render project

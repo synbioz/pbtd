@@ -72,6 +72,11 @@ $(document).ready ->
     $("ul.app-list").before(data)
     $('#new-project').velocity("transition.expandIn",{duration: 300})
 
+  # destroy existing location
+  $(document).on "ajax:success", "a.destroy-location", (e, data, status, xhr) ->
+    e.stopPropagation()
+    $(this).parents('li').remove()
+
   # close modal edit project
   $(document).on "click", '#new-project .close', ->
     $('#new-project').velocity("transition.expandOut",{duration: 300})

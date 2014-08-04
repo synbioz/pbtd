@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :locations
+
   if Rails.env.development?
     require 'sidekiq/web'
     mount Sidekiq::Web, at: '/sidekiq'
