@@ -5,7 +5,7 @@
     label Project name :
     = f.text_field :name
     label Project repository :
-    = f.text_field :repository_url
+    = text_field_tag :repository_url, @project.repository_url, readonly: true
     ul.add-environment-list
       = f.fields_for :locations, @project.locations do |locations_fields|
         li

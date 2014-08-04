@@ -56,6 +56,7 @@ gem "capistrano-sidekiq", require: false
 gem "rack-cache", require: "rack/cache"
 gem "faye"
 gem "eventmachine"
+gem 'pghero'
 
 group :test do
   gem "rspec-rails"

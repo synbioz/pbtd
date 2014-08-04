@@ -27,8 +27,9 @@ class ProjectsController < ApplicationController
   end
 
   def update
+    70.times { p "WALOU" }
     project = Project.find(params[:id])
-    if project.update_attributes(project_params)
+    if project.update_attributes(update_project_params)
       render project
     else
       render json: project.errors.full_messages
@@ -80,5 +81,9 @@ class ProjectsController < ApplicationController
 
     def project_params
       params.require(:project).permit(:name, :repository_url, locations_attributes: [:id, :name, :branch, :application_url])
+    end
+
+    def update_project_params
+      params.require(:project).permit(:name, locations_attributes: [:id, :name, :branch, :application_url])
     end
 end
