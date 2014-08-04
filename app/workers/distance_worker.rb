@@ -27,6 +27,7 @@ class DistanceWorker
 
       repo.close
     rescue => e
+      location.update_attribute(:distance, -1)
       location.worker.error_class_name = e.class.name
       location.worker.error_message = e.message
       location.worker.failure!
