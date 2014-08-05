@@ -37,8 +37,6 @@ class Project < ActiveRecord::Base
       url = reader.url(env)
       self.locations.create(name: env, branch: branch, application_url: url) unless self.locations.exists?(name: env)
     end
-
-    self.update_locations_distance
   end
 
   #

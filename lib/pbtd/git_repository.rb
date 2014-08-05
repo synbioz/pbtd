@@ -57,13 +57,12 @@ module Pbtd
         raise Pbtd::Error::FolderAlreadyExist, "git repository already exist in local: #{GitRepository.in_path(repository_name)}" if GitRepository.exist?(repository_name)
         begin
           @rugged_repository = Rugged::Repository.clone_at(repository_url, GitRepository.in_path(repository_name), credentials: credentials)
+          self.checkout(SETTINGS['default_branch'])
         rescue Rugged::OSError
           raise Pbtd::Error::Network, "Network is unreachable"
         rescue Rugged::NetworkError
           raise Pbtd::Error::GitRepositoryNotFound, "can't found your git repository"
         end
-
-        self.checkout(SETTINGS['default_branch'])
       end
 
       #
@@ -129,7 +128,7 @@ module Pbtd
       def checkout(branch_name)
         local_branches = rugged_repository.branches.each_name.to_a
         if !local_branches.include?(branch_name) && self.remote_branch_from_local(branch_name)
-          rugged_repository.branches.create(branch_name, "HEAD")
+          rugged_repository.branches.create(branch_name, self.remote_branch_from_local(branch_name))
         end
         rugged_repository.checkout(branch_name)
       end
