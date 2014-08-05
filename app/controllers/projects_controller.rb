@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
   respond_to :json
 
   def index
-    @projects = Project.all
+    @projects = Project.all.order(:created_at)
   end
 
   def create

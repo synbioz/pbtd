@@ -11,7 +11,7 @@
 #
 
 class Project < ActiveRecord::Base
-  has_many :locations, class_name: "Location", dependent: :destroy
+  has_many :locations, -> { order(:name) }, class_name: "Location", dependent: :destroy
   belongs_to :worker, dependent: :destroy
 
   GIT_REGEX = /\w*@[a-z0-9]*\.[a-z0-9]*.[a-z0-9]*\:\w*\/[0-9a-z\-_]*\.git/
