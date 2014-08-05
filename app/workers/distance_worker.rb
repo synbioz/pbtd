@@ -16,6 +16,7 @@ class DistanceWorker
       repo = Pbtd::GitRepository.new
       repo.open(location.project.repo_name)
       repo.fetch
+      repo.merge(location.branch)
       repo.checkout(location.branch)
 
       current_release_commit = location.get_current_release_commit

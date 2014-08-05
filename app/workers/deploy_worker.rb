@@ -15,8 +15,8 @@ class DeployWorker
       repo = Pbtd::GitRepository.new
       repo.open(location.project.repo_name)
       repo.fetch
-      repo.checkout(location.branch)
       repo.merge(location.branch)
+      repo.checkout(location.branch)
 
       project_path = File.join(SETTINGS["repositories_path"], location.project.repo_name)
 
