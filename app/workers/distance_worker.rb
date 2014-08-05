@@ -18,7 +18,8 @@ class DistanceWorker
       repo.fetch
       repo.checkout(location.branch)
 
-      distance = repo.get_behind(location.branch, location.get_current_release_commit)
+      current_release_commit = location.get_current_release_commit
+      distance = repo.get_behind(location.branch, current_release_commit)
 
       location.update_attribute(:distance, distance)
       location.worker.success!
@@ -32,7 +33,6 @@ class DistanceWorker
       location.worker.error_message = e.message
       location.worker.failure!
       notification_message = { state: 'failure', location_id: location.id, message: e.message }
-      raise e
     ensure
       EM.run do
         client = Faye::Client.new(SETTINGS['faye_server'])

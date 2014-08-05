@@ -19,9 +19,13 @@ li data-id="#{project.id}"
           a href="#": h3= location.name
           .infos
             .last-update Branch <b>#{location.branch}</b>
-            - if !location.distance.nil? && location.distance > 0
+            - if location.distance.nil? || location.worker.error_message.present?
+              .tiny-loader
+            - elsif location.distance < 0
+              .version.error = location.worker.error_message
+            - elsif location.distance > 0
               .version.late #{location.distance} commits from current branch
-            - elsif !location.distance.nil? && location.distance == 0
+            - else location.distance == 0
               .version.updated Updated
-            - else
-              .version.error Cannot fetch remote server
+
+

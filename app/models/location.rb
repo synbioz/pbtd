@@ -44,8 +44,13 @@ class Location < ActiveRecord::Base
     logger.debug "bundle install cannot be accomplished in #{project_path}" unless $?.success?
 
     sha = `cd #{project_path} && cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
-    logger.debug "cap remote:fetch_revision cannot be accomplished in #{project_path}" unless $?.success?
-    return sha.nil? ? false : sha
+
+    unless $?.success?
+      logger.debug "cap remote:fetch_revision cannot be accomplished in #{project_path}"
+      raise "cannot fetch remote host #{self.application_url}"
+    end
+
+    return sha
   end
 
 

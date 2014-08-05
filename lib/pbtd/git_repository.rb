@@ -94,6 +94,8 @@ module Pbtd
         @username = @repository_url.split('@').first
 
         remote.fetch(credentials: credentials)[:total_deltas]
+      rescue => e
+        raise e
       end
 
       #

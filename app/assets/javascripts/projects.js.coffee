@@ -137,10 +137,10 @@ $(document).ready ->
       distance_element = "<div class='version updated'>Updated</div>"
       state = "updated"
     else if data.distance > 0
-      distance_element = "<div class='version late'>"+data.distance+" commits from current branch</div>"
+      distance_element = "<div class='version late'>" + data.distance + " commits from current branch</div>"
       state = "behind"
     else
-      distance_element = "<div class='version error'>Cannot fetch remote server</div>"
+      distance_element = "<div class='version error'>" + data.message + "</div>"
       state = "error"
 
 
