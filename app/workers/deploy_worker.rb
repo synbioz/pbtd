@@ -15,7 +15,6 @@ class DeployWorker
       repo = Pbtd::GitRepository.new
       repo.open(location.project.repo_name)
       repo.fetch
-      repo.merge(location.branch)
       repo.checkout(location.branch)
 
       project_path = File.join(SETTINGS["repositories_path"], location.project.repo_name)
@@ -26,13 +25,14 @@ class DeployWorker
       location.update_distance
 
       notification_message = { state: 'success', location_id: location.id }
-
-      repo.close
     rescue => e
       location.worker.error_class_name = e.class.name
       location.worker.error_message = e.message
       location.worker.failure!
       notification_message = { state: 'failure', location_id: location.id, message: e.message }
+    ensure
+      repo.checkout(SETTINGS['default_branch'])
+      repo.close
     end
   end
 

@@ -16,7 +16,6 @@ class DistanceWorker
       repo = Pbtd::GitRepository.new
       repo.open(location.project.repo_name)
       repo.fetch
-      repo.merge(location.branch)
       repo.checkout(location.branch)
 
       current_release_commit = location.get_current_release_commit
@@ -26,8 +25,6 @@ class DistanceWorker
       location.worker.success!
 
       notification_message = { state: 'success', location_id: location.id, distance: distance }
-
-      repo.close
     rescue => e
       location.update_attribute(:distance, -1)
       location.worker.error_class_name = e.class.name
@@ -35,6 +32,9 @@ class DistanceWorker
       location.worker.failure!
       notification_message = { state: 'failure', location_id: location.id, message: e.message }
     ensure
+      repo.checkout(SETTINGS['default_branch'])
+      repo.close
+
       EM.run do
         client = Faye::Client.new(SETTINGS['faye_server'])
         message = client.publish('/distance_notifications', notification_message)
