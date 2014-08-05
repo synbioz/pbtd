@@ -130,13 +130,32 @@ $(document).ready ->
 
   # Notification for deployment
   client.subscribe '/deploy_notifications', (data) ->
+
     if data.state == 'running'
+      $('.environment[data-id='+data.location_id+']').find("[data-action='deploy']")
+        .attr('data-action', "stop")
+        .text('running')
+        .prev('.status')
+        .attr('data-state', 'running');
+
       content = $("#console").find('.content')
       $(content).removeClass('loader')
       $(content).addClass('terminal')
       $(content).append(data.message + "<br>")
+    else if data.state == 'failed'
+      notif('error', 'The project has not been deployed')
+      $('.environment[data-id='+data.location_id+']').find("[data-action='stop']")
+        .attr('data-action', "deploy")
+        .text('deploy')
+        .prev('.status')
+        .attr('data-state', 'error')
     else if data.state == 'success'
       notif('success', 'The project has been successfully deployed')
+      $('.environment[data-id='+data.location_id+']').find("[data-action='stop']")
+        .attr('data-action', "deploy")
+        .text('deploy')
+        .prev('.status')
+        .attr('data-state', 'updated')
 
   # Notification for distance between HEAD of branch and deployed commit
   client.subscribe '/distance_notifications', (data) ->
