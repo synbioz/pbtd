@@ -17,7 +17,6 @@ class GitCloneWorker
       project.worker.error_class_name = e.class.name
       project.worker.error_message = e.message
       project.worker.failure!
-      raise e
     end
   end
 

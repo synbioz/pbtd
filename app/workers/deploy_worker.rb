@@ -33,7 +33,6 @@ class DeployWorker
       location.worker.error_message = e.message
       location.worker.failure!
       notification_message = { state: 'failure', location_id: location.id, message: e.message }
-      raise e
     end
   end
 
