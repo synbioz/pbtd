@@ -12,5 +12,5 @@ production:
 
 test:
   repositories_path: <%= "#{Rails.root}/spec/support/repositories" %>
-  faye_server: 'http://0.0.0.0:8000/faye'
+  faye_server: 'http://0.0.0.0:9292/faye'
   default_branch: 'develop'

@@ -93,5 +93,19 @@ namespace :deploy do
   end
 end
 
+namespace :faye do
+  desc "Start Faye"
+  task :start do
+    run "cd #{deploy_to}/current && bundle exec rackup #{faye_config} -s thin -E production -D --pid #{faye_pid}"
+  end
+  desc "Stop Faye"
+  task :stop do
+    run "kill `cat #{faye_pid}` || true"
+  end
+end
+
+before 'deploy:update_code', 'faye:stop'
+after 'deploy:finalize_update', 'faye:start'
+
 after "deploy", "deploy:generate_version"
 after "deploy:finished", "airbrake:deploy"

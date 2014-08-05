@@ -126,7 +126,7 @@ $(document).ready ->
     $(newEnv).appendTo('.add-environment-list').show()
 
   # Notification
-  client = new Faye.Client('http://0.0.0.0:8000/faye')
+  client = new Faye.Client('http://' + window.location.origin + ':9292/faye')
 
   # Notification for deployment
   client.subscribe '/deploy_notifications', (data) ->
