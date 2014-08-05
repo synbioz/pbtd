@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
       render partial: 'edit', locals: { project: project }
     elsif project.worker.present? && project.worker.failure?
       project.load_errors
-      render json: project.errors.full_messages
+      render json: { errors: project.errors.full_messages, branches: project.load_branches }
       project.destroy
     else
       head :ok
@@ -79,7 +79,7 @@ class ProjectsController < ApplicationController
   private
 
     def project_params
-      params.require(:project).permit(:name, :repository_url, locations_attributes: [:id, :name, :branch, :application_url])
+      params.require(:project).permit(:name, :repository_url, :default_branch, locations_attributes: [:id, :name, :branch, :application_url])
     end
 
     def update_project_params

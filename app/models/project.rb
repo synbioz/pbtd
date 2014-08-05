@@ -26,6 +26,8 @@ class Project < ActiveRecord::Base
 
   accepts_nested_attributes_for :locations
 
+  attr_accessor :default_branch
+
   #
   # use to preload environments for git repository of project
   #
@@ -45,6 +47,16 @@ class Project < ActiveRecord::Base
   # @return [void]
   def load_errors
     self.errors.add(:git_repository, self.worker.error_message)
+  end
+
+  #
+  # load branches of repository url
+  #
+  # @return [Array] [all git remotes branches]
+  def load_branches
+    repo = Pbtd::GitRepository.new
+    repo.open(self.repo_name)
+    repo.remote_branches
   end
 
   #
@@ -81,7 +93,7 @@ class Project < ActiveRecord::Base
     #
     # @return [void]
     def cloning_repository
-      GitCloneWorker.perform_async(self.id) if self.worker.nil? || self.worker.failure?
+      GitCloneWorker.perform_async(self.id, self.default_branch) if self.worker.nil? || self.worker.failure?
     end
 
     #

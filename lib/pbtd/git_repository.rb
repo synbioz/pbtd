@@ -53,11 +53,12 @@ module Pbtd
       # @param repository_name [String] [folder name for cloned repository]
       #
       # @return [Rugged::Repository]
-      def clone(repository_name)
+      def clone(repository_name, default_branch=nil)
         raise Pbtd::Error::FolderAlreadyExist, "git repository already exist in local: #{GitRepository.in_path(repository_name)}" if GitRepository.exist?(repository_name)
         begin
           @rugged_repository = Rugged::Repository.clone_at(repository_url, GitRepository.in_path(repository_name), credentials: credentials)
-          self.checkout(SETTINGS['default_branch'])
+
+          default_branch.nil? ? self.checkout(SETTINGS['default_branch']) : self.checkout(default_branch)
         rescue Rugged::OSError
           raise Pbtd::Error::Network, "Network is unreachable"
         rescue Rugged::NetworkError

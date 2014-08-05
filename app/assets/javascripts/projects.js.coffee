@@ -11,10 +11,11 @@ $(document).ready ->
       url: url_preload,
       method: 'get',
       success: (data, status, xhr) ->
-        if data instanceof Array
-          notif('error', error) for error in data
+        if data instanceof Object
+          notif('error', error) for error in data.errors
           clearTimeout(timeout)
           $("form.new_project").find("input[type=submit]").show()
+          show_select_branch(data.branches)
           $("form.new_project").find(".loader").remove()
         else if data.length <= 1
           return
@@ -29,6 +30,13 @@ $(document).ready ->
           $("#edit-project").show()
       error: (xhr, data, error) ->
 
+  # Show html select for git branch choice when fetch fail for default branch
+  show_select_branch = (branches) ->
+    select_element = "<select name='project[default_branch]'>"
+    select_element += "<option value=" + branch + ">" + branch + "</option>" for branch in branches
+    select_element += "</select>"
+    $("form.new_project").find("input[type=submit]").before(select_element)
+
 
   # ajax add project
   $(document).on "ajax:success", '#new-project form', (e, data, status, xhr) ->
@@ -36,6 +44,7 @@ $(document).ready ->
       notif('error', error) for error in data
     else
       $("form.new_project").find("input[type=submit]").hide()
+      $("form.new_project").find("select").remove()
       $("form.new_project").find("hr").after("<div class='loader'></div>")
       project_id = $(data).find(".repo-settings").data("id")
       url = window.location.origin + "/projects/" + project_id + "/check_environments_preloaded"
