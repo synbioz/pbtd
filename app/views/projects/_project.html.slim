@@ -18,7 +18,7 @@ li data-id="#{project.id}"
           = link_to 'Update', update_project_location_project_path(project, location_id: location.id), data: { action: 'update' }, remote: true, class: 'button update-repo'
           a href="#": h3= location.name
           .infos
-            .last-update Branch <b>#{location.branch}</b>
+            .last-update Branch <b>#{location.branch}</b> updated #{time_ago_in_words(location.updated_at)} ago
             - if location.distance.present? && ( location.distance < 0 && location.worker.error_message.present? )
               .version.error = location.worker.error_message
             - elsif location.distance.present? && location.distance > 0
