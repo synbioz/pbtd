@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   resources :locations
 
+  get '/faye/client.js', to: redirect(SETTINGS['faye_server']+'/client.js')
+
   if Rails.env.development?
     require 'sidekiq/web'
     mount Sidekiq::Web, at: '/sidekiq'
