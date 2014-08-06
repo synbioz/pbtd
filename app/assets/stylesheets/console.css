@@ -1,0 +1,36 @@
+a.console-toggle {
+  display: inline-block;
+  font-family: monospace;
+  border: 1px solid #cccccc;
+  background: #f2f2f2;
+  margin: 2em;
+  padding: 1em;
+}
+
+#console {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 3em;
+  font-family: monospace;
+  background: black;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  z-index: 1;
+}
+#console .console-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  background: white;
+  color: black;
+}
+
+#console .terminal {
+  height:300px;
+  overflow:scroll;
+  overflow-x:hidden;
+}

@@ -54,6 +54,9 @@ gem "capistrano-rails", "~> 1.1.1", require: false
 gem "capistrano3-puma", require: false
 gem "capistrano-sidekiq", require: false
 gem "rack-cache", require: "rack/cache"
+gem "faye"
+gem "eventmachine"
+gem 'pghero'
 
 group :test do
   gem "rspec-rails"
@@ -72,6 +75,7 @@ group :development do
   gem "debugger2"
   gem "ruby-prof"
   gem 'sinatra', require: false
+  gem "annotate"
 end
 
 group :doc do

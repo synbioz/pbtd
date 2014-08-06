@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: projects
+#
+#  id             :integer          not null, primary key
+#  name           :string(255)
+#  repository_url :string(255)
+#  created_at     :datetime
+#  updated_at     :datetime
+#  worker_id      :integer
+#
+
 project_1:
   name: 'Pbtd'
   repository_url: 'git@git.synbioz.com:synbioz/pbtd.git'

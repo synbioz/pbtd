@@ -6,6 +6,7 @@ html
     title Push Button To Deploy
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = javascript_include_tag '#{request.domain}:9292/faye/client.js'
     = csrf_meta_tags
   body
     #notifications

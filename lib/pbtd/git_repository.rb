@@ -53,18 +53,17 @@ module Pbtd
       # @param repository_name [String] [folder name for cloned repository]
       #
       # @return [Rugged::Repository]
-      def clone(repository_name)
+      def clone(repository_name, default_branch=nil)
         raise Pbtd::Error::FolderAlreadyExist, "git repository already exist in local: #{GitRepository.in_path(repository_name)}" if GitRepository.exist?(repository_name)
         begin
           @rugged_repository = Rugged::Repository.clone_at(repository_url, GitRepository.in_path(repository_name), credentials: credentials)
+
+          default_branch.nil? ? self.checkout(SETTINGS['default_branch']) : self.checkout(default_branch)
         rescue Rugged::OSError
           raise Pbtd::Error::Network, "Network is unreachable"
         rescue Rugged::NetworkError
           raise Pbtd::Error::GitRepositoryNotFound, "can't found your git repository"
         end
-
-        # FIX ME FOR PBTD PROJECT CLONING
-        self.checkout('origin/develop')
       end
 
       #
@@ -95,6 +94,8 @@ module Pbtd
         @username = @repository_url.split('@').first
 
         remote.fetch(credentials: credentials)[:total_deltas]
+      rescue => e
+        raise e
       end
 
       #
@@ -103,7 +104,7 @@ module Pbtd
       #
       # @return [Integer] [number of commits]
       def get_behind(branch_name, commit_sha)
-        local_commit = last_commit(branch_name)
+        local_commit = last_commit(remote_branch_from_local(branch_name))
         remote_commit = rugged_repository.lookup(commit_sha)
 
         rugged_repository.ahead_behind(remote_commit, local_commit).first
@@ -128,7 +129,7 @@ module Pbtd
       def checkout(branch_name)
         local_branches = rugged_repository.branches.each_name.to_a
         if !local_branches.include?(branch_name) && self.remote_branch_from_local(branch_name)
-          rugged_repository.branches.create(branch_name, "HEAD")
+          rugged_repository.branches.create(branch_name, self.remote_branch_from_local(branch_name))
         end
         rugged_repository.checkout(branch_name)
       end
@@ -140,6 +141,14 @@ module Pbtd
       # @return [String]
       def remote_branch_from_local(branch_name)
         remote_branches.find { |x| x.ends_with?(branch_name) }
+      end
+
+      #
+      # close the repository object
+      #
+      # @return [void]
+      def close
+        rugged_repository.close
       end
 
       private

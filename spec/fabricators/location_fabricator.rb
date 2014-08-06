@@ -9,6 +9,8 @@
 #  application_url :string(255)
 #  created_at      :datetime
 #  updated_at      :datetime
+#  distance        :integer
+#  worker_id       :integer
 #
 
 Fabricator(:location) do
@@ -16,4 +18,6 @@ Fabricator(:location) do
   name            { Faker::Name.name }
   branch          { Faker::Name.name }
   application_url { Faker::Internet.url }
+  distance        { Faker::Number.digit }
+  worker
 end

@@ -3,13 +3,20 @@ Rails.application.routes.draw do
 
   resources :projects do
     member do
-      get :check_environments_preloaded
+      get :check_environments_preloaded, :update_project_location, :deploy_location
+    end
+
+    collection do
+      get :update_all_projects
     end
   end
+
+  resources :locations
 
   if Rails.env.development?
     require 'sidekiq/web'
     mount Sidekiq::Web, at: '/sidekiq'
+    mount PgHero::Engine, at: "/pghero"
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

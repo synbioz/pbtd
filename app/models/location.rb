@@ -9,31 +9,56 @@
 #  application_url :string(255)
 #  created_at      :datetime
 #  updated_at      :datetime
+#  distance        :integer
+#  worker_id       :integer
 #
 
 class Location < ActiveRecord::Base
-  has_many :deployments, inverse_of: :location
-  has_many :commits, inverse_of: :location
+  has_many :deployments, dependent: :destroy
+  has_many :commits, dependent: :destroy
 
-  belongs_to :project, inverse_of: :locations
+  belongs_to :project
+  belongs_to :worker, dependent: :destroy
 
   validates_presence_of :name, :branch, :application_url, :project
 
+  after_create :update_distance
+
   #
-  # Return distance between branch and deployed commit
+  # deploy current location to remote server
   #
-  # @return [Integer]
-  def get_distance_from_release
+  # @return [void]
+  def deploy
+    DeployWorker.perform_async(self.id)
+  end
+
+  #
+  # get current commit sha on remote server
+  #
+  # @return [String] [git commit sha]
+  def get_current_release_commit
     cap_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano')
-    project_path = File.join(SETTINGS["repositories_path"], self.project.name)
+    project_path = File.join(SETTINGS["repositories_path"], self.project.repo_name)
 
     `cd #{project_path} && bundle install`
-    release_commit_sha = `cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
+    logger.debug "bundle install cannot be accomplished in #{project_path}" unless $?.success?
 
-    repo = Pbtd::GitRepository.new
-    repo.open(self.project.name)
-    repo.fetch
-    repo.checkout(self.branch)
-    repo.get_behind(self.branch, release_commit_sha)
+    sha = `cd #{project_path} && cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
+
+    unless $?.success?
+      logger.debug "cap remote:fetch_revision cannot be accomplished in #{project_path}"
+      raise "cannot fetch remote host #{self.application_url}"
+    end
+
+    return sha
+  end
+
+
+  #
+  # fetch distance from remote server for location
+  #
+  # @return [String] [Sidekiq job_id]
+  def update_distance
+    DistanceWorker.perform_async(self.id)
   end
 end
