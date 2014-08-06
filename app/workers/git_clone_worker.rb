@@ -3,7 +3,7 @@ class GitCloneWorker
 
   sidekiq_options retry: false
 
-  def perform(project_id, default_branch)
+  def perform(project_id, default_branch=nil)
     project = Project.find(project_id)
     project.worker.destroy if project.worker
     puts "errors"
