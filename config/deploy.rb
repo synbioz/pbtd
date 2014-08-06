@@ -97,7 +97,27 @@ namespace :deploy do
   end
 end
 
+namespace :faye do
+  desc "Start Faye"
+  task :start do
+    on roles(:web), in: :sequence, wait: 5 do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, "exec rackup #{fetch(:faye_config)} -s thin -E production -D --pid #{fetch(:faye_pid)}"
+        end
+      end
+    end
+  end
+  desc "Stop Faye"
+  task :stop do
+    on roles(:web), in: :sequence, wait: 5 do
+      execute "kill `cat #{fetch(:faye_pid)}` || true"
+    end
+  end
+end
 
+before 'deploy', 'faye:stop'
+after 'deploy:finished', 'faye:start'
 
 after "deploy", "deploy:generate_version"
 after "deploy:finished", "airbrake:deploy"
