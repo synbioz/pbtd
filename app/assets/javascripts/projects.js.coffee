@@ -15,7 +15,7 @@ $(document).ready ->
           notif('error', error) for error in data.errors
           clearTimeout(timeout)
           $("form.new_project").find("input[type=submit]").show()
-          show_select_branch(data.branches)
+          show_select_branch(data.branches) if data.branches
           $("form.new_project").find(".loader").remove()
         else if data.length <= 1
           return

@@ -57,6 +57,8 @@ class Project < ActiveRecord::Base
     repo = Pbtd::GitRepository.new
     repo.open(self.repo_name)
     repo.remote_branches
+  rescue
+    nil
   end
 
   #
