@@ -57,7 +57,6 @@ gem "rack-cache", require: "rack/cache"
 gem "faye"
 gem "eventmachine"
 gem 'pghero'
-gem 'rack'
 
 group :test do
   gem "rspec-rails"
