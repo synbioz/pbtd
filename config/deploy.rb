@@ -57,7 +57,7 @@ set :hipchat_room_name, "deploy"
 set :hipchat_announce, false
 
 # content of your recipe faye
-set :faye_pid, "#{deploy_to}/shared/pids/faye.pid"
+set :faye_pid, "#{deploy_to}/shared/tmp/pids/faye.pid"
 set :faye_config, "#{deploy_to}/current/faye.ru"
 
 #
