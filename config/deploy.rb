@@ -56,6 +56,10 @@ set :hipchat_token, "3a2ffef748546e98d6382682e9eddc"
 set :hipchat_room_name, "deploy"
 set :hipchat_announce, false
 
+# content of your recipe faye
+set :faye_pid, "#{deploy_to}/shared/pids/faye.pid"
+set :faye_config, "#{deploy_to}/current/faye.ru"
+
 #
 # Customize deploy
 #
@@ -96,16 +100,24 @@ end
 namespace :faye do
   desc "Start Faye"
   task :start do
-    run "cd #{deploy_to}/current && bundle exec rackup #{faye_config} -s thin -E production -D --pid #{faye_pid}"
+    on roles(:web), in: :sequence, wait: 5 do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rackup, "#{fetch(:faye_config)} -s thin -E production -D --pid #{fetch(:faye_pid)}"
+        end
+      end
+    end
   end
   desc "Stop Faye"
   task :stop do
-    run "kill `cat #{faye_pid}` || true"
+    on roles(:web), in: :sequence, wait: 5 do
+      execute "kill `cat #{fetch(:faye_pid)}` || true"
+    end
   end
 end
 
-before 'deploy:update_code', 'faye:stop'
-after 'deploy:finalize_update', 'faye:start'
+before 'deploy', 'faye:stop'
+after 'deploy:finished', 'faye:start'
 
 after "deploy", "deploy:generate_version"
 after "deploy:finished", "airbrake:deploy"
