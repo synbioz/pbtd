@@ -3,7 +3,7 @@ class GitCloneWorker
 
   sidekiq_options retry: false
 
-  def perform(project_id, default_branch=nil)
+  def perform(project_id, default_branch)
     project = Project.find(project_id)
     project.worker.destroy if project.worker
     project.worker = Worker.create(job_id: self.jid, class_name: self.class.name)

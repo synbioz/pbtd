@@ -117,7 +117,10 @@ namespace :faye do
 end
 
 before 'deploy', 'faye:stop'
-after 'deploy:finished', 'faye:start'
+before 'deploy', 'sidekiq:stop'
 
+
+after 'deploy:finished', 'faye:start'
 after "deploy", "deploy:generate_version"
 after "deploy:finished", "airbrake:deploy"
+after 'deploy:finished', 'sidekiq:start'
