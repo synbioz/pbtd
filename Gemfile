@@ -66,6 +66,8 @@ group :test do
   gem 'fabrication'
   gem 'faker'
   gem 'rspec-its'
+  gem "pry-rails"
+  gem 'pry-byebug'
 end
 
 group :development do

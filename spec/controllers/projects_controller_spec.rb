@@ -20,7 +20,7 @@ RSpec.describe ProjectsController, :type => :controller do
       it "populates @projects && @project" do
         subject
         expect(assigns(:projects)).to match_array(Project.all)
-        expect(assigns(:project)).to be_a_new(Project)
+        expect(project).to be_instance_of(Project)
       end
     end
 
@@ -68,18 +68,12 @@ RSpec.describe ProjectsController, :type => :controller do
           subject
           project.reload
           expect(project.name).to eq valid_project.name
-          expect(project.repository_url). to eq valid_project.repository_url
         end
       end
 
       context "with invalid update for project" do
         before do
           @params = { id: project.id, project: Fabricate.attributes_for(:invalid_project) }
-        end
-
-        it "renders json errors" do
-          subject
-          expect(response.body).to eq ["Repository url n'est pas valide"].to_json
         end
 
         it "not update project" do
@@ -104,24 +98,6 @@ RSpec.describe ProjectsController, :type => :controller do
         it "preload locations for project" do
           subject
           expect(project.locations).to match_array(Location.where(project_id: project.id))
-        end
-      end
-
-      context "with worker present && worker failure status" do
-        let(:project_3) { projects(:project_3) }
-
-        it "renders json errors" do
-          get :check_environments_preloaded, id: project_3.id
-          expect(response.body).to eq ["Git repository Revspec 'origin/develop' not found."].to_json
-        end
-      end
-
-      context "with worker not present" do
-        let(:project_4) { projects(:project_4) }
-
-        it "renders nothing" do
-          get :check_environments_preloaded, id: project_4.id
-          expect(response.body).to eq " "
         end
       end
     end

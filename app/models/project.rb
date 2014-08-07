@@ -17,7 +17,7 @@ class Project < ActiveRecord::Base
   GIT_REGEX = /\w*@[a-z0-9]*\.[a-z0-9]*.[a-z0-9]*\:\w*\/[0-9a-z\-_]*\.git/
 
   validates :name, presence: true, uniqueness: true, on: :update
-  validates :repository_url, presence: true, uniqueness: true, format: { with: GIT_REGEX }
+  validates :repository_url, presence: true, uniqueness: true, format: { with: GIT_REGEX }, on: :create
 
   before_create :name_from_repository_url
   after_create :cloning_repository
