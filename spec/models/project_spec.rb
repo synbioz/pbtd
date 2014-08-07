@@ -36,8 +36,12 @@ RSpec.describe Project, :type => :model do
   end
 
   context 'should not have invalid git repository url' do
-    before { subject.repository_url = 'gitzeft.synbioz.com:synbioz/pbtd.fr' }
-    it { expect(subject).not_to be_valid }
+    invalid_git = nil
+    before do
+      invalid_git = subject.dup
+      invalid_git.repository_url = 'gitzeft.synbioz.com:synbioz/pbtd.fr'
+    end
+    it { expect(invalid_git).not_to be_valid }
   end
 
   context 'should have valid git repository url' do
@@ -46,8 +50,12 @@ RSpec.describe Project, :type => :model do
   end
 
   context 'should have repository_url not empty' do
-    before { subject.repository_url = '' }
-    it { expect(subject).not_to be_valid }
+    invalid_git = nil
+    before do
+      invalid_git = subject.dup
+      invalid_git.repository_url = ''
+    end
+    it { expect(invalid_git).not_to be_valid }
   end
 
   it 'should have an unique repository_url' do
