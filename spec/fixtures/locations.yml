@@ -40,3 +40,9 @@ locations_4:
   branch: 'master'
   application_url: 'reusta.dev.synbioz.com'
   distance: 12
+
+location_without_project:
+  project: nil
+  name: 'staging'
+  branch: 'develop'
+  application_url: 'deploy-test.dev.synbioz.com'

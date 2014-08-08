@@ -16,10 +16,15 @@ Fabricator(:project) do
 end
 
 Fabricator(:valid_project, from: :project) do
-  name           { "academy" }
-  repository_url { "git@git.synbioz.com:synbioz/academy.git" }
+  name           "academy"
+  repository_url "git@git.synbioz.com:synbioz/academy.git"
 end
 
 Fabricator(:invalid_project, from: :valid_project) do
-  repository_url { "git.synbioz.com" }
+  repository_url "git.synbioz.com"
+end
+
+Fabricator(:project_deploy, from: :project) do
+  name nil
+  repository_url "git@git.synbioz.com:synbioz/deploy_test.git"
 end

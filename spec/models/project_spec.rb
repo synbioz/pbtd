@@ -13,6 +13,7 @@
 require 'rails_helper'
 
 RSpec.describe Project, :type => :model do
+  fixtures :all
   let(:project) { Fabricate(:project) }
   subject { project }
 
@@ -29,9 +30,17 @@ RSpec.describe Project, :type => :model do
 
   it { is_expected.to belong_to(:worker) }
 
+  it { is_expected.to be_valid }
+
   it 'should have an unique name by project' do
     p = Fabricate(:project)
     p.name = subject.name
+    expect(p).not_to be_valid
+  end
+
+  it 'should have an unique repository_url' do
+    p = Fabricate(:project)
+    p.repository_url = subject.repository_url
     expect(p).not_to be_valid
   end
 
@@ -58,9 +67,13 @@ RSpec.describe Project, :type => :model do
     it { expect(invalid_git).not_to be_valid }
   end
 
-  it 'should have an unique repository_url' do
-    p = Fabricate(:project)
-    p.repository_url = subject.repository_url
-    expect(p).not_to be_valid
+  describe '#preload_environments' do
+    let(:project_deploy) { Fabricate(:project_deploy) }
+
+    context 'with a location' do
+      it 'should be array of locations' do
+        expect(project_deploy.preload_environments).to eql []
+      end
+    end
   end
 end
