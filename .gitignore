@@ -33,3 +33,6 @@ dump.rdb
 # Ignore Yard
 .yardoc
 doc/
+
+# Ignore simplecov folder
+coverage/

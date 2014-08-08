@@ -43,7 +43,7 @@ module Pbtd
       #
       # @return [Rugged::Repository]
       def open(repository_name)
-        raise Pbtd::Error::FolderNotExist, "git repository not exist in local, please clone it" unless GitRepository.exist?(repository_name)
+        raise Pbtd::Error::FolderNotExist, "not exist in local, please clone it" unless GitRepository.exist?(repository_name)
         @rugged_repository = Rugged::Repository.new(GitRepository.in_path(repository_name))
       end
 
@@ -54,7 +54,7 @@ module Pbtd
       #
       # @return [Rugged::Repository]
       def clone(repository_name, default_branch=nil)
-        raise Pbtd::Error::FolderAlreadyExist, "git repository already exist in local: #{GitRepository.in_path(repository_name)}" if GitRepository.exist?(repository_name)
+        raise Pbtd::Error::FolderAlreadyExist, "already exist in local: #{GitRepository.in_path(repository_name)}" if GitRepository.exist?(repository_name)
         begin
           @rugged_repository = Rugged::Repository.clone_at(repository_url, GitRepository.in_path(repository_name), credentials: credentials)
 
@@ -62,7 +62,7 @@ module Pbtd
         rescue Rugged::OSError
           raise Pbtd::Error::Network, "Network is unreachable"
         rescue Rugged::NetworkError
-          raise Pbtd::Error::GitRepositoryNotFound, "can't found your git repository"
+          raise Pbtd::Error::GitRepositoryNotFound, "not found"
         end
       end
 

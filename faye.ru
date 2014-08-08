@@ -1,3 +1,4 @@
+require 'thin'
 require 'faye'
 
 Faye::WebSocket.load_adapter('thin')

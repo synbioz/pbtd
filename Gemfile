@@ -57,7 +57,7 @@ gem "rack-cache", require: "rack/cache"
 gem "faye"
 gem "eventmachine"
 gem 'pghero'
-gem 'thin'
+gem 'thin', require: false
 
 group :test do
   gem "rspec-rails"
@@ -66,8 +66,6 @@ group :test do
   gem 'fabrication'
   gem 'faker'
   gem 'rspec-its'
-  gem "pry-rails"
-  gem 'pry-byebug'
 end
 
 group :development do
@@ -75,10 +73,12 @@ group :development do
   gem "binding_of_caller"
   gem "awesome_print"
   gem "pry-rails"
+  gem 'pry-byebug'
   gem "debugger2"
   gem "ruby-prof"
   gem 'sinatra', require: false
   gem "annotate"
+  gem "simplecov", require: false
 end
 
 group :doc do
