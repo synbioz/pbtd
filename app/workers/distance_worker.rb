@@ -24,6 +24,9 @@ class DistanceWorker
       location.update_attribute(:distance, distance)
       location.worker.success!
 
+      repo.checkout(SETTINGS['default_branch'])
+      repo.close
+
       notification_message = { state: 'success', location_id: location.id, distance: distance }
     rescue => e
       location.update_attribute(:distance, -1)
@@ -32,9 +35,6 @@ class DistanceWorker
       location.worker.failure!
       notification_message = { state: 'failure', location_id: location.id, message: e.message }
     ensure
-      repo.checkout(SETTINGS['default_branch'])
-      repo.close
-
       EM.run do
         client = Faye::Client.new(SETTINGS['faye_server'])
         message = client.publish('/distance_notifications', notification_message)

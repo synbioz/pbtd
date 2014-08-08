@@ -71,7 +71,7 @@ module Pbtd
       #
       # @return [Array] [array of branches name]
       def remote_branches
-        rugged_repository.branches.each_name(:remote).sort
+        @rugged_repository.branches.each_name(:remote).sort
       end
 
       #
@@ -80,7 +80,7 @@ module Pbtd
       #
       # @return [Rugged::Commit]
       def last_commit(branch_name)
-        rugged_repository.branches[branch_name].target
+        @rugged_repository.branches[branch_name].target
       end
 
       #
@@ -88,7 +88,7 @@ module Pbtd
       #
       # @return [Integer] [number of git total deltas]
       def fetch
-        remote = rugged_repository.remotes['origin']
+        remote = @rugged_repository.remotes['origin']
 
         @repository_url = remote.url
         @username = @repository_url.split('@').first
@@ -105,9 +105,9 @@ module Pbtd
       # @return [Integer] [number of commits]
       def get_behind(branch_name, commit_sha)
         local_commit = last_commit(remote_branch_from_local(branch_name))
-        remote_commit = rugged_repository.lookup(commit_sha)
+        remote_commit = @rugged_repository.lookup(commit_sha)
 
-        rugged_repository.ahead_behind(remote_commit, local_commit).first
+        @rugged_repository.ahead_behind(remote_commit, local_commit).first
       end
 
       #
@@ -118,7 +118,7 @@ module Pbtd
       def merge(branch_name)
         remote_commit = last_commit(remote_branch_from_local(branch_name))
 
-        rugged_repository.references.update(rugged_repository.head, remote_commit.oid)
+        @rugged_repository.references.update(rugged_repository.head, remote_commit.oid)
       end
 
       #
@@ -127,11 +127,11 @@ module Pbtd
       #
       # @return [Rugged::Reference]
       def checkout(branch_name)
-        local_branches = rugged_repository.branches.each_name.to_a
+        local_branches = @rugged_repository.branches.each_name.to_a
         if !local_branches.include?(branch_name) && self.remote_branch_from_local(branch_name)
-          rugged_repository.branches.create(branch_name, self.remote_branch_from_local(branch_name))
+          @rugged_repository.branches.create(branch_name, self.remote_branch_from_local(branch_name))
         end
-        rugged_repository.checkout(branch_name)
+        @rugged_repository.checkout(branch_name)
       end
 
       #
@@ -148,7 +148,7 @@ module Pbtd
       #
       # @return [void]
       def close
-        rugged_repository.close
+        @rugged_repository.close
       end
 
       private

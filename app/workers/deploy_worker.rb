@@ -24,15 +24,15 @@ class DeployWorker
       location.worker.success!
       location.update_distance
 
+      repo.checkout(SETTINGS['default_branch'])
+      repo.close
+
       notification_message = { state: 'success', location_id: location.id }
     rescue => e
       location.worker.error_class_name = e.class.name
       location.worker.error_message = e.message
       location.worker.failure!
       notification_message = { state: 'failure', location_id: location.id, message: e.message }
-    ensure
-      repo.checkout(SETTINGS['default_branch'])
-      repo.close
     end
   end
 

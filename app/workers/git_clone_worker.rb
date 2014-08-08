@@ -10,17 +10,17 @@ class GitCloneWorker
     project.worker.running!
     project.save
 
+
     begin
       repo = Pbtd::GitRepository.new(project.repository_url)
       repo.clone(project.repo_name, default_branch)
 
       project.worker.success!
+      repo.close
     rescue => e
       project.worker.error_class_name = e.class.name
       project.worker.error_message = e.message
       project.worker.failure!
-    ensure
-      repo.close
     end
   end
 end
