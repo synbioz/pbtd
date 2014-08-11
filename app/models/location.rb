@@ -22,7 +22,7 @@ class Location < ActiveRecord::Base
 
   validates_presence_of :name, :branch, :application_url, :project
 
-  after_create :update_distance
+  after_commit :update_distance, on: :create
 
   #
   # deploy current location to remote server

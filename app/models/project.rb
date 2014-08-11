@@ -20,7 +20,7 @@ class Project < ActiveRecord::Base
   validates :repository_url, presence: true, uniqueness: true, format: { with: GIT_REGEX }, on: :create
 
   before_create :name_from_repository_url
-  after_create :cloning_repository
+  after_commit :cloning_repository, on: :create
 
   after_destroy :rm_physic_folder
 
