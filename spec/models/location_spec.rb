@@ -64,4 +64,15 @@ RSpec.describe Location, :type => :model do
     before { subject.project = nil }
     it { expect(subject).not_to be_valid }
   end
+
+  describe '#deploy' do
+    it { expect(location.deploy).to be_a String }
+  end
+
+  describe '#get_current_release_commit' do
+
+    context 'with incorrect location' do
+      it { expect{ location.get_current_release_commit }.to raise_error(RuntimeError) }
+    end
+  end
 end

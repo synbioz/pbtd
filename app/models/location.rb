@@ -40,10 +40,10 @@ class Location < ActiveRecord::Base
     cap_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano')
     project_path = File.join(SETTINGS["repositories_path"], self.project.repo_name)
 
-    `cd #{project_path} && bundle install`
+    `cd #{project_path} 2> /dev/null && bundle install 2> /dev/null`
     logger.debug "bundle install cannot be accomplished in #{project_path}" unless $?.success?
 
-    sha = `cd #{project_path} && cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
+    sha = `cd #{project_path} 2> /dev/null && cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
 
     unless $?.success?
       logger.debug "cap remote:fetch_revision cannot be accomplished in #{project_path}"
