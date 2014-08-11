@@ -110,13 +110,13 @@ namespace :faye do
   end
   desc "Stop Faye"
   task :stop do
-    on roles(:web) do
-      execute "kill `cat #{fetch(:faye_pid)}` || true"
+    on roles(:web), in: :sequence, wait: 5 do
+      execute "kill -INT `cat #{fetch(:faye_pid)}` || true"
     end
   end
 end
 
-before 'deploy:starting', 'faye:stop'
+before 'deploy', 'faye:stop'
 
 
 after 'deploy:finished', 'faye:start'
