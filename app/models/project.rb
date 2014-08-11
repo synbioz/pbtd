@@ -46,7 +46,7 @@ class Project < ActiveRecord::Base
   #
   # @return [void]
   def load_errors
-    self.errors.add(:git_repository, self.worker.error_message)
+    self.errors.add(:git_repository, self.worker.error_message) unless self.worker.error_message.nil?
   end
 
   #
@@ -105,7 +105,7 @@ class Project < ActiveRecord::Base
     def rm_physic_folder
       project_path = File.join(SETTINGS["repositories_path"], self.repo_name)
       FileUtils.rm_rf(project_path)
-      `rm #{Rails.root}/log/#{self.repo_name}*`
+      `rm #{Rails.root}/log/#{self.repo_name}* 2> /dev/null`
     end
 
     #
