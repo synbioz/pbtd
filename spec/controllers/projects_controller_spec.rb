@@ -24,6 +24,40 @@ RSpec.describe ProjectsController, :type => :controller do
       end
     end
 
+    describe "GET #new" do
+      render_views
+      subject { get :new }
+
+      it { is_expected.to be_success }
+
+      it "render the template 'new'" do
+        subject
+        expect(response).to render_template(partial: '_new')
+      end
+
+      it "build @project" do
+        subject
+        expect(project).to be_instance_of Project
+      end
+    end
+
+    describe "Get #edit" do
+      render_views
+      subject { get :edit, id: project.id }
+
+      it { is_expected.to be_success }
+
+      it "render the template 'edit'" do
+        subject
+        expect(response).to render_template(partial: '_edit')
+      end
+
+      it "find @project" do
+        subject
+        expect(project).to be_instance_of Project
+      end
+    end
+
     describe "POST #create" do
       subject { post :create, @params }
 
@@ -79,6 +113,31 @@ RSpec.describe ProjectsController, :type => :controller do
         it "not update project" do
           expect{subject}.not_to change(project, :repository_url)
         end
+
+        it "render json errors" do
+          subject
+          expect(response.body).to eq ["Name doit être rempli(e)"].to_json
+        end
+      end
+    end
+
+    describe "GET #update_all_projects" do
+      subject { get :update_all_projects }
+
+      it "render head :ok" do
+        subject
+        expect(response.status).to eq 200
+      end
+    end
+
+    describe "GET #update_project_location" do
+      let(:location_id) { project.locations.first.id }
+
+      subject { get :update_project_location, { id: project.id, location_id: location_id } }
+
+      it "render head :ok" do
+        subject
+        expect(response.status).to eq 200
       end
     end
 
@@ -99,6 +158,40 @@ RSpec.describe ProjectsController, :type => :controller do
           subject
           expect(project.locations).to match_array(Location.where(project_id: project.id))
         end
+      end
+
+      context "with worker failure" do
+        before { project.worker.failure! }
+
+        it 'should return json errors' do
+          subject
+          expect(response.body).to include 'errors'
+        end
+      end
+
+      context "with worker not present" do
+        before { project.worker.delete }
+        it 'should return head :ok' do
+          subject
+          expect(response.status).to eq 200
+        end
+      end
+    end
+
+    describe "GET #deploy location" do
+      subject { get :deploy_location, id: project.id, location_id: project.locations.first.id }
+
+      it 'render header :ok' do
+        subject
+        expect(response.status).to eq 200
+      end
+    end
+
+    describe "delete #destroy" do
+      subject { delete :destroy, id: project.id }
+
+      it 'redirect to root_path' do
+        expect(subject).to redirect_to('/')
       end
     end
   end

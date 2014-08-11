@@ -54,15 +54,17 @@ class ProjectsController < ApplicationController
       render partial: 'edit', locals: { project: project }
     elsif project.worker.present? && project.worker.failure?
       project.load_errors
-      render json: { errors: project.errors.full_messages, branches: project.load_branches }
+      return_response = { errors: project.errors.full_messages, branches: project.load_branches }
       project.destroy
+      render json: return_response
     else
       head :ok
     end
   end
 
   def deploy_location
-    location = Location.find(params[:location_id])
+    project = Project.find(params[:id])
+    location = project.locations.find(params[:location_id])
     location.deploy unless location.nil?
 
     head :ok

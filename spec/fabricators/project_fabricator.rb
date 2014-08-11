@@ -21,6 +21,7 @@ Fabricator(:valid_project, from: :project) do
 end
 
 Fabricator(:invalid_project, from: :valid_project) do
+  name           ""
   repository_url "git.synbioz.com"
 end
 
