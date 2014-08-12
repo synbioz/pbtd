@@ -25,6 +25,6 @@ project_3:
   repository_url: 'git@git.synbioz.com:synbioz/pbtd.git'
   worker: worker_3
 
-project_4:
-  name: 'Pbtd'
-  repository_url: 'git@git.synbioz.com:synbioz/pbtd.git'
+project_5:
+  name: 'invalidPbtd'
+  repository_url: 'git@git.synbioz.com:synbioz/invalid_pbtd.git'

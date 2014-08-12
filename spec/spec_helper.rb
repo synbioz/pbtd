@@ -19,11 +19,13 @@ require 'pbtd/capistrano_reader'
 require 'pbtd/git_repository'
 require 'active_support/all'
 require 'simplecov'
+require 'sidekiq/testing'
 
 SimpleCov.start 'rails'
 
 RSpec.configure do |config|
-    config.after(:all) { FileUtils.rm_rf(SETTINGS["repositories_path"]) }
+  config.after(:all) { FileUtils.rm_rf(SETTINGS["repositories_path"]) }
+
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin

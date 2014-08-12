@@ -11,7 +11,6 @@ class DistanceWorker
     location.save
 
     notification_message = nil
-
     begin
       repo = Pbtd::GitRepository.new
       repo.open(location.project.repo_name)

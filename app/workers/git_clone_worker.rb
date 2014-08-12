@@ -6,11 +6,9 @@ class GitCloneWorker
   def perform(project_id, default_branch=nil)
     project = Project.find(project_id)
     project.worker.destroy if project.worker
-    project.worker = Worker.create(job_id: self.jid, class_name: self.class.name)
+    project.create_worker(job_id: self.jid, class_name: self.class.name)
     project.worker.running!
     project.save
-
-
     begin
       repo = Pbtd::GitRepository.new(project.repository_url)
       repo.clone(project.repo_name, default_branch)

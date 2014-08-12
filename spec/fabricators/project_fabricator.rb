@@ -29,3 +29,8 @@ Fabricator(:project_deploy, from: :project) do
   name nil
   repository_url "git@git.synbioz.com:synbioz/deploy_test.git"
 end
+
+Fabricator(:invalid_project_deploy, from: :project_deploy) do
+  repository_url "git@git.synbioz.com:synbioz/deploy_test_invalid.git"
+end
+

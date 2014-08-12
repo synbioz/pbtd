@@ -46,3 +46,9 @@ location_without_project:
   name: 'staging'
   branch: 'develop'
   application_url: 'deploy-test.dev.synbioz.com'
+
+locations_6:
+  project: project_6
+  name: 'staging'
+  branch: 'develop'
+  application_url: 'deploy-test.dev.synbioz.com'
