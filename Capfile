@@ -13,7 +13,7 @@ require 'capistrano/puma'
 require 'capistrano/sidekiq'
 require 'hipchat/capistrano'
 require 'airbrake/capistrano3'
-# require 'whenever/capistrano'
+require 'whenever/capistrano'
 
 # Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
 Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
