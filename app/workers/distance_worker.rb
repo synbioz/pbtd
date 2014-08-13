@@ -6,7 +6,7 @@ class DistanceWorker
   def perform(location_id)
     location = Location.find(location_id)
     location.worker.destroy if location.worker
-    location.worker = Worker.create(job_id: self.jid, class_name: self.class.name)
+    location.create_worker(job_id: self.jid, class_name: self.class.name)
     location.worker.running!
     location.save
 
