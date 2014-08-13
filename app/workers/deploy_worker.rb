@@ -5,7 +5,7 @@ class DeployWorker
 
   def perform(location_id)
     location = Location.find(location_id)
-    location.worker = Worker.create(job_id: self.jid, class_name: self.class.name)
+    location.create_worker(job_id: self.jid, class_name: self.class.name)
     location.worker.running!
     location.save
 
@@ -41,7 +41,7 @@ class DeployWorker
 
     begin
       input, output = IO.pipe
-      pid = spawn("cd #{project_path} && cap #{location.name} deploy", out: output)
+      pid = spawn("cd #{project_path} && cap #{location.name} deploy 2> /dev/null", out: output)
       loop do
         # Do not wait more than 2 seconds for an input, the process could be exited
         Timeout::timeout(2) do
