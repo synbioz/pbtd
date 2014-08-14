@@ -43,7 +43,7 @@ class Location < ActiveRecord::Base
     `cd #{project_path} 2> /dev/null && bundle install 2> /dev/null`
     logger.debug "bundle install cannot be accomplished in #{project_path}" unless $?.success?
 
-    sha = `cd #{project_path} 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -R #{cap_lib_path} remote:fetch_revision 2> /dev/null`.strip
+    sha = `cd #{project_path} 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`.strip
 
     unless $?.success?
       logger.debug "cap remote:fetch_revision cannot be accomplished in #{project_path}"
