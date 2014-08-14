@@ -25,7 +25,6 @@ module Pbtd
         unless repo_url.blank?
           @repository_url = repo_url
           @username = repo_url.split('@').first
-          `#{SETTINGS["ssh-agent-script"]}` if !(Rails.env.test? || Rails.env.development?)
         end
       end
 
@@ -167,7 +166,11 @@ module Pbtd
         #
         # @return [Rugged::Credentials::SshKeyFromAgent]
         def credentials
-          Rugged::Credentials::SshKeyFromAgent.new(username: username)
+          if Rails.env.test? || Rails.env.development?
+            Rugged::Credentials::SshKeyFromAgent.new(username: username)
+          else
+            Rugged::Credentials::SshKey.new(username: 'git', publickey: SETTINGS['ssh_public_key'], privatekey: SETTINGS['ssh_private_key'])
+          end
         end
     end
 
