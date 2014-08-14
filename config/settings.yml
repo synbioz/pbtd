@@ -10,13 +10,13 @@ production:
   repositories_path: "/var/www/pbtd/shared/repositories"
   faye_server: 'http://0.0.0.0:9292/faye'
   default_branch: 'develop'
-  ssh_agent_script: <%= ". #{Rails.root}/lib/pbtd/enable-ssh.sh 2> /dev/null &&" %>
+  ssh_agent_script: <%= ". #{Rails.root}/lib/pbtd/enable-ssh.sh > /dev/null &&" %>
 
 staging:
   repositories_path: "/var/www/pbtd/shared/repositories"
   faye_server: 'http://0.0.0.0:9292/faye'
   default_branch: 'develop'
-  ssh_agent_script: <%= ". #{Rails.root}/lib/pbtd/enable-ssh.sh 2> /dev/null &&" %>
+  ssh_agent_script: <%= ". #{Rails.root}/lib/pbtd/enable-ssh.sh > /dev/null &&" %>
   ssh_public_key: "/var/www/pbtd/shared/tmp/ssh/pbtd_key.pub"
   ssh_private_key: "/var/www/pbtd/shared/tmp/ssh/pbtd_key"
 
