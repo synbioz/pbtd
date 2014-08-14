@@ -11,6 +11,7 @@ production:
   faye_server: 'http://0.0.0.0:9292/faye'
   default_branch: 'develop'
   ssh_agent_script: <%= ". #{Rails.root}/lib/pbtd/enable-ssh.sh > /dev/null &&" %>
+  basic_auth_password: 'g1tPbtdT0ol'
 
 staging:
   repositories_path: "/var/www/pbtd/shared/repositories"
@@ -19,6 +20,8 @@ staging:
   ssh_agent_script: <%= ". #{Rails.root}/lib/pbtd/enable-ssh.sh > /dev/null &&" %>
   ssh_public_key: "/var/www/pbtd/shared/tmp/ssh/pbtd_key.pub"
   ssh_private_key: "/var/www/pbtd/shared/tmp/ssh/pbtd_key"
+  basic_auth_user: 'synbioz'
+  basic_auth_password: 'g1tPbtdT0ol'
 
 test:
   repositories_path: <%= "#{Rails.root}/spec/support/repositories" %>
