@@ -19,7 +19,9 @@ class DistanceWorker
 
       current_release_commit = location.get_current_release_commit
       distance = repo.get_behind(location.branch, current_release_commit)
-
+      puts "DIRTY DEBUG"
+      puts current_release_commit
+      puts "END"
       location.update_attribute(:distance, distance)
       location.worker.success!
 
