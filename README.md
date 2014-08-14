@@ -111,3 +111,21 @@ For other environments than staging and development:
 * `basic_auth_user` user name for basic authentification
 * `basic_auth_password` password for basic authentification
 
+### capistrano environments requirement
+
+Pbtd require some things for capistrano environments files:
+
+* server
+* rails_env variable
+* branch variable
+
+example with `config/deploy/staging.rb`:
+
+```ruby
+server 'pbtd.dev.synbioz.com', user: 'synbioz', roles: %w{web app db}
+
+set :rails_env, 'staging'
+
+set :branch, 'develop'
+```
+
