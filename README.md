@@ -62,17 +62,6 @@ The application require:
 * sidekiq
 * faye
 
-### launch project in development environment:
-
-launch these process:
-
-```
-redis-server
-sidekiq
-rackup faye.ru -E production -s thin -p 9292
-rails s puma
-```
-
 ### lib/pbtd/enable-ssh.sh
 
 `lib/pbtd/enable-ssh.sh` manage ssh-agent for different shell command launched by application.
@@ -127,5 +116,16 @@ server 'pbtd.dev.synbioz.com', user: 'synbioz', roles: %w{web app db}
 set :rails_env, 'staging'
 
 set :branch, 'develop'
+```
+
+## Launch project in development environment:
+
+launch these process:
+
+```
+redis-server
+sidekiq
+rackup faye.ru -E production -s thin -p 9292
+rails s puma
 ```
 
