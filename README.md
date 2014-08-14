@@ -118,7 +118,7 @@ set :rails_env, 'staging'
 set :branch, 'develop'
 ```
 
-## Launch project in development environment:
+## Launch project in development environment
 
 launch these process:
 
