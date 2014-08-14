@@ -4,7 +4,7 @@
 
 The git repository uses the `git flow` scripts. This is the configuration found in `.git/config`:
 
-<pre>
+```
 [gitflow "branch"]
   master = release
   develop = master
@@ -14,7 +14,7 @@ The git repository uses the `git flow` scripts. This is the configuration found 
   hotfix = hotfix/
   support = support/
   versiontag =
-</pre>
+```
 
 The develop branch is `master` and the production releases branch is `release`. **THIS IS NOT THE DEFAULT BEHAVIOUR OF GIT FLOW.**
 
@@ -65,12 +65,12 @@ The application require:
 ### launch project in development environment:
 
 launch these process:
-<pre>
+```
 redis-server
 sidekiq
 rackup faye.ru -E production -s thin -p 9292
 rails s puma
-</pre>
+```
 
 ### lib/pbtd/enable-ssh.sh
 
