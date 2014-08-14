@@ -4,16 +4,19 @@ development:
   repositories_path: <%= "#{Rails.root}/repositories" %>
   faye_server: 'http://0.0.0.0:9292/faye'
   default_branch: 'develop'
+  ssh-agent-script: ''
 
 production:
   repositories_path: "/var/www/pbtd/shared/repositories"
   faye_server: 'http://0.0.0.0:9292/faye'
   default_branch: 'develop'
+  ssh-agent-script: <%= ". #{Rails.root}/lib/pbtd/enable-ssh.sh" %>
 
 staging:
   repositories_path: "/var/www/pbtd/shared/repositories"
   faye_server: 'http://0.0.0.0:9292/faye'
   default_branch: 'develop'
+  ssh-agent-script: <%= ". #{Rails.root}/lib/pbtd/enable-ssh.sh" %>
 
 test:
   repositories_path: <%= "#{Rails.root}/spec/support/repositories" %>

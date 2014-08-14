@@ -25,6 +25,7 @@ module Pbtd
         unless repo_url.blank?
           @repository_url = repo_url
           @username = repo_url.split('@').first
+          `#{SETTINGS["ssh-agent-script"]}` if !(Rails.env.test? || Rails.env.development?)
         end
       end
 
