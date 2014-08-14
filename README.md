@@ -65,6 +65,7 @@ The application require:
 ### launch project in development environment:
 
 launch these process:
+
 ```
 redis-server
 sidekiq
