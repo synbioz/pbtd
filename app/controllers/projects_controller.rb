@@ -1,5 +1,4 @@
 class ProjectsController < ApplicationController
-  include ActionController::Live
   respond_to :json
 
   def index
