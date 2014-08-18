@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module Pbtd
   class Application < Rails::Application
     config.time_zone = 'Paris'
-    config.i18n.default_locale = :fr
+    config.i18n.default_locale = :en
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
