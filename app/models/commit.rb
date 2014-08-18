@@ -7,7 +7,7 @@
 #  name        :string(255)
 #  sha1        :string(255)
 #  user        :string(255)
-#  commit_date :date
+#  commit_date :datetime
 #  created_at  :datetime
 #  updated_at  :datetime
 #
