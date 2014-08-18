@@ -9,7 +9,7 @@
           .status data-state="updated"
         - else
           .status data-state="error"
-        h3 #{deployment.status} deployment there #{time_ago_in_words(deployment.updated_at)}
+        h3 #{deployment.status} deployment there #{time_ago_in_words(deployment.updated_at)} ago
         .commit
           - commit = deployment.commit
           .sha
