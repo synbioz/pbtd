@@ -7,7 +7,9 @@ class DeployWorker
     location = Location.find(location_id)
     location.create_worker(job_id: self.jid, class_name: self.class.name)
     location.worker.running!
-    location.save
+
+    deployment = location.deployments.create
+    deployment.running!
 
     notification_deployment = nil
 
@@ -17,10 +19,17 @@ class DeployWorker
       repo.fetch
       repo.checkout(location.branch)
 
+      commit_information = repo.last_commit(location.branch)
+
+      commit = location.commits.create_with(name: commit_information.message.strip, user: commit_information.author[:name], commit_date: commit_information.author[:time].to_datetime).find_or_create_by(sha1: commit_information.oid)
+
+      deployment.update_attribute(:commit_id, commit.id)
+
       project_path = File.join(SETTINGS["repositories_path"], location.project.repo_name)
 
       deploy(location, project_path)
 
+      deployment.success!
       location.worker.success!
       location.update_distance
 
@@ -29,6 +38,7 @@ class DeployWorker
 
       notification_message = { state: 'success', location_id: location.id }
     rescue => e
+      deployment.failure!
       location.worker.error_class_name = e.class.name
       location.worker.error_message = e.message
       location.worker.failure!

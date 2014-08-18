@@ -6,7 +6,6 @@
 #  location_id :integer
 #  commit_id   :integer
 #  status      :integer
-#  finished_at :date
 #  created_at  :datetime
 #  updated_at  :datetime
 #

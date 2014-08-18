@@ -6,7 +6,6 @@
 #  location_id :integer
 #  commit_id   :integer
 #  status      :integer
-#  finished_at :date
 #  created_at  :datetime
 #  updated_at  :datetime
 #
@@ -17,5 +16,5 @@ class Deployment < ActiveRecord::Base
 
   enum status: [ :running, :success, :failure ]
 
-  validates_presence_of :location, :finished_at
+  validates_presence_of :location
 end
