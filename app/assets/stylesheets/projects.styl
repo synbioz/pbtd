@@ -165,23 +165,6 @@ a
     margin-bottom 10px
     color fontcolor
     font-weight normal
-  .status
-    float left
-    font-size: 0.75em
-    height 1em
-    width 1em
-    margin 0.5em 1.5em 4em 0.3em
-    border-radius 50%
-    background #ddd
-    transition all 0.2s
-    &[data-state="updated"]
-      background green
-    &[data-state="behind"]
-      background red
-    &[data-state="running"]
-      background orange
-    &[data-state="error"]
-      background black
   .button
     float right
     font-size 0.75em
@@ -208,6 +191,23 @@ a
     margin-top 12px
     margin-left 45px
 
+.status
+  float left
+  font-size: 0.75em
+  height 1em
+  width 1em
+  margin 0.5em 1.5em 4em 0.3em
+  border-radius 50%
+  background #ddd
+  transition all 0.2s
+  &[data-state="updated"]
+    background green
+  &[data-state="behind"]
+    background red
+  &[data-state="running"]
+    background orange
+  &[data-state="error"]
+    background black
 
 // FORM ELEMENTS
 input[type="text"]
@@ -271,6 +271,58 @@ input[type="text"]
     background grey
     float right
     font-size 0.8em
+
+#deployments
+  display none
+  position absolute
+  z-index 1
+  top 0
+  left 0
+  right 0
+  bottom 0
+  background rgba(255,255,255,0.8)
+  text-align center
+  hr
+    border 0
+    border-top 1px solid #ddd
+  .list-deployments
+    clear both
+    display inline-block
+    margin 0
+    padding 0
+    list-style none
+    position: relative
+    padding 50px
+    margin 30px auto
+    background #fff
+    text-align left
+    border 1px solid #ddd
+    box-shadow 0 3px 15px rgba(0,0,0,0.2)
+    .status
+      margin 0.5em 1.5em 0em 0.3em
+    .commit
+      display inline-block
+      font-size 0.9em
+      margin-left 35px
+    .close
+      cursor pointer
+      position absolute
+      top 0
+      right 0
+      width 2em
+      height 2em
+      line-height 2em
+      text-align center
+      background #eee
+      color #bbb
+      transition all 0.1s
+      &:hover
+        background #ccc
+        color #fff
+    .sha
+      display: inline
+      color: blue
+
 .add-environment-list
   clear both
   margin 0

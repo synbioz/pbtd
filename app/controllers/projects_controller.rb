@@ -70,6 +70,14 @@ class ProjectsController < ApplicationController
     head :ok
   end
 
+  def deployments
+    project = Project.find(params[:id])
+    location = project.locations.find(params[:location_id])
+    @deployments = location.deployments
+
+    render partial: 'deployments'
+  end
+
   def destroy
     project = Project.find(params[:id])
 

@@ -17,9 +17,7 @@ $(document).ready ->
           $("form.new_project").find("input[type=submit]").show()
           show_select_branch(data.branches) if data.branches
           $("form.new_project").find(".loader").remove()
-        else if data.length <= 1
-          return
-        else
+        else if data.length > 1
           clearTimeout(timeout)
           $("ul.app-list").append(data_project)
           $(".loader").remove()
@@ -115,6 +113,16 @@ $(document).ready ->
     }).success (data, status, xhr) ->
       $("ul.app-list").before(data)
       $('#edit-project').velocity("transition.expandIn",{duration: 300})
+
+  # open modal deployments
+  $(document).on "ajax:success", ".show-deployments", (e, data, status, xhr) ->
+    $("ul.app-list").before(data)
+    $('#deployments').velocity("transition.expandIn",{duration: 300})
+
+  # close modal deployments
+  $(document).on "click", '#deployments .close', ->
+    $('#deployments').remove()
+    $('#deployments').velocity("transition.expandOut",{duration: 300})
 
   # close modal manager project
   $(document).on "click", "#edit-project .close", ->

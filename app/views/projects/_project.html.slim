@@ -16,7 +16,8 @@ li data-id="#{project.id}"
 
           = link_to 'Deploy', deploy_location_project_path(project, location_id: location.id), data: { action: 'deploy' }, remote: true, class: 'button deploy-location'
           = link_to 'Update', update_project_location_project_path(project, location_id: location.id), data: { action: 'update' }, remote: true, class: 'button update-repo'
-          a href="#": h3= location.name
+          = link_to deployments_project_path(project, location_id: location.id), remote: true, class: 'show-deployments'
+            h3= location.name
           .infos
             .last-update Branch <b>#{location.branch}</b> updated #{time_ago_in_words(location.updated_at)} ago
             - if location.distance.present? && ( location.distance < 0 && location.worker.error_message.present? )
