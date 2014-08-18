@@ -73,7 +73,7 @@ class ProjectsController < ApplicationController
   def deployments
     project = Project.find(params[:id])
     location = project.locations.find(params[:location_id])
-    @deployments = location.deployments
+    @deployments = location.deployments.order(updated_at: :desc)
 
     render partial: 'deployments'
   end
