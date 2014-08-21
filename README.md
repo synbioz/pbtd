@@ -65,7 +65,8 @@ The application require:
 ### lib/pbtd/enable-ssh.sh
 
 `lib/pbtd/enable-ssh.sh` manage ssh-agent for different shell command launched by application.
-You must change path where you want to store `ssh-agent-socket`, `ssh-export-agent` and `ssh-agent.pid`
+You must change path where you want to store `ssh-agent-socket`, `ssh-export-agent`, `ssh-agent.pid` and `pbtd_key`.
+You must create ssh key `pbtd_key` in your prefered path.
 
 ```sh
  #!/bin/bash
@@ -128,4 +129,6 @@ sidekiq
 rackup faye.ru -E production -s thin -p 9292
 rails s puma
 ```
+In development and test environment you must add the key you use to connect your git repository and for remote servers used to deploy your applications to the ssh-agent.
+Running in terminal `ssh-add`
 

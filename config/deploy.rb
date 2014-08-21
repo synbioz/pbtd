@@ -60,6 +60,14 @@ set :hipchat_announce, false
 set :faye_pid, "#{deploy_to}/shared/tmp/pids/faye.pid"
 set :faye_config, "#{deploy_to}/current/faye.ru"
 
+# settings for capistrano-redmine
+set :redmine_site, "https://support.synbioz.com/"
+set :redmine_token, "9319eb33518b201e2f9d9434ee22db6a2706222c"
+set :redmine_options, { ssl: { cert: nil, key: nil } }
+set :redmine_projects, "pbtd"
+set :redmine_from_status, 7
+set :redmine_to_status, 3
+
 #
 # Customize deploy
 #

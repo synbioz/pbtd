@@ -10,17 +10,11 @@
     ul.add-environment-list
       = f.fields_for :locations, @project.locations do |locations_fields|
         li
-          .half
-            label Name :
-            = locations_fields.text_field :name
-          .half
-            label Url :
-            = locations_fields.hidden_field :id
-            = locations_fields.text_field :application_url
-            = locations_fields.hidden_field :branch
-          .half
-            label Delete :
-            = link_to 'delete', location_path(locations_fields.object.id), method: :delete, remote: true, class: 'destroy-location', data: { confirm: 'Are you sure ?' }
+          = locations_fields.text_field :name, readonly: true
+          = locations_fields.hidden_field :id
+          = locations_fields.text_field :application_url, readonly: true
+          = locations_fields.hidden_field :branch
+          = link_to 'delete', location_path(locations_fields.object.id), method: :delete, remote: true, class: 'destroy-location', data: { confirm: 'Are you sure ?' }
     hr/
     .actions
       = link_to defined?(project) ? "cancel" : "delete", project_path, method: :delete, data: { confirm: 'Are you sure ?' } , class: 'button red'
