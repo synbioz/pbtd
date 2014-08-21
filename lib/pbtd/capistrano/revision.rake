@@ -3,7 +3,7 @@ namespace :remote do
   task :fetch_revision do
     on roles(:app) do |host|
       Net::SSH.start(host.to_s, host.user.to_s) do |ssh|
-        ssh.exec "cat #{current_path}/REVISION"
+        ssh.exec "tail -1 #{deploy_to}/revisions.log"
       end
     end
   end
