@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20140818092433) do
   create_table "workers", force: true do |t|
     t.string   "job_id"
     t.string   "class_name"
-    t.integer  "status"
+    t.integer  "status",           default: 0
     t.string   "error_class_name"
     t.string   "error_message"
     t.datetime "created_at"
