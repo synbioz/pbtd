@@ -51,7 +51,10 @@ class DeployWorker
 
     begin
       input, output = IO.pipe
-      pid = spawn("cd #{project_path} && #{SETTINGS['ssh_agent_script']} bundle exec cap #{location.name} deploy 2> /dev/null", out: output)
+
+      pid = Bundler.with_clean_env do
+        spawn("cd #{project_path} && #{SETTINGS['ssh_agent_script']} bundle exec cap #{location.name} deploy 2> /dev/null", out: output)
+      end
       loop do
         # Do not wait more than 2 seconds for an input, the process could be exited
         Timeout::timeout(2) do
