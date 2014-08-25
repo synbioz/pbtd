@@ -50,13 +50,17 @@ class Location < ActiveRecord::Base
       `cd #{project_path} 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`
     end
 
-    unless $?.success?
+    unless $?.success? && sha.present?
       logger.debug "cap remote:fetch_revision cannot be accomplished in #{project_path}"
       raise "cannot fetch remote host #{self.application_url}"
     end
 
-    sha = /\(at.(\w*)\)/.match(sha)[1]
-    return sha
+    if sha = /\(at.(\w*)\)/.match(sha)[1]
+      return sha
+    else
+      logger.debug "the commit oid cannot be parsed"
+      raise "cannot fetch remote host #{self.application_url}"
+    end
   end
 
 
