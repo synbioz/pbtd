@@ -47,13 +47,11 @@ class Location < ActiveRecord::Base
 
     if cap_version < "3.0.0"
       sha = Bundler.with_clean_env do
-        `cd #{project_path} 2> /dev/null && bundle install --deployment 2> /dev/null`
-        `cd #{project_path} 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -Ff #{cap_2_lib_path}/revision.rake remote:fetch_revision`
+        `cd #{project_path} 2> /dev/null && bundle install --deployment 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -Ff #{cap_2_lib_path}/revision.rake remote:fetch_revision`
       end
     else
       sha = Bundler.with_clean_env do
-        `cd #{project_path} 2> /dev/null && bundle install --deployment 2> /dev/null`
-        `cd #{project_path} 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`
+        `cd #{project_path} 2> /dev/null && bundle install --deployment 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`
       end
     end
 
