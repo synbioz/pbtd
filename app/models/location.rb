@@ -38,28 +38,34 @@ class Location < ActiveRecord::Base
   # @return [String] [git commit sha]
   def get_current_release_commit
     cap_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano')
+    cap_2_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano_2')
     project_path = File.join(SETTINGS["repositories_path"], self.project.repo_name)
 
     Bundler.with_clean_env do
-      `cd #{project_path} 2> /dev/null && bundle install --deployment 2> /dev/null`
+      `cd #{project_path} 2> /dev/null && bundle install 2> /dev/null`
     end
 
     logger.debug "bundle install cannot be accomplished in #{project_path}" unless $?.success?
 
-    sha = Bundler.with_clean_env do
-      `cd #{project_path} 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`
-    end
+    cap_version = Pbtd::CapistranoReader.new(self.project.repo_name).version
 
-    unless $?.success? && sha.present?
-      logger.debug "cap remote:fetch_revision cannot be accomplished in #{project_path}"
-      raise "cannot fetch remote host #{self.application_url}"
-    end
+    sha = nil
 
-    if sha = /\(at.(\w*)\)/.match(sha)[1]
-      return sha
+    if cap_version < "3.0.0"
+      sha = Bundler.with_clean_env do
+        `cd #{project_path} 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -Ff #{cap_2_lib_path}/revision.rake remote:fetch_revision`
+      end
     else
+      sha = Bundler.with_clean_env do
+        `cd #{project_path} 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`
+      end
+    end
+
+    if sha.empty?
       logger.debug "the commit oid cannot be parsed"
       raise "cannot fetch remote host #{self.application_url}"
+    else
+      return sha.strip
     end
   end
 
