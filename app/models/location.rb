@@ -55,10 +55,9 @@ class Location < ActiveRecord::Base
       end
     end
 
-    sha = sha.lines.last if sha.present?
-    sha = sha.strip
+    sha = sha.lines.last.strip
 
-    if sha.empty?
+    if sha.empty? || !(/(\A\S*\z)/.match(sha))
       logger.debug "the commit oid cannot be parsed"
       raise "cannot fetch remote host #{self.application_url}"
     else
