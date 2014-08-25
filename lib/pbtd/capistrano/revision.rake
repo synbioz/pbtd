@@ -5,9 +5,9 @@ namespace :remote do
       Net::SSH.start(host.to_s, host.user.to_s) do |ssh|
         sha = nil
 
-        stderr, stdout = ssh.exec!("[ -f #{deploy_to}/current/REVISION ] && cat #{deploy_to}/current/REVISION")
+        stdout, stderr = ssh.exec!("[ -f #{deploy_to}/current/REVISION ] && cat #{deploy_to}/current/REVISION")
 
-        sha = stdout.strip if stdout
+        sha = stdout if stdout
 
         unless sha
           output = ssh.exec!("tail -1 #{deploy_to}/revisions.log")

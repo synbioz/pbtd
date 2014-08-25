@@ -42,7 +42,7 @@ class Location < ActiveRecord::Base
     project_path = File.join(SETTINGS["repositories_path"], self.project.repo_name)
 
     Bundler.with_clean_env do
-      `cd #{project_path} 2> /dev/null && bundle install 2> /dev/null`
+      `cd #{project_path} 2> /dev/null && bundle install --deployment 2> /dev/null`
     end
 
     logger.debug "bundle install cannot be accomplished in #{project_path}" unless $?.success?
@@ -61,11 +61,14 @@ class Location < ActiveRecord::Base
       end
     end
 
+    sha = sha.lines.last if sha.present?
+    sha = sha.strip
+
     if sha.empty?
       logger.debug "the commit oid cannot be parsed"
       raise "cannot fetch remote host #{self.application_url}"
     else
-      return sha.strip
+      return sha
     end
   end
 

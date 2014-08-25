@@ -41,6 +41,8 @@ module Pbtd
     def version
       content = File.read(File.join(@path, 'Gemfile.lock'))
       content.match(REGEX_VERSION)[1]
+    rescue
+      raise Pbtd::Error::FileNotFound, "Your Gemfile.lock not found for this environment"
     end
 
     #
@@ -75,5 +77,14 @@ module Pbtd
     def in_path(repository_name)
       File.join(SETTINGS["repositories_path"], repository_name)
     end
+  end
+
+  #
+  # Custom Errors
+  #
+  module Error
+    exceptions = %w[ FileNotFound ]
+    # Create empty empty class from exceptions array
+    exceptions.each { |e| const_set(e, Class.new(StandardError)) }
   end
 end
