@@ -11,8 +11,8 @@
           .status data-state="error"
         h3 #{deployment.status} deployment there #{time_ago_in_words(deployment.updated_at)} ago
         .commit
-          - commit = deployment.commit
-          .sha
-            = commit.sha1[0..4]
-          |  #{commit.name} by #{commit.user} #{commit.commit_date.strftime("at %B %d at %I:%M %p")}
+          - if commit = deployment.commit
+            .sha
+              = commit.sha1[0..4]
+            |  #{commit.name} by #{commit.user} #{commit.commit_date.strftime("at %B %d at %I:%M %p")}
 
