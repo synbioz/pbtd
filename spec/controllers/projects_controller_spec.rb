@@ -79,7 +79,7 @@ RSpec.describe ProjectsController, :type => :controller do
 
         it "renders json errors" do
           subject
-          expect(response.body).to eq ["Repository url n'est pas valide"].to_json
+          expect(response.body).to eq ["Repository url is invalid"].to_json
         end
       end
     end
@@ -116,7 +116,7 @@ RSpec.describe ProjectsController, :type => :controller do
 
         it "render json errors" do
           subject
-          expect(response.body).to eq ["Name doit être rempli(e)"].to_json
+          expect(response.body).to eq ["Name can't be blank"].to_json
         end
       end
     end

@@ -24,9 +24,6 @@ RSpec.describe Deployment, :type => :model do
   it { is_expected.to respond_to(:status) }
   its(:status) { is_expected.to be_instance_of String }
 
-  it { is_expected.to respond_to(:finished_at) }
-  its(:finished_at) { is_expected.to be_instance_of Date }
-
   it { is_expected.to belong_to(:location) }
   it { is_expected.to belong_to(:commit) }
 
@@ -47,11 +44,6 @@ RSpec.describe Deployment, :type => :model do
 
   context 'should have location not empty' do
     before { subject.location = nil }
-    it { expect(subject).not_to be_valid }
-  end
-
-  context 'should have finished_at not empty' do
-    before { subject.finished_at = nil }
     it { expect(subject).not_to be_valid }
   end
 end

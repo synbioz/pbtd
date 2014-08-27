@@ -30,7 +30,7 @@ RSpec.describe Commit, :type => :model do
   its(:user) { is_expected.to be_instance_of String }
 
   it { is_expected.to respond_to(:commit_date) }
-  its(:commit_date) { is_expected.to be_instance_of Date }
+  its(:commit_date) { is_expected.to be_instance_of ActiveSupport::TimeWithZone }
 
   it { is_expected.to belong_to(:location) }
   it { is_expected.to have_many(:deployments).class_name('Deployment') }

@@ -72,7 +72,7 @@ RSpec.describe Location, :type => :model do
   describe '#get_current_release_commit' do
 
     context 'with incorrect location' do
-      it { expect{ location.get_current_release_commit }.to raise_error(RuntimeError) }
+      it { expect{ location.get_current_release_commit }.to raise_error(Pbtd::Error::FileNotFound) }
     end
   end
 end

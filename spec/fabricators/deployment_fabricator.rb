@@ -14,5 +14,4 @@ Fabricator(:deployment) do
   commit      { Fabricate(:commit) }
   location    { Fabricate(:location) }
   status      1
-  finished_at { Date.today - Faker::Number.number(3).to_i.days }
 end
