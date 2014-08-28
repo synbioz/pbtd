@@ -21,6 +21,8 @@ class DeployWorker
       repo.fetch
       repo.checkout(location.branch)
 
+      location.check_ruby_version
+
       commit_information = repo.last_commit(location.branch)
 
       commit = location.commits.create_with(name: commit_information.message.strip, user: commit_information.author[:name], commit_date: commit_information.author[:time].to_datetime).find_or_create_by(sha1: commit_information.oid)

@@ -49,11 +49,11 @@ class Location < ActiveRecord::Base
     # Please install it on remote servers
     if cap_version < "3.0.0"
       sha = Bundler.with_clean_env do
-        `cd #{project_path} 2> /dev/null && bundle install --deployment 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -Ff #{cap_2_lib_path}/revision.rake remote:fetch_revision`
+        `cd #{project_path} 2> /dev/null && bundle install 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -Ff #{cap_2_lib_path}/revision.rake remote:fetch_revision`
       end
     else
       sha = Bundler.with_clean_env do
-        `cd #{project_path} 2> /dev/null && bundle install --deployment 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`
+        `cd #{project_path} 2> /dev/null && bundle install 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`
       end
     end
 
@@ -64,6 +64,37 @@ class Location < ActiveRecord::Base
       raise "cannot fetch remote host #{self.application_url}"
     else
       return sha
+    end
+  end
+
+  #
+  # check if ruby version on remote server is installed
+  #
+  # @return [void]
+  def check_ruby_version
+    cap_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano')
+    cap_2_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano_2')
+    project_path = File.join(SETTINGS["repositories_path"], self.project.repo_name)
+
+    version = nil
+
+    if cap_version < "3.0.0"
+      version = Bundler.with_clean_env do
+        `cd #{project_path} 2> /dev/null && bundle install 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -Ff #{cap_2_lib_path}/revision.rake remote:check_ruby_version`
+      end
+    else
+      version = Bundler.with_clean_env do
+      `cd #{project_path} 2> /dev/null && bundle install 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -R #{cap_lib_path} remote:check_ruby_version`
+      end
+    end
+
+
+
+    version = version.lines.last.strip
+
+    if version.include? "is not installed"
+      logger.debug "the ruby version is not installed on remote server"
+      raise "The ruby version is not installed on remote server"
     end
   end
 

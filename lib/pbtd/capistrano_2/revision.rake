@@ -16,4 +16,13 @@ namespace :remote do
       puts sha
     end
   end
+
+  desc "check if ruby version exist with rbenv"
+  task :check_ruby_version, :roles => :app  do |host|
+    Net::SSH.start(host.roles[:app].servers.first.to_s, host.user.to_s) do |ssh|
+        output = ssh.exec!("cd #{current_path} && ~/.rbenv/bin/rbenv version")
+        puts output
+      end
+    end
+  end
 end

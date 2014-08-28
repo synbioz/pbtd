@@ -17,6 +17,8 @@ class DistanceWorker
       repo.fetch
       repo.checkout(location.branch)
 
+      location.check_ruby_version
+
       current_release_commit = location.get_current_release_commit
       distance = repo.get_behind(location.branch, current_release_commit)
       location.update_attribute(:distance, distance)
