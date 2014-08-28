@@ -53,42 +53,20 @@ class DeployWorker
   def deploy(location, project_path)
     logger = Logger.new("#{Rails.root}/log/#{location.project.repo_name}.log")
 
-    begin
-      input, output = IO.pipe
+    Bundler.with_clean_env do
+      cmd = "cd #{project_path} && #{SETTINGS['ssh_agent_script']} bundle exec cap #{location.name} deploy"
 
-      pid = Bundler.with_clean_env do
-        spawn("cd #{project_path} && #{SETTINGS['ssh_agent_script']} bundle exec cap #{location.name} deploy 2> /dev/null", out: output)
-      end
-      loop do
-        # Do not wait more than 2 seconds for an input, the process could be exited
-        Timeout::timeout(2) do
-          # Read one line at a time continuously
-          loop do
-            chunck = input.readline
-            notification_message = { state: 'running', location_id: location.id, message: chunck }
-            send_notification(notification_message)
-            logger.info(chunck)
-          end
-        end rescue nil
-
-        # Check if the process is still alive
-        break if Process.waitpid(pid, Process::WNOHANG)
-      end
-
-      # Read the rest of the output (just in case)
-      # You should also choose a better suited number than 100000 depending on your command
-      remaining_chunck = output.read_nonblock(100000) rescue nil
-      if remaining_chunck
-        notification_message = { state: 'running', location_id: location.id, message: remaining_chunck }
+      IO.popen(cmd).each do |line|
+        notification_message = { state: 'running', location_id: location.id, message: line }
         send_notification(notification_message)
-        logger.info(remaining_chunck)
-      end
-
-      # Display finish
-      state = $?.success? ? "success" : "failed"
-      notification_message = { state: state, location_id: location.id }
-      send_notification(notification_message)
+        logger.info(line)
+      end.close
     end
+
+    # Display finish
+    state = $?.success? ? "success" : "failed"
+    notification_message = { state: state, location_id: location.id }
+    send_notification(notification_message)
   end
 
   def send_notification(data)
