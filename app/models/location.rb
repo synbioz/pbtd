@@ -75,6 +75,7 @@ class Location < ActiveRecord::Base
     cap_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano')
     cap_2_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano_2')
     project_path = File.join(SETTINGS["repositories_path"], self.project.repo_name)
+    cap_version = Pbtd::CapistranoReader.new(self.project.repo_name).version
 
     version = nil
 
