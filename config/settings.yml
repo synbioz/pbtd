@@ -5,6 +5,8 @@ development:
   faye_server: 'http://0.0.0.0:9292/faye'
   default_branch: 'develop'
   ssh_agent_script: ''
+  ssh_public_key: "/Users/theodelaune/.ssh/id_rsa.pub"
+  ssh_private_key: "/Users/theodelaune/.ssh/id_rsa"
 
 production:
   repositories_path: "/var/www/pbtd/shared/repositories"
