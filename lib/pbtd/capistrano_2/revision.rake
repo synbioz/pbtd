@@ -1,7 +1,7 @@
 namespace :remote do
   desc "Remote fetch git revision for current deploy"
   task :fetch_revision, :roles => :app  do |host|
-    Net::SSH.start(host.roles[:app].servers.first.to_s, host.user.to_s) do |ssh|
+    Net::SSH.start(host.roles[:app].servers.first.to_s, host.user.to_s, timeout: 10) do |ssh|
       sha = nil
 
       stdout, stderr = ssh.exec!("[ -f #{deploy_to}/current/REVISION ] && cat #{deploy_to}/current/REVISION")
@@ -19,10 +19,9 @@ namespace :remote do
 
   desc "check if ruby version exist with rbenv"
   task :check_ruby_version, :roles => :app  do |host|
-    Net::SSH.start(host.roles[:app].servers.first.to_s, host.user.to_s) do |ssh|
+    Net::SSH.start(host.roles[:app].servers.first.to_s, host.user.to_s, timeout: 10) do |ssh|
         output = ssh.exec!("cd #{current_path} && ~/.rbenv/bin/rbenv version")
         puts output
-      end
     end
   end
 end

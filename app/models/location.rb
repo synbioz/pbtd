@@ -37,27 +37,17 @@ class Location < ActiveRecord::Base
   #
   # @return [String] [git commit sha]
   def get_current_release_commit
-    cap_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano')
-    cap_2_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano_2')
-    project_path = File.join(SETTINGS["repositories_path"], self.project.repo_name)
-
-    cap_version = Pbtd::CapistranoReader.new(self.project.repo_name).version
-
-    sha = nil
-
     # Bundle install cannot install headers for specific gems (ex: 'sqlite')
     # Please install it on remote servers
     if cap_version < "3.0.0"
-      sha = Bundler.with_clean_env do
-        `cd #{project_path} 2> /dev/null && bundle install 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -Ff #{cap_2_lib_path}/revision.rake remote:fetch_revision`
-      end
+      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -Ff #{cap2_lib_path}/revision.rake remote:fetch_revision"
     else
-      sha = Bundler.with_clean_env do
-        `cd #{project_path} 2> /dev/null && bundle install 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -R #{cap_lib_path} remote:fetch_revision`
-      end
+      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -R #{cap3_lib_path} remote:fetch_revision"
     end
 
-    sha = sha.lines.last.strip
+    f = IO.popen(cmd)
+    sha = f.readlines.last.strip
+    f.close
 
     if sha.empty? || !(/(\A\S*\z)/.match(sha))
       logger.debug "the commit oid cannot be parsed"
@@ -72,33 +62,21 @@ class Location < ActiveRecord::Base
   #
   # @return [void]
   def check_ruby_version
-    cap_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano')
-    cap_2_lib_path = Rails.root.join('lib', 'pbtd', 'capistrano_2')
-    project_path = File.join(SETTINGS["repositories_path"], self.project.repo_name)
-    cap_version = Pbtd::CapistranoReader.new(self.project.repo_name).version
-
-    version = nil
-
     if cap_version < "3.0.0"
-      version = Bundler.with_clean_env do
-        `cd #{project_path} 2> /dev/null && bundle install 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -Ff #{cap_2_lib_path}/revision.rake remote:check_ruby_version`
-      end
+      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -Ff #{cap_2_lib_path}/revision.rake remote:check_ruby_version"
     else
-      version = Bundler.with_clean_env do
-      `cd #{project_path} 2> /dev/null && bundle install 2> /dev/null && #{SETTINGS["ssh_agent_script"]} bundle exec cap #{self.name} -R #{cap_lib_path} remote:check_ruby_version`
-      end
+      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -R #{cap3_lib_path} remote:check_ruby_version"
     end
 
-
-
-    version = version.lines.last.strip
+    f = IO.popen(cmd)
+    version = f.readlines.last.strip
+    f.close
 
     if version.include? "is not installed"
       logger.debug "the ruby version is not installed on remote server"
       raise "The ruby version is not installed on remote server"
     end
   end
-
 
   #
   # fetch distance from remote server for location
@@ -107,4 +85,27 @@ class Location < ActiveRecord::Base
   def update_distance
     DistanceWorker.perform_async(self.id)
   end
+
+  private
+    def base_command
+      project_path = File.join(SETTINGS["repositories_path"], self.project.repo_name)
+
+      "cd #{project_path} 2> /dev/null && #{clean_env} bundle install 2> /dev/null && #{SETTINGS['ssh_agent_script']} "
+    end
+
+    def clean_env
+      "env -i HOME=$HOME LC_CTYPE=${LC_ALL:-${LC_CTYPE:-$LANG}} PATH=$PATH USER=$USER"
+    end
+
+    def cap_version
+      Pbtd::CapistranoReader.new(self.project.repo_name).version
+    end
+
+    def cap3_lib_path
+      Rails.root.join('lib', 'pbtd', 'capistrano')
+    end
+
+    def cap2_lib_path
+      Rails.root.join('lib', 'pbtd', 'capistrano_2')
+    end
 end
