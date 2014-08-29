@@ -63,7 +63,7 @@ class Location < ActiveRecord::Base
   # @return [void]
   def check_ruby_version
     if cap_version < "3.0.0"
-      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -Ff #{cap_2_lib_path}/revision.rake remote:check_ruby_version"
+      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -Ff #{cap2_lib_path}/revision.rake remote:check_ruby_version"
     else
       cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -R #{cap3_lib_path} remote:check_ruby_version"
     end
