@@ -12,6 +12,7 @@
 #  distance        :integer
 #  worker_id       :integer
 #
+require 'net/ssh'
 
 class Location < ActiveRecord::Base
   has_many :deployments, dependent: :destroy
@@ -40,14 +41,30 @@ class Location < ActiveRecord::Base
     # Bundle install cannot install headers for specific gems (ex: 'sqlite')
     # Please install it on remote servers
     if cap_version < "3.0.0"
-      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -Ff #{cap2_lib_path}/revision.rake remote:fetch_revision"
+      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -Ff #{cap2_lib_path}/revision.rake remote:fetch_host"
     else
-      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -R #{cap3_lib_path} remote:fetch_revision"
+      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -R #{cap3_lib_path} remote:fetch_host"
     end
 
     f = IO.popen(cmd)
-    sha = f.readlines.last.strip
+    host = f.readlines.last.split(',')
     f.close
+    sha = ""
+
+    begin
+      Net::SSH.start(host.first, host[1]) do |ssh|
+        deploy_to = host[2]
+
+        stdout, stderr = ssh.exec!("[ -f #{deploy_to}/current/REVISION ] && cat #{deploy_to}/current/REVISION")
+        sha = stdout.strip if stdout
+
+        unless sha
+          output = ssh.exec!("tail -1 #{deploy_to}/revisions.log")
+          sha = /\(at.(\w*)\)/.match(output)[1] if /\(at.(\w*)\)/.match(output)
+        end
+      end
+    rescue
+    end
 
     if sha.empty? || !(/(\A\S*\z)/.match(sha))
       logger.debug "the commit oid cannot be parsed"
@@ -63,16 +80,29 @@ class Location < ActiveRecord::Base
   # @return [void]
   def check_ruby_version
     if cap_version < "3.0.0"
-      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -Ff #{cap2_lib_path}/revision.rake remote:check_ruby_version"
+      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -Ff #{cap2_lib_path}/revision.rake remote:fetch_host"
     else
-      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -R #{cap3_lib_path} remote:check_ruby_version"
+      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -R #{cap3_lib_path} remote:fetch_host"
     end
 
     f = IO.popen(cmd)
-    version = f.readlines.last.strip
+    host = f.readlines.last.split(',')
     f.close
 
-    if version.include? "is not installed"
+    version = ""
+
+    begin
+      Net::SSH.start(host.first, host[1]) do |ssh|
+        current_path = host.last
+
+        version = ssh.exec!("cd #{current_path} && ~/.rbenv/bin/rbenv version")
+      end
+    rescue
+      logger.debug "the commit oid cannot be parsed"
+      raise "cannot fetch remote host #{self.application_url}"
+    end
+
+    if version.empty? || version.include?("is not installed")
       logger.debug "the ruby version is not installed on remote server"
       raise "The ruby version is not installed on remote server"
     end
