@@ -53,7 +53,6 @@ gem "capistrano-bundler", "~> 1.1.2", require: false
 gem "capistrano-rails", "~> 1.1.1", require: false
 gem "capistrano3-puma", require: false
 gem "capistrano-sidekiq", require: false
-#gem "capistrano-redmine", require: false, path: "/Users/theodelaune/projects/capistrano-redmine"
 gem "rack-cache", require: "rack/cache"
 gem "faye"
 gem "eventmachine"

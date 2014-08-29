@@ -105,7 +105,7 @@ class Project < ActiveRecord::Base
     def rm_physic_folder
       project_path = File.join(SETTINGS["repositories_path"], self.repo_name)
       FileUtils.rm_rf(project_path)
-      `rm #{Rails.root}/log/#{self.repo_name}* 2> /dev/null`
+      `rm #{Rails.root}/log/#{self.repo_name}* 2> /dev/null` unless self.repo_name.empty?
     end
 
     #

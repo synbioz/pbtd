@@ -6,8 +6,7 @@ The git repository uses the `git flow` scripts. This is the configuration found 
 
 ```
 [gitflow "branch"]
-  master = release
-  develop = master
+  master, develop
 [gitflow "prefix"]
   feature = feature/
   release = release/
@@ -16,7 +15,7 @@ The git repository uses the `git flow` scripts. This is the configuration found 
   versiontag =
 ```
 
-The develop branch is `master` and the production releases branch is `release`. **THIS IS NOT THE DEFAULT BEHAVIOUR OF GIT FLOW.**
+The develop branch is `develop` and the production releases branch is `master`. **THIS IS NOT THE DEFAULT BEHAVIOUR OF GIT FLOW.**
 
 ## Database
 
