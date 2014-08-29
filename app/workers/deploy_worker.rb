@@ -53,15 +53,13 @@ class DeployWorker
   def deploy(location, project_path)
     logger = Logger.new("#{Rails.root}/log/#{location.project.repo_name}.log")
 
-    Bundler.with_clean_env do
-      cmd = "cd #{project_path} && #{SETTINGS['ssh_agent_script']} bundle exec cap #{location.name} deploy"
+    cmd = "cd #{project_path} && #{SETTINGS['ssh_agent_script']} #{clean_env} bundle exec cap #{location.name} deploy"
 
-      IO.popen(cmd).each do |line|
-        notification_message = { state: 'running', location_id: location.id, message: line }
-        send_notification(notification_message)
-        logger.info(line)
-      end.close
-    end
+    IO.popen(cmd).each do |line|
+      notification_message = { state: 'running', location_id: location.id, message: line }
+      send_notification(notification_message)
+      logger.info(line)
+    end.close
 
     # Display finish
     state = $?.success? ? "success" : "failed"
@@ -74,5 +72,9 @@ class DeployWorker
       message = Faye::Client.new(SETTINGS['faye_server']).publish('/deploy_notifications', data)
       message.callback { EM.stop }
     end
+  end
+
+  def clean_env
+    "env -i HOME=$HOME LC_CTYPE=${LC_ALL:-${LC_CTYPE:-$LANG}} PATH=$PATH USER=$USER SSH_AUTH_SOCK=$SSH_AUTH_SOCK SSH_AGENT_PID=$SSH_AGENT_PID"
   end
 end
