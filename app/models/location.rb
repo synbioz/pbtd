@@ -52,7 +52,7 @@ class Location < ActiveRecord::Base
     sha = ""
 
     begin
-      Net::SSH.start(host.first, host[1], keys: [SETTINGS['ssh_public_key']]) do |ssh|
+      Net::SSH.start(host.first, host[1], keys: [SETTINGS['ssh_private_key']]) do |ssh|
         deploy_to = host[2]
 
         stdout, stderr = ssh.exec!("[ -f #{deploy_to}/current/REVISION ] && cat #{deploy_to}/current/REVISION")
@@ -92,7 +92,7 @@ class Location < ActiveRecord::Base
     version = ""
 
     begin
-      Net::SSH.start(host.first, host[1], keys: [SETTINGS['ssh_public_key']]) do |ssh|
+      Net::SSH.start(host.first, host[1], keys: [SETTINGS['ssh_private_key']]) do |ssh|
         current_path = host.last
 
         version = ssh.exec!("cd #{current_path} && ~/.rbenv/bin/rbenv version")
