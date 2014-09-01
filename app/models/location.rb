@@ -125,7 +125,7 @@ class Location < ActiveRecord::Base
     def base_command
       project_path = File.join(SETTINGS["repositories_path"], self.project.repo_name)
 
-      "cd #{project_path} 2> /dev/null && #{clean_env} bundle install 2> /dev/null && #{SETTINGS['ssh_agent_script']} "
+      "cd #{project_path} 2> /dev/null && #{clean_env} bundle install --deployment 2> /dev/null && #{SETTINGS['ssh_agent_script']} "
     end
 
     #
