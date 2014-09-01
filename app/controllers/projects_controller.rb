@@ -46,6 +46,8 @@ class ProjectsController < ApplicationController
     head :ok
   end
 
+  # return head while sidekiq worker for cloning repository not finished. If worker has errors, return them
+  # preload_environments check capistrano files of project to find the multiple environments
   def check_environments_preloaded
     project = Project.find(params[:id])
     if project.worker.present? && project.worker.success?

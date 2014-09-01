@@ -22,7 +22,7 @@ module Pbtd
       #
       # @return [Pbtd::GitRepository]
       def initialize(repo_url=nil)
-        unless repo_url.blank?
+        unless repo_url.nil?
           @repository_url = repo_url
           @username = repo_url.split('@').first
         end
