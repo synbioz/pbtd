@@ -117,24 +117,45 @@ class Location < ActiveRecord::Base
   end
 
   private
+
+    #
+    # command to cd in repository directory && launch bundle install && init ssh agent
+    #
+    # @return [String] [command shell linux]
     def base_command
       project_path = File.join(SETTINGS["repositories_path"], self.project.repo_name)
 
       "cd #{project_path} 2> /dev/null && #{clean_env} bundle install 2> /dev/null && #{SETTINGS['ssh_agent_script']} "
     end
 
+    #
+    # linux shell command to clean the env variable
+    #
+    # @return [String] [command shell linux]
     def clean_env
       "env -i HOME=$HOME LC_CTYPE=${LC_ALL:-${LC_CTYPE:-$LANG}} PATH=$PATH USER=$USER SSH_AUTH_SOCK=$SSH_AUTH_SOCK SSH_AGENT_PID=$SSH_AGENT_PID"
     end
 
+    #
+    # catch the capistrano version of the project location
+    #
+    # @return [String] [Capistrano version]
     def cap_version
       Pbtd::CapistranoReader.new(self.project.repo_name).version
     end
 
+    #
+    # path to the capistrano 3 custom task
+    #
+    # @return [Path]
     def cap3_lib_path
       Rails.root.join('lib', 'pbtd', 'capistrano')
     end
 
+    #
+    # path to the capistrano 2 custom task
+    #
+    # @return [Path]
     def cap2_lib_path
       Rails.root.join('lib', 'pbtd', 'capistrano_2')
     end

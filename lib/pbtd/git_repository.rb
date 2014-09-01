@@ -39,7 +39,7 @@ module Pbtd
 
       #
       # Open existing and already cloned git repository
-      # @param repo_name [String] [repository folder name]
+      # @param repository_name [String] [repository folder name]
       #
       # @return [Rugged::Repository]
       def open(repository_name)

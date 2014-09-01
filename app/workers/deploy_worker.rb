@@ -3,6 +3,12 @@ class DeployWorker
 
   sidekiq_options retry: false
 
+  #
+  # launch the deployment && create commit and deployment objects relation for history
+  # use GitRepository lib to checkout in correct branch for this location
+  # @param location_id [Integer] [id of Location object]
+  #
+  # @return [String] [sidekiq job id]
   def perform(location_id)
     location = Location.find(location_id)
     location.worker.destroy if location.worker
@@ -50,6 +56,12 @@ class DeployWorker
     end
   end
 
+  #
+  # Launch capistrano deploy in sub process with popen && notify user with pub/sub
+  # @param location [Integer] [id of Location object]
+  # @param project_path [String] [path of the project git repository]
+  #
+  # @return [void]
   def deploy(location, project_path)
     logger = Logger.new("#{Rails.root}/log/#{location.project.repo_name}.log")
 
@@ -61,12 +73,17 @@ class DeployWorker
       logger.info(line)
     end.close
 
-    # Display finish
+    # Display finish with pub/sub to user browser
     state = $?.success? ? "success" : "failed"
     notification_message = { state: state, location_id: location.id }
     send_notification(notification_message)
   end
 
+  #
+  # Connection to Faye pub/sub server to push new messages
+  # @param data [Hash] [contain the state of deployment, the location id and the capistrano return]
+  #
+  # @return [void]
   def send_notification(data)
     EM.run do
       message = Faye::Client.new(SETTINGS['faye_server']).publish('/deploy_notifications', data)
@@ -74,6 +91,11 @@ class DeployWorker
     end
   end
 
+
+  #
+  # linux shell command to clean the env variable
+  #
+  # @return [String] [command shell linux]
   def clean_env
     "env -i HOME=$HOME LC_CTYPE=${LC_ALL:-${LC_CTYPE:-$LANG}} PATH=$PATH USER=$USER SSH_AUTH_SOCK=$SSH_AUTH_SOCK SSH_AGENT_PID=$SSH_AGENT_PID"
   end

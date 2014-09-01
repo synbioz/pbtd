@@ -3,6 +3,12 @@ class DistanceWorker
 
   sidekiq_options retry: false
 
+  #
+  # method permit to catch the current commit id of project on the remote server for specific location
+  # notify user with pub/sub faye server in Event Machine
+  # @param location_id [Integer] [id of Location object]
+  #
+  # @return [String] [sidekiq job id]
   def perform(location_id)
     location = Location.find(location_id)
     location.worker.destroy if location.worker
