@@ -22,9 +22,7 @@ class GitCloneWorker
       project.worker.success!
       repo.close
     rescue => e
-      project.worker.error_class_name = e.class.name
-      project.worker.error_message = e.message
-      project.worker.failure!
+      project.worker.fail_with!(e)
     end
   end
 end

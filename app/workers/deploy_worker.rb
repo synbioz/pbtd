@@ -49,9 +49,7 @@ class DeployWorker
       notification_message = { state: 'success', location_id: location.id }
     rescue => e
       deployment.failure!
-      location.worker.error_class_name = e.class.name
-      location.worker.error_message = e.message
-      location.worker.failure!
+      location.worker.fail_with!(e)
       notification_message = { state: 'failure', location_id: location.id, message: e.message }
     end
   end

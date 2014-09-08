@@ -19,4 +19,14 @@ class Worker < ActiveRecord::Base
   validates :job_id, presence: true
   validates :class_name, presence: true
 
+  # Go to the failure status and update the error_class_name
+  # and error_message fields with the informations in the given
+  # Exception.
+  #
+  # @param [Exception] 
+  def fail_with!(exception)
+    self.error_class_name = exception.class.name
+    self.error_message = exception.message
+    failure!
+  end
 end
