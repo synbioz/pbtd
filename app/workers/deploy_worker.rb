@@ -1,3 +1,5 @@
+require 'pbtb/command'
+
 class DeployWorker
   include Sidekiq::Worker
 
@@ -63,7 +65,9 @@ class DeployWorker
   def deploy(location, project_path)
     logger = Logger.new("#{Rails.root}/log/#{location.project.repo_name}.log")
 
-    cmd = "cd #{project_path} && #{SETTINGS['ssh_agent_script']} #{clean_env} bundle exec cap #{location.name} deploy"
+    ssh_agent_command = Command.new.cd(project_path).ssh_agent!
+    cap_command = Command.new.clean.cap!(location.name,'deploy')
+    cmd = Command.and(ssh_agent_command, cap_command)
 
     IO.popen(cmd).each do |line|
       notification_message = { state: 'running', location_id: location.id, message: line }
@@ -87,14 +91,5 @@ class DeployWorker
       message = Faye::Client.new(SETTINGS['faye_server']).publish('/deploy_notifications', data)
       message.callback { EM.stop }
     end
-  end
-
-
-  #
-  # linux shell command to clean the env variable
-  #
-  # @return [String] [command shell linux]
-  def clean_env
-    "env -i HOME=$HOME LC_CTYPE=${LC_ALL:-${LC_CTYPE:-$LANG}} PATH=$PATH USER=$USER SSH_AUTH_SOCK=$SSH_AUTH_SOCK SSH_AGENT_PID=$SSH_AGENT_PID"
   end
 end
