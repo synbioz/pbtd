@@ -41,13 +41,9 @@ class DistanceWorker
       location.worker.failure!
       notification_message = { state: 'failure', location_id: location.id, message: e.message }
     ensure
-      EM.run do
-        client = Faye::Client.new(SETTINGS['faye_server'])
-        message = client.publish('/distance_notifications', notification_message)
-        message.callback do
-          EM.stop
-        end
-      end
+        message = {:channel => '/distance_notifications', :data => notification_message}
+        uri = URI.parse("http://0.0.0.0:9292/faye")
+        Net::HTTP.post_form(uri, :message => message.to_json)
     end
   end
 end

@@ -73,10 +73,7 @@ class DeployWorker
       logger.info(line)
     end.close
 
-    # Display finish with pub/sub to user browser
     state = $?.success? ? "success" : "failed"
-    notification_message = { state: state, location_id: location.id }
-    send_notification(notification_message)
   end
 
   #
@@ -85,10 +82,9 @@ class DeployWorker
   #
   # @return [void]
   def send_notification(data)
-    EM.run do
-      message = Faye::Client.new(SETTINGS['faye_server']).publish('/deploy_notifications', data)
-      message.callback { EM.stop }
-    end
+    message = {:channel => '/deploy_notifications', :data => data}
+    uri = URI.parse("http://0.0.0.0:9292/faye")
+    Net::HTTP.post_form(uri, :message => message.to_json)
   end
 
 

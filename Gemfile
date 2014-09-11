@@ -55,7 +55,6 @@ gem "capistrano3-puma", require: false
 gem "capistrano-sidekiq", require: false
 gem "rack-cache", require: "rack/cache"
 gem "faye"
-gem "eventmachine"
 gem 'pghero'
 gem 'thin', require: false
 
