@@ -69,6 +69,8 @@ class DeployWorker
 
     cmd = "cd #{project_path} && #{SETTINGS['ssh_agent_script']} #{clean_env} bundle exec cap #{location.name} deploy"
 
+    cmd += " -l STDOUT" if location.cap_version < "3.0.0"
+
     IO.popen(cmd).each do |line|
       notification_message = { state: 'running', location_id: location.id, message: line }
       send_notification(notification_message)

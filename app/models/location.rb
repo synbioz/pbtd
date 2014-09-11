@@ -116,6 +116,14 @@ class Location < ActiveRecord::Base
     DistanceWorker.perform_async(self.id)
   end
 
+  #
+  # catch the capistrano version of the project location
+  #
+  # @return [String] [Capistrano version]
+  def cap_version
+    Pbtd::CapistranoReader.new(self.project.repo_name).version
+  end
+
   private
 
     #
@@ -134,14 +142,6 @@ class Location < ActiveRecord::Base
     # @return [String] [command shell linux]
     def clean_env
       "env -i HOME=$HOME LC_CTYPE=${LC_ALL:-${LC_CTYPE:-$LANG}} PATH=$PATH USER=$USER SSH_AUTH_SOCK=$SSH_AUTH_SOCK SSH_AGENT_PID=$SSH_AGENT_PID"
-    end
-
-    #
-    # catch the capistrano version of the project location
-    #
-    # @return [String] [Capistrano version]
-    def cap_version
-      Pbtd::CapistranoReader.new(self.project.repo_name).version
     end
 
     #
