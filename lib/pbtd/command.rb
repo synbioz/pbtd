@@ -39,7 +39,7 @@ class Command
   end
 
   def raw!(*commands)
-    '%{cd} %{clean} bundle install %{commands}' % {
+    '%{cd} %{clean} %{commands}' % {
       cd: cd_str,
       clean: clean_str,
       commands: Command.and(*commands),
@@ -50,12 +50,12 @@ class Command
     '%{cd} %{clean} cat %{filename}' % {
       cd: cd_str,
       clean: clean_str,
-      commands: Command.and(*commands),
+      filename: filename,
     }
   end
 
-  def self.and(commands*)
-    commands.join(' && ')
+  def self.and(*commands)
+    commands.flatten.reject(&:blank?).join(' && ')
   end
 
   protected

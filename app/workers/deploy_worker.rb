@@ -1,4 +1,4 @@
-require 'pbtb/command'
+require 'pbtd/command'
 
 class DeployWorker
   include Sidekiq::Worker

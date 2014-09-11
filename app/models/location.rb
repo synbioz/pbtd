@@ -13,7 +13,7 @@
 #  worker_id       :integer
 #
 require 'net/ssh'
-require 'pbtb/command'
+require 'pbtd/command'
 
 class Location < ActiveRecord::Base
   has_many :deployments, dependent: :destroy
@@ -40,6 +40,8 @@ class Location < ActiveRecord::Base
   # @return [String] [git commit sha]
   def get_current_release_commit
     host, user, deploy_to, current_path = fetch_host_infos
+
+    sha = ""
 
     begin
       Net::SSH.start(host, user, keys: [SETTINGS['ssh_private_key']]) do |ssh|
@@ -74,7 +76,7 @@ class Location < ActiveRecord::Base
 
     begin
       Net::SSH.start(host, user, keys: [SETTINGS['ssh_private_key']]) do |ssh|
-        version = ssh.exec!(Command.cd(current_path).raw!('~/.rbenv/bin/rbenv version'))
+        version = ssh.exec!(Command.new.cd(current_path).clean.raw!('~/.rbenv/bin/rbenv version'))
       end
     rescue
       logger.debug "the commit oid cannot be parsed"
