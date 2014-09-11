@@ -85,7 +85,7 @@ class DeployWorker
   # @return [void]
   def send_notification(data)
     message = {:channel => '/deploy_notifications', :data => data}
-    uri = URI.parse("http://0.0.0.0:9292/faye")
+    uri = URI.parse(SETTINGS['faye_server'])
     Net::HTTP.post_form(uri, :message => message.to_json)
   end
 

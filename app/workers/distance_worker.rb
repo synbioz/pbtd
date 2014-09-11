@@ -42,7 +42,7 @@ class DistanceWorker
       notification_message = { state: 'failure', location_id: location.id, message: e.message }
     ensure
         message = {:channel => '/distance_notifications', :data => notification_message}
-        uri = URI.parse("http://0.0.0.0:9292/faye")
+        uri = URI.parse(SETTINGS['faye_server'])
         Net::HTTP.post_form(uri, :message => message.to_json)
     end
   end
