@@ -13,6 +13,7 @@
 #  worker_id       :integer
 #
 require 'net/ssh'
+require 'pbtb/command'
 
 class Location < ActiveRecord::Base
   has_many :deployments, dependent: :destroy
@@ -38,24 +39,13 @@ class Location < ActiveRecord::Base
   #
   # @return [String] [git commit sha]
   def get_current_release_commit
-    # Bundle install cannot install headers for specific gems (ex: 'sqlite')
-    # Please install it on remote servers
-    if cap_version < "3.0.0"
-      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -Ff #{cap2_lib_path}/revision.rake remote:fetch_host"
-    else
-      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -R #{cap3_lib_path} remote:fetch_host"
-    end
-
-    f = IO.popen(cmd)
-    host = f.readlines.last.split(',')
-    f.close
-    sha = ""
+    host, user, deploy_to, current_path = fetch_host_infos
 
     begin
-      Net::SSH.start(host.first, host[1], keys: [SETTINGS['ssh_private_key']]) do |ssh|
-        deploy_to = host[2]
-
-        stdout, stderr = ssh.exec!("[ -f #{deploy_to}/current/REVISION ] && cat #{deploy_to}/current/REVISION")
+      Net::SSH.start(host, user, keys: [SETTINGS['ssh_private_key']]) do |ssh|
+        guard_command = Command.new.raw!("[ -f #{deploy_to}/current/REVISION ]")
+        cat_command = Command.new.cat!("#{deploy_to}/current/REVISION")
+        stdout, stderr = ssh.exec!(Command.and(guard_command, cat_command))
         sha = stdout.strip if stdout
 
         if sha.empty?
@@ -79,23 +69,12 @@ class Location < ActiveRecord::Base
   #
   # @return [void]
   def check_ruby_version
-    if cap_version < "3.0.0"
-      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -Ff #{cap2_lib_path}/revision.rake remote:fetch_host"
-    else
-      cmd = base_command + "#{clean_env} bundle exec cap #{self.name} -R #{cap3_lib_path} remote:fetch_host"
-    end
-
-    f = IO.popen(cmd)
-    host = f.readlines.last.split(',')
-    f.close
-
+    host, user, deploy_to, current_path = fetch_host_infos
     version = ""
 
     begin
-      Net::SSH.start(host.first, host[1], keys: [SETTINGS['ssh_private_key']]) do |ssh|
-        current_path = host.last
-
-        version = ssh.exec!("cd #{current_path} && ~/.rbenv/bin/rbenv version")
+      Net::SSH.start(host, user, keys: [SETTINGS['ssh_private_key']]) do |ssh|
+        version = ssh.exec!(Command.cd(current_path).raw!('~/.rbenv/bin/rbenv version'))
       end
     rescue
       logger.debug "the commit oid cannot be parsed"
@@ -132,16 +111,25 @@ class Location < ActiveRecord::Base
     # @return [String] [command shell linux]
     def base_command
       project_path = File.join(SETTINGS["repositories_path"], self.project.repo_name)
-
-      "cd #{project_path} 2> /dev/null && #{clean_env} bundle install --deployment 2> /dev/null && #{SETTINGS['ssh_agent_script']} "
+      bundle_install_command = Command.new.clean.cd(project_path).bundle_install!('deployment'),
+      ssh_agent_command = Command.new.ssh_agent!
+      Command.and(bundle_install_command, ssh_agent_command)
     end
 
-    #
-    # linux shell command to clean the env variable
-    #
-    # @return [String] [command shell linux]
-    def clean_env
-      "env -i HOME=$HOME LC_CTYPE=${LC_ALL:-${LC_CTYPE:-$LANG}} PATH=$PATH USER=$USER SSH_AUTH_SOCK=$SSH_AUTH_SOCK SSH_AGENT_PID=$SSH_AGENT_PID"
+    def fetch_host_command
+      if cap_version < "3.0.0"
+        Command.new.clean.cap!(self.name, '-Ff', "#{cap2_lib_path}/revision.rake", 'remote:fetch_host')
+      else
+        Command.new.clean.cap!(self.name, '-R', cap3_lib_path, 'remote:fetch_host')
+      end
+    end
+
+    def fetch_host_infos
+      cmd = Command.and(base_command, fetch_host_command)
+      f = IO.popen(cmd)
+      host_infos = f.readlines.last.split(',')
+      f.close
+      host_infos
     end
 
     #
