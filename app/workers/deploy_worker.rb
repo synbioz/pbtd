@@ -73,8 +73,10 @@ class DeployWorker
 
     cmd += " -l STDOUT" if location.cap_version < "3.0.0"
 
+    location_id = location.id
+
     IO.popen(cmd).each do |line|
-      notification_message = { state: 'running', location_id: location.id, message: line }
+      notification_message = { state: 'running', location_id: location_id, message: line }
       send_notification(notification_message)
       logger.info(line)
     end.close
