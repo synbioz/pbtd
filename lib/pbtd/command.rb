@@ -54,6 +54,14 @@ class Command
     }
   end
 
+  def tail!(filename)
+    '%{cd} %{clean} tail -1 %{filename}' % {
+      cd: cd_str,
+      clean: clean_str,
+      filename: filename,
+    }
+  end
+
   def self.and(*commands)
     commands.flatten.reject(&:blank?).join(' && ')
   end

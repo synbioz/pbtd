@@ -40,18 +40,20 @@ class Location < ActiveRecord::Base
   # @return [String] [git commit sha]
   def get_current_release_commit
     host, user, deploy_to, current_path = fetch_host_infos
-
     sha = ""
 
     begin
+      guard_command = Command.new.raw!("[ -f #{deploy_to}/current/REVISION ]")
+      cat_command = Command.new.cat!("#{deploy_to}/current/REVISION")
+      main_command = Command.and(guard_command, cat_command)
+
       Net::SSH.start(host, user, keys: [SETTINGS['ssh_private_key']]) do |ssh|
-        guard_command = Command.new.raw!("[ -f #{deploy_to}/current/REVISION ]")
-        cat_command = Command.new.cat!("#{deploy_to}/current/REVISION")
-        stdout, stderr = ssh.exec!(Command.and(guard_command, cat_command))
+        stdout, stderr = ssh.exec!(main_command)
         sha = stdout.strip if stdout
 
         if sha.empty?
-          output = ssh.exec!("tail -1 #{deploy_to}/revisions.log")
+          tail_command = Command.new.tail!("#{deploy_to}/revisions.log")
+          output = ssh.exec!(tail_command)
           sha = /\(at.(\w*)\)/.match(output)[1] if /\(at.(\w*)\)/.match(output)
         end
       end
