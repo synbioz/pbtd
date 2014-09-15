@@ -150,6 +150,8 @@ $(document).ready ->
       $(content).removeClass('loader')
       $(content).addClass('terminal')
       $(content).append(data.message + "<br>")
+      scrollHeight = $(".terminal")[0].scrollHeight
+      $(".terminal").scrollTop(scrollHeight)
     else if data.state == 'failed'
       notif('error', 'The project has not been deployed')
       $('.environment[data-id='+data.location_id+']').find("[data-action='stop']")
