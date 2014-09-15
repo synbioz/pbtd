@@ -131,3 +131,4 @@ rails s puma
 In development and test environment you must add the key you use to connect your git repository and for remote servers used to deploy your applications to the ssh-agent.
 Running in terminal `ssh-add`
 
+All locations are updated every 10 hours with a schedule task.

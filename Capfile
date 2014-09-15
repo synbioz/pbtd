@@ -12,7 +12,6 @@ require 'capistrano/rails/migrations'
 require 'capistrano/puma'
 require 'capistrano/sidekiq'
 require 'hipchat/capistrano'
-#require 'capistrano-redmine'
 require 'airbrake/capistrano3'
 require 'whenever/capistrano'
 
