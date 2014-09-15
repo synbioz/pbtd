@@ -16,15 +16,15 @@ require 'net/ssh'
 require 'pbtd/command'
 
 class Location < ActiveRecord::Base
-  has_many :deployments, dependent: :destroy
-  has_many :commits, dependent: :destroy
+  has_many              :deployments, dependent: :destroy
+  has_many              :commits, dependent: :destroy
 
-  belongs_to :project
-  belongs_to :worker, dependent: :destroy
+  belongs_to            :project
+  belongs_to            :worker, dependent: :destroy
 
   validates_presence_of :name, :branch, :application_url, :project
 
-  after_commit :update_distance, on: :create
+  after_commit          :update_distance, on: :create
 
   #
   # deploy current location to remote server

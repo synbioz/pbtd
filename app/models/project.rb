@@ -9,24 +9,23 @@
 #  updated_at     :datetime
 #  worker_id      :integer
 #
-
 class Project < ActiveRecord::Base
-  has_many :locations, -> { order(:name) }, class_name: "Location", dependent: :destroy
-  belongs_to :worker, dependent: :destroy
-
   GIT_REGEX = /\w*@[a-z0-9]*\.[a-z0-9]*.[a-z0-9]*\:\w*\/[0-9a-z\-_]*\.git/
 
-  validates :name, presence: true, uniqueness: true, on: :update
-  validates :repository_url, presence: true, uniqueness: true, format: { with: GIT_REGEX }, on: :create
+  has_many                      :locations, class_name: "Location", dependent: :destroy
+  belongs_to                    :worker, dependent: :destroy
 
-  before_create :name_from_repository_url
-  after_commit :cloning_repository, on: :create
+  validates                     :name, presence: true, uniqueness: true, on: :update
+  validates                     :repository_url, presence: true, uniqueness: true, format: { with: GIT_REGEX }, on: :create
 
-  after_destroy :rm_physic_folder
+  before_create                 :name_from_repository_url
+  after_commit                  :cloning_repository, on: :create
+
+  after_destroy                 :rm_physic_folder
 
   accepts_nested_attributes_for :locations
 
-  attr_accessor :default_branch
+  attr_accessor                 :default_branch
 
   #
   # use to preload environments for git repository of project
