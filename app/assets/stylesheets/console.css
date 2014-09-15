@@ -34,3 +34,7 @@ a.console-toggle {
   overflow:scroll;
   overflow-x:hidden;
 }
+
+#console .waiting {
+  margin: 10px;
+}

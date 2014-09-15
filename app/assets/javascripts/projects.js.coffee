@@ -152,6 +152,8 @@ $(document).ready ->
       $(content).append(data.message + "<br>")
       scrollHeight = $(".terminal")[0].scrollHeight
       $(".terminal").scrollTop(scrollHeight)
+      unless $(".tiny-loader").length > 0
+        $(".terminal").after("<div class='waiting'><div class='tiny-loader'></div></div>")
     else if data.state == 'failed'
       notif('error', 'The project has not been deployed')
       $('.environment[data-id='+data.location_id+']').find("[data-action='stop']")
@@ -159,6 +161,7 @@ $(document).ready ->
         .text('deploy')
         .prev('.status')
         .attr('data-state', 'error')
+      $("#console").find('.tiny-loader').remove()
     else if data.state == 'success'
       notif('success', 'The project has been successfully deployed')
       $('.environment[data-id='+data.location_id+']').find("[data-action='stop']")
@@ -166,6 +169,7 @@ $(document).ready ->
         .text('deploy')
         .prev('.status')
         .attr('data-state', 'updated')
+      $("#console").find('.tiny-loader').remove()
 
   # Notification for distance between HEAD of branch and deployed commit
   client.subscribe '/distance_notifications', (data) ->
