@@ -15,7 +15,7 @@
           = locations_fields.hidden_field :id
           = locations_fields.text_field :application_url, readonly: true
           = locations_fields.hidden_field :branch
-          = link_to 'delete', location_path(locations_fields.object.id), method: :delete, remote: true, class: 'destroy-location', data: { confirm: 'Are you sure ?' }
+          = link_to 'delete', project_location_path(@project, locations_fields.object.id), method: :delete, remote: true, class: 'destroy-location', data: { confirm: 'Are you sure ?' }
     hr/
     .actions
       = link_to "delete", project_path, method: :delete, data: { confirm: 'Are you sure ?' } , class: 'button red'
