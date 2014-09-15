@@ -5,7 +5,7 @@ RSpec.describe LocationsController, :type => :controller do
   let(:location) { Fabricate(:location) }
 
   describe "delete #destroy" do
-      subject { delete :destroy, id: location.id }
+      subject { delete :destroy, project_id: location.project.id, id: location.id }
 
       it 'render head :ok' do
         subject
