@@ -67,8 +67,9 @@ class DeployWorker
   def deploy(location, project_path)
     logger = Logger.new("#{Rails.root}/log/#{location.project.repo_name}.log")
 
-    ssh_agent_command = Command.new.cd(project_path).ssh_agent!
-    cap_command = Command.new.clean.cap!(location.name,'deploy')
+    main_command = Command.new.cd(project_path)
+    ssh_agent_command = main_command.ssh_agent!
+    cap_command = main_command.clean.cap!(location.name,'deploy')
     cmd = Command.and(ssh_agent_command, cap_command)
 
     cmd += " -l STDOUT" if location.cap_version < "3.0.0"
