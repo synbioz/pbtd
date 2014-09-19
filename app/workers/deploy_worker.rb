@@ -28,6 +28,7 @@ class DeployWorker
       repo.open(location.project.repo_name)
       repo.fetch
       repo.checkout(location.branch)
+      repo.merge(location.branch)
 
       location.check_ruby_version
 
