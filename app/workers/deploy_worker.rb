@@ -26,9 +26,10 @@ class DeployWorker
     begin
       repo = Pbtd::GitRepository.new
       repo.open(location.project.repo_name)
+      repo.checkout(location.branch)
+
       distance = repo.fetch
       repo.merge(location.branch) if distance > 0
-      repo.checkout(location.branch)
 
       location.check_ruby_version
 
