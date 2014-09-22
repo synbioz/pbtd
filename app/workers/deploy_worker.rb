@@ -28,8 +28,8 @@ class DeployWorker
       repo.open(location.project.repo_name)
       repo.checkout(location.branch)
 
-      distance = repo.fetch
-      repo.merge(location.branch) if distance > 0
+      repo.fetch
+      repo.merge(location.branch)
 
       location.check_ruby_version
 
