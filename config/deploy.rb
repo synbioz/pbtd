@@ -20,6 +20,7 @@ set :ssh_options, { forward_agent: true }
 set :linked_files, %w{
   config/database.yml
   config/secrets.yml
+  config/settings.yml
 }
 
 set :linked_dirs, %w{
