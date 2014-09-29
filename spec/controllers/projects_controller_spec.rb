@@ -130,17 +130,6 @@ RSpec.describe ProjectsController, :type => :controller do
       end
     end
 
-    describe "GET #update_project_location" do
-      let(:location_id) { project.locations.first.id }
-
-      subject { get :update_project_location, { id: project.id, location_id: location_id } }
-
-      it "render head :ok" do
-        subject
-        expect(response.status).to eq 200
-      end
-    end
-
     describe "GET #check_environments_preloaded" do
       render_views
       subject { get :check_environments_preloaded, id: project.id }
@@ -175,15 +164,6 @@ RSpec.describe ProjectsController, :type => :controller do
           subject
           expect(response.status).to eq 200
         end
-      end
-    end
-
-    describe "GET #deploy location" do
-      subject { get :deploy_location, id: project.id, location_id: project.locations.first.id }
-
-      it 'render header :ok' do
-        subject
-        expect(response.status).to eq 200
       end
     end
 
