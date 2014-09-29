@@ -1,7 +1,8 @@
 li data-id="#{project.id}"
   .project-infos
     h2= project.name
-    .repo-settings title="options" data-action="#{edit_project_path(project)}" data-id="#{project.id}" ⚙
+    .repo-settings title="options" data-action="#{edit_project_path(project)}" data-id="#{project.id}"
+      = image_tag('settings.svg')
     input.repo-url type="text" editable="false" value="#{project.repository_url}"
   - if project.locations.any?
     .environment-list

@@ -99,11 +99,11 @@ a
     color: #fff
     //+transition(all 0.2s)
     &.success, &.notice
-      background: #6FC250
+      background: green
     &.error, &.alert
-      background: #E53333
+      background: red
     &.action
-      background: #6FC250
+      background: blue
 
 
 // APPLICATIONS LIST
@@ -131,16 +131,17 @@ a
     position absolute
     top 0
     right 0
-    width 1.2em
-    height 1.2em
-    line-height 1.2em
-    font-size: 1.6em
-    margin: 10px
-    text-align center
-    color #bbb
-    transition all 0.1s
-    &:hover
-      color blue
+    img
+      width 1.2em
+      height 1.2em
+      line-height 1.2em
+      font-size: 1em
+      margin: 18px 18px 0 0
+      text-align center
+      opacity 0.5
+      transition all 0.1s
+      &:hover
+        opacity 1
   .repo-url
     font-size 0.8em
     margin 10px 0
@@ -228,9 +229,14 @@ input[type="text"]
   border 1px solid #ddd
   background #f2f2f2
   margin-bottom 1em
-#new-project, #edit-project
+
+
+// DIALOGS
+
+.dialog
   display none
-  position absolute
+  position fixed
+  overflow auto
   z-index 1
   top 0
   left 0
@@ -279,19 +285,12 @@ input[type="text"]
     width 100%
     text-align center
 
+#new-project,
+#edit-project,
 #deployments
-  display none
-  position absolute
-  z-index 1
-  top 0
-  left 0
-  right 0
-  bottom 0
-  background rgba(255,255,255,0.8)
-  text-align center
-  hr
-    border 0
-    border-top 1px solid #ddd
+  @extend .dialog
+
+#deployments
   .list-deployments
     clear both
     display inline-block
@@ -311,21 +310,6 @@ input[type="text"]
       display inline-block
       font-size 0.9em
       margin-left 35px
-    .close
-      cursor pointer
-      position absolute
-      top 0
-      right 0
-      width 2em
-      height 2em
-      line-height 2em
-      text-align center
-      background #eee
-      color #bbb
-      transition all 0.1s
-      &:hover
-        background #ccc
-        color #fff
     .sha
       display: inline
       color: blue
