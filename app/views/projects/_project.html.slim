@@ -15,9 +15,9 @@ li data-id="#{project.id}"
             .status data-state="error"
 
           - disabled_class = location.distance.present? ? '' : 'disabled'
-          = link_to 'Deploy', deploy_location_project_path(project, location_id: location.id), data: { action: 'deploy' }, remote: true, class: "button deploy-location #{disabled_class}"
-          = link_to 'Update', update_project_location_project_path(project, location_id: location.id), data: { action: 'update' }, remote: true, class: 'button update-repo'
-          = link_to deployments_project_path(project, location_id: location.id), remote: true, class: 'show-deployments'
+          = link_to 'Deploy', project_location_deploy_path(project, location_id: location.id), data: { action: 'deploy' }, remote: true, class: "button deploy-location #{disabled_class}"
+          = link_to 'Update', project_location_update_distance_path(project, location_id: location.id), data: { action: 'update' }, remote: true, class: 'button update-repo'
+          = link_to project_location_deployments_path(project, location_id: location.id), remote: true, class: 'show-deployments'
             h3= location.name
           .infos
             .last-update Branch <b>#{location.branch}</b> updated #{time_ago_in_words(location.updated_at)} ago

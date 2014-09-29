@@ -34,15 +34,16 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def update_all_projects
-    Project.update_all_locations
-    head :ok
+  def destroy
+    project = Project.find(params[:id])
+
+    project.destroy
+
+    redirect_to root_path
   end
 
-  def update_project_location
-    project = Project.find(params[:id])
-    location = project.locations.find(params[:location_id])
-    location.update_distance
+  def update_all_projects
+    Project.update_all_locations
     head :ok
   end
 
@@ -61,30 +62,6 @@ class ProjectsController < ApplicationController
     else
       head :ok
     end
-  end
-
-  def deploy_location
-    project = Project.find(params[:id])
-    location = project.locations.find(params[:location_id])
-    location.deploy if location.present? && location.distance.present?
-
-    head :ok
-  end
-
-  def deployments
-    project = Project.find(params[:id])
-    location = project.locations.find(params[:location_id])
-    @deployments = location.deployments.order(updated_at: :desc)
-
-    render partial: 'deployments'
-  end
-
-  def destroy
-    project = Project.find(params[:id])
-
-    project.destroy
-
-    redirect_to root_path
   end
 
   private

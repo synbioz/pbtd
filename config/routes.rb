@@ -2,10 +2,12 @@ Rails.application.routes.draw do
 
   resources :projects do
 
-    resources :locations
+    resources :locations do
+      get :update_distance, :deploy, :deployments
+    end
 
     member do
-      get :check_environments_preloaded, :update_project_location, :deploy_location, :deployments
+      get :check_environments_preloaded
     end
 
     collection do
