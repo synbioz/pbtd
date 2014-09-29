@@ -158,10 +158,11 @@ $(document).ready ->
       $(content).removeClass('loader')
       $(content).addClass('terminal')
       $(content).append(data.message + "<br>")
-      scrollHeight = $(".terminal")[0].scrollHeight
-      $(".terminal").scrollTop(scrollHeight)
-      unless $(".tiny-loader").length > 0
-        $(".terminal").after("<div class='waiting'><div class='tiny-loader'></div></div>")
+      if $(".terminal")[0]
+        scrollHeight = $(".terminal")[0].scrollHeight
+        $(".terminal").scrollTop(scrollHeight)
+        unless $(".tiny-loader").length > 0
+          $(".terminal").after("<div class='waiting'><div class='tiny-loader'></div></div>")
     else if data.state == 'failed'
       notif('error', 'The project has not been deployed')
       $('.environment[data-id='+data.location_id+']').find("[data-action='stop']")
