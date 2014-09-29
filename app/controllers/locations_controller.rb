@@ -9,6 +9,10 @@ class LocationsController < ApplicationController
     head :ok
   end
 
+  #
+  # Show past deployments
+  #
+  # @return [void]
   def deployments
     project = Project.find(params[:project_id])
     location = project.locations.find(params[:location_id])
@@ -17,6 +21,10 @@ class LocationsController < ApplicationController
     render partial: 'deployments'
   end
 
+  #
+  # Update distance between deployed project and git HEAD branch
+  #
+  # @return [void]
   def update_distance
     project = Project.find(params[:project_id])
     location = project.locations.find(params[:location_id])
@@ -24,6 +32,10 @@ class LocationsController < ApplicationController
     head :ok
   end
 
+  #
+  # Launch deploy for specific location
+  #
+  # @return [void]
   def deploy
     project = Project.find(params[:project_id])
     location = project.locations.find(params[:location_id])

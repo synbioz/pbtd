@@ -120,6 +120,10 @@ class Location < ActiveRecord::Base
       Command.and(bundle_install_command, ssh_agent_command)
     end
 
+    #
+    # get revion task for specific capistrano version
+    #
+    # @return [String] [partial shell command]
     def fetch_host_command
       if cap_version < "3.0.0"
         Command.new.clean.cap!(self.name, '-Ff', "#{cap2_lib_path}/revision.rake", 'remote:fetch_host')
@@ -128,6 +132,10 @@ class Location < ActiveRecord::Base
       end
     end
 
+    #
+    # Get Host informations like username and server ip/url
+    #
+    # @return [Array] [array of host informations]
     def fetch_host_infos
       cmd = Command.and(base_command, fetch_host_command)
       f = IO.popen(cmd)
