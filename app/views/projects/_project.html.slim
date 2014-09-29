@@ -5,7 +5,7 @@ li data-id="#{project.id}"
     input.repo-url type="text" editable="false" value="#{project.repository_url}"
   - if project.locations.any?
     .environment-list
-      - for location in project.locations do
+      - for location in project.locations.order(:name) do
         .environment data-id="#{location.id}"
           - if location.distance.present? && location.distance == 0
             .status data-state="updated"
