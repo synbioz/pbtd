@@ -1,4 +1,4 @@
-lock '3.2.1'
+ lock '3.2.1'
 
 set :user, "synbioz"
 set :application, 'pbtd'
@@ -44,7 +44,7 @@ set :default_env, { path: "~/.rbenv/bin:~/.rbenv/shims:/usr/local/bin:/usr/bin:/
 set :bundle_flags, "--quiet"
 
 set :rbenv_type, :user
-set :rbenv_ruby, '2.1.2'
+set :rbenv_ruby, '2.1.3'
 
 set :puma_conf, -> { File.join(release_path, 'config', 'puma', "#{fetch(:stage)}.rb") }
 
