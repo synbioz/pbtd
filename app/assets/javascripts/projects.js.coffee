@@ -79,8 +79,16 @@ $(document).ready ->
 
   # ajax deploy location
   $(document).on "ajax:success", "a.deploy-location", (e, data, status, xhr) ->
-    $("#console:hidden").slideToggle(100)
-    $("#console").append("<div class='content loader'></div>")
+    unless $(this).hasClass("disabled")
+      $("#console:hidden").slideToggle(100)
+      $("#console").append("<div class='content loader'></div>")
+      if $(this).attr('data-action') == "deploy"
+        $(this)
+          .attr('data-action', "stop")
+          .text('running')
+          .prev('.status')
+          .attr('data-state', 'running');
+
 
   # close modal edit project
   $(document).on "ajax:success", "#edit-project form", (e, data, status, xhr) ->
@@ -175,6 +183,12 @@ $(document).ready ->
   client.subscribe '/distance_notifications', (data) ->
     distance_element = null
     state = null
+
+    environment = $('.environment[data-id='+data.location_id+']')
+    deploy_button = $(environment).find('.button.deploy-location')
+
+    $(deploy_button).removeClass('disabled')
+
     if data.distance == 0
       distance_element = "<div class='version updated'>Updated</div>"
       state = "updated"
@@ -182,22 +196,25 @@ $(document).ready ->
       distance_element = "<div class='version late'>" + data.distance + " commits from current branch</div>"
       state = "behind"
     else
+      $(deploy_button).addClass('disabled')
       distance_element = "<div class='version error'>" + data.message + "</div>"
       state = "error"
 
+    $(environment).find('.status').attr('data-state', state)
 
-    $('.environment[data-id='+data.location_id+']').find('.status').attr('data-state', state)
-    tiny_loader = $('.environment[data-id='+data.location_id+']').find('.tiny-loader')
-    if $(tiny_loader).length
-      $(tiny_loader).replaceWith(distance_element)
+    if $(environment).find('.tiny-loader').length
+      $(environment).find('.tiny-loader').replaceWith(distance_element)
     else
-      $('.environment[data-id='+data.location_id+']').find('.version').replaceWith(distance_element)
+      $(environment).find('.version').replaceWith(distance_element)
 
 
   # Console close
   $(document).on "click", '.console-toggle', ->
     $("#console").slideToggle(100)
     $("#console").find(".content").remove()
+
+  # Add effect to show environment
+  $('.app-list .environment').hide().velocity("transition.swoopIn",{stagger: 100})
 
 
 

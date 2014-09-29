@@ -35,7 +35,7 @@ class DistanceWorker
 
       notification_message = { state: 'success', location_id: location.id, distance: distance }
     rescue => e
-      location.update_attribute(:distance, -1)
+      location.update_attribute(:distance, nil)
       location.worker.fail_with!(e)
       notification_message = { state: 'failure', location_id: location.id, message: e.message }
     ensure

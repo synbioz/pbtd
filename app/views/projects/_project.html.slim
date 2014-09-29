@@ -7,20 +7,21 @@ li data-id="#{project.id}"
     .environment-list
       - for location in project.locations do
         .environment data-id="#{location.id}"
-          - if !location.distance.nil? && location.distance == 0
+          - if location.distance.present? && location.distance == 0
             .status data-state="updated"
-          - elsif !location.distance.nil? && location.distance > 0
+          - elsif location.distance.present?
             .status data-state="behind"
           - else
             .status data-state="error"
 
-          = link_to 'Deploy', deploy_location_project_path(project, location_id: location.id), data: { action: 'deploy' }, remote: true, class: 'button deploy-location'
+          - disabled_class = location.distance.present? ? '' : 'disabled'
+          = link_to 'Deploy', deploy_location_project_path(project, location_id: location.id), data: { action: 'deploy' }, remote: true, class: "button deploy-location #{disabled_class}"
           = link_to 'Update', update_project_location_project_path(project, location_id: location.id), data: { action: 'update' }, remote: true, class: 'button update-repo'
           = link_to deployments_project_path(project, location_id: location.id), remote: true, class: 'show-deployments'
             h3= location.name
           .infos
             .last-update Branch <b>#{location.branch}</b> updated #{time_ago_in_words(location.updated_at)} ago
-            - if location.distance.present? && ( location.worker.present? && location.worker.error_message.present? )
+            - if location.distance.nil? && ( location.worker.present? && location.worker.error_message.present? )
               .version.error = location.worker.error_message
             - elsif location.distance.present? && location.distance > 0
               .version.late #{location.distance} commits from current branch

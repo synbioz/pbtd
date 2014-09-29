@@ -66,7 +66,7 @@ class ProjectsController < ApplicationController
   def deploy_location
     project = Project.find(params[:id])
     location = project.locations.find(params[:location_id])
-    location.deploy unless location.nil?
+    location.deploy if location.present? && location.distance.present?
 
     head :ok
   end
