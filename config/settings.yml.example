@@ -1,0 +1,27 @@
+# Configuration path for cloned repositories
+
+development:
+  repositories_path: <%= "#{Rails.root}/repositories" %>
+  faye_server: 'http://127.0.0.1:9292/faye'
+  default_branch: 'develop'
+  ssh_agent_script: ''
+  ssh_public_key: "Path to your ssh public key"
+  ssh_private_key: "Path to your ssh private key"
+
+production:
+  repositories_path: "Path where you clone repositories path"
+  faye_server: 'http://127.0.0.1:9292/faye'
+  default_branch: 'develop'
+  ssh_agent_script: <%= ". #{Rails.root}/lib/pbtd/enable-ssh.sh > /dev/null" %>
+  ssh_public_key: "Path to your ssh public key"
+  ssh_private_key: "Path to your ssh private key"
+  basic_auth_user: 'user'
+  basic_auth_password: 'password'
+
+test:
+  repositories_path: <%= "#{Rails.root}/spec/support/repositories" %>
+  faye_server: 'http://127.0.0.1:9292/faye'
+  default_branch: 'develop'
+  ssh_agent_script: ''
+  ssh_public_key: "Path to your ssh public key"
+  ssh_private_key: "Path to your ssh private key"
