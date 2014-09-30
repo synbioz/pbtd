@@ -84,7 +84,9 @@ class DeployWorker
       logger.info(line)
     end.close
 
-    state = $?.success? ? "success" : "failed"
+    unless $?.success?
+      raise StandardError, "the deployment has failed"
+    end
   end
 
   #

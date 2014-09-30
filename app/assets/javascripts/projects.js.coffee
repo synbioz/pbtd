@@ -163,7 +163,7 @@ $(document).on 'ready page:load', ->
         $(".terminal").scrollTop(scrollHeight)
       unless $(".tiny-loader").length > 0
         $(".terminal").after("<div class='waiting'><div class='tiny-loader'></div></div>")
-    else if data.state == 'failed'
+    else if data.state == 'failure'
       notif('error', 'The project has not been deployed')
       $('.environment[data-id='+data.location_id+']').find("[data-action='stop']")
         .attr('data-action', "deploy")
