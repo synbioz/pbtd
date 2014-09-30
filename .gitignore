@@ -21,7 +21,6 @@ vendor/bundle
 config/initializers/airbrake.rb
 config/settings.yml
 config/deploy.rb
-config/deploy/*.rb
 
 .DS_Store
 
