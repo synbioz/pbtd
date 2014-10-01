@@ -17,38 +17,38 @@ locations_1:
   project: project_1
   name: 'staging'
   branch: 'develop'
-  application_url: 'pbtd.dev.synbioz.com'
+  application_url: 'staging.domain.tld'
   distance: 2
 
 locations_2:
   project: project_1
   name: 'production'
   branch: 'master'
-  application_url: 'pbtd.synbioz.com'
+  application_url: 'production.domain.tld'
   distance: 3
 
 locations_3:
   project: project_2
   name: 'staging'
   branch: 'develop'
-  application_url: 'reusta.com'
+  application_url: 'second.production.domain.tld'
   distance: 2
 
 locations_4:
   project: project_2
   name: 'production'
   branch: 'master'
-  application_url: 'reusta.dev.synbioz.com'
+  application_url: 'second.dev.domain.tld'
   distance: 12
 
 location_without_project:
   project: nil
   name: 'staging'
   branch: 'develop'
-  application_url: 'deploy-test.dev.synbioz.com'
+  application_url: 'deploy-test.dev.domain.tld'
 
 locations_6:
   project: project_6
   name: 'staging'
   branch: 'develop'
-  application_url: 'deploy-test.dev.synbioz.com'
+  application_url: 'deploy-test.domain.tld'

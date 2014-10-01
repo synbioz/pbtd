@@ -111,7 +111,7 @@ Pbtd require some things for capistrano environments files:
 example with `config/deploy/staging.rb`:
 
 ```ruby
-server 'pbtd.dev.synbioz.com', user: 'synbioz', roles: %w{web app db}
+server 'pbtd.domain.tld', user: 'pbtd_user', roles: %w{web app db}
 
 set :rails_env, 'staging'
 

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'rails_helper'
 
-REPOSITORY = "git@git.synbioz.com:synbioz/pbtd.git"
+REPOSITORY = "git@github.com:synbioz/pbtd.git"
 REPOSITORY_NAME = 'pbtd_capistrano'
 
 describe Pbtd::CapistranoReader do

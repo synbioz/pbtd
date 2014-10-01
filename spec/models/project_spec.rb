@@ -49,13 +49,13 @@ RSpec.describe Project, :type => :model do
     invalid_git = nil
     before do
       invalid_git = subject.dup
-      invalid_git.repository_url = 'gitzeft.synbioz.com:synbioz/pbtd.fr'
+      invalid_git.repository_url = 'gitfaef.github.com:synbioz/pbtd.git'
     end
     it { expect(invalid_git).not_to be_valid }
   end
 
   context 'should have valid git repository url' do
-    before { subject.repository_url = 'git@git.synbioz.com:synbioz/pbtd_test.git' }
+    before { subject.repository_url = 'git@github.com:synbioz/pbtd.git' }
     it { expect(subject).to be_valid }
   end
 

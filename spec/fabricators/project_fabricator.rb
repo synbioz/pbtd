@@ -12,25 +12,25 @@
 
 Fabricator(:project) do
   name           { Faker::Name.name }
-  repository_url { sequence(:repository_url) { |i|  "git@git.synbioz#{i}.com:/pbtd.git"} }
+  repository_url { sequence(:repository_url) { |i|  "git@github.com:synbioz/pbtd#{i}.git"} }
 end
 
 Fabricator(:valid_project, from: :project) do
-  name           "academy"
-  repository_url "git@git.synbioz.com:synbioz/academy.git"
+  name           "pbtd"
+  repository_url "git@github.com:synbioz/pbtd.git"
 end
 
 Fabricator(:invalid_project, from: :valid_project) do
   name           ""
-  repository_url "git.synbioz.com"
+  repository_url "git@github.com:synbioz/invalid_pbtd.git"
 end
 
 Fabricator(:project_deploy, from: :project) do
   name nil
-  repository_url "git@git.synbioz.com:synbioz/deploy_test.git"
+  repository_url "git@github.com:synbioz/pbtd.git"
 end
 
 Fabricator(:invalid_project_deploy, from: :project_deploy) do
-  repository_url "git@git.synbioz.com:synbioz/deploy_test_invalid.git"
+  repository_url "git@github.com:synbioz/invalid_pbtd.git"
 end
 
