@@ -15,7 +15,7 @@ The git repository uses the `git flow` scripts. This is the configuration found 
   versiontag =
 ```
 
-The develop branch is `develop` and the production releases branch is `master`. **THIS IS NOT THE DEFAULT BEHAVIOUR OF GIT FLOW.**
+The develop branch is `develop` and the production releases branch is `master`.
 
 ## Database
 
