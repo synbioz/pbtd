@@ -15,7 +15,6 @@ require 'rails_helper'
 RSpec.describe Project, :type => :model do
   fixtures :all
   let(:project) { Fabricate(:project) }
-  let(:project_deploy) { Fabricate(:project_deploy) }
   subject { project }
 
   # Mandatory attributes
@@ -40,8 +39,8 @@ RSpec.describe Project, :type => :model do
   end
 
   it 'should have an unique repository_url' do
-    p = Fabricate(:project)
-    p.repository_url = subject.repository_url
+    p = Project.new(repository_url: subject.repository_url)
+
     expect(p).not_to be_valid
   end
 
@@ -72,18 +71,19 @@ RSpec.describe Project, :type => :model do
 
     context 'with no locations' do
       it 'should be nil array' do
-        expect(project_deploy.preload_environments).to eq []
+        expect(project.preload_environments).to eq []
       end
     end
 
     context 'with locations' do
       before do
-        repo = Pbtd::GitRepository.new(project_deploy.repository_url)
-        repo.clone(project_deploy.repo_name, nil)
+        project.repository_url = "git@github.com:synbioz/pbtd.git"
+        repo = Pbtd::GitRepository.new(project.repository_url)
+        repo.clone(project.repo_name, nil)
       end
 
       it 'should be array of locations' do
-        expect(project_deploy.preload_environments).to include "staging"
+        expect(project.preload_environments).to include "staging"
       end
     end
   end
@@ -118,7 +118,7 @@ RSpec.describe Project, :type => :model do
     context 'project with branches' do
 
       it 'should return branches' do
-        expect(project_deploy.load_branches).to eq ["origin/develop"]
+        expect(project.load_branches).to eq ["origin/develop"]
       end
     end
 
@@ -139,11 +139,12 @@ RSpec.describe Project, :type => :model do
 
     context 'project with location' do
       before do
-        project_deploy.preload_environments
+        project.preload_environments
       end
 
       it 'should change location distance' do
-        expect(project_deploy.update_locations_distance).to include project_deploy.locations.first
+        project.locations << Location.new(name: "staging", branch: "develop", application_url: "http://pbtd.domain.tld")
+        expect(project.update_locations_distance).to include project.locations.first
       end
     end
   end
@@ -151,7 +152,7 @@ RSpec.describe Project, :type => :model do
   describe '.update_all_locations' do
 
     context 'with projects' do
-      it { expect(Project.update_all_locations).to include project_deploy.locations }
+      it { expect(Project.update_all_locations).to include project.locations }
     end
   end
 
@@ -177,8 +178,8 @@ RSpec.describe Project, :type => :model do
   describe 'private #rm_physic_folder' do
 
     it 'should remove repository folder' do
-      project_path = File.join(SETTINGS["repositories_path"], project_deploy.repo_name)
-      project_deploy.send(:rm_physic_folder)
+      project_path = File.join(SETTINGS["repositories_path"], project.repo_name)
+      project.send(:rm_physic_folder)
       expect(Dir.exists?(project_path)).to be false
     end
   end
