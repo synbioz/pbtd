@@ -84,8 +84,8 @@ describe Pbtd::GitRepository do
     before { subject.open(GIT_REPOSITORY_NAME) }
 
     it '#remote_branch_from_local' do
-      local_branch = 'master'
-      expect(subject.remote_branch_from_local(local_branch)).to eq('origin/master')
+      local_branch = 'develop'
+      expect(subject.remote_branch_from_local(local_branch)).to eq('origin/develop')
     end
   end
 end
