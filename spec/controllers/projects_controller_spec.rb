@@ -62,10 +62,12 @@ RSpec.describe ProjectsController, :type => :controller do
       subject { post :create, @params }
 
       context "with valid project" do
-        before { @params = { project: Fabricate.attributes_for(:valid_project) } }
+        before { @params = { project: Fabricate.attributes_for(:valid_project).merge(repository_url: "git@github.com:synbioz/pbtd_create.git"
+) } }
 
         it "renders the project partial template" do
           subject
+
           expect(response).to render_template(partial: '_project')
         end
 
@@ -75,7 +77,7 @@ RSpec.describe ProjectsController, :type => :controller do
       end
 
       context "with invalid repository_url" do
-        before { @params = { project: Fabricate.attributes_for(:invalid_project) } }
+        before { @params = { project: Fabricate.attributes_for(:invalid_project).merge(repository_url: "git.github.com:synbioz/invalid_pbtd.git") } }
 
         it "renders json errors" do
           subject
